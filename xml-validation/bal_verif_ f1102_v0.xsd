@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="mfp:anaf:dgti:f1102:declaratie:v1"
+           targetNamespace="mfp:anaf:dgti:f1102:declaratie:v1" elementFormDefault="qualified"
+           attributeFormDefault="unqualified" version="1.02" xml:lang="ro">
+    <xs:element name="f1102" type="F1102Type"/>
+    <xs:complexType name="F1102Type">
+        <xs:complexContent>
+            <xs:restriction base="xs:anyType">
+                <xs:sequence>
+                    <xs:element name="cont" type="ContType" maxOccurs="unbounded"/>
+                </xs:sequence>
+                <xs:attribute name="suma_control" type="IntPoz17SType" use="required"/>
+                <xs:attribute name="d_rec" type="IntPoz1SType" use="required"/>
+                <xs:attribute name="nume_ip" type="Str100" use="required"/>
+                <xs:attribute name="cui_ip" type="CuiSType" use="required"/>
+                <xs:attribute name="an" type="IntPoz4SType" use="required"/>
+                <xs:attribute name="luna_r" type="IntPoz2SType" use="required"/>
+                <xs:attribute name="data_document" type="DateSType" use="required"/>
+            </xs:restriction>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="ContType">
+        <xs:complexContent>
+            <xs:restriction base="xs:anyType">
+                <xs:attribute name="simbol_p_cont" type="Str7" use="required"/>
+                <xs:attribute name="cod_sursa" type="Str2" use="required"/>
+                <xs:attribute name="cod_sector" type="Str2" use="required"/>
+                <xs:attribute name="cf" type="Str6"/>
+                <xs:attribute name="ce" type="Str6"/>
+                <xs:attribute name="cod_esa" type="Str5"/>
+                <xs:attribute name="cui_p" type="CuiSType"/>
+                <xs:attribute name="str_cont" type="Str40" use="required"/>
+                <xs:attribute name="rulaj_deb" type="DblNeg12_2SType"/>
+                <xs:attribute name="rulaj_cred" type="DblNeg12_2SType"/>
+            </xs:restriction>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:simpleType name="IntPoz17SType">
+        <xs:restriction base="xs:integer">
+            <xs:minInclusive value="0"/>
+            <xs:maxInclusive value="99999999999999999"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="IntPoz1SType">
+        <xs:restriction base="xs:integer">
+            <xs:minInclusive value="0"/>
+            <xs:maxInclusive value="9"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="Str100">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="100"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="CuiSType">
+        <xs:restriction base="xs:token">
+            <xs:pattern value="[1-9]\d{1,9}"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="IntPoz4SType">
+        <xs:restriction base="xs:integer">
+            <xs:minInclusive value="0"/>
+            <xs:maxInclusive value="9999"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="IntPoz2SType">
+        <xs:restriction base="xs:integer">
+            <xs:minInclusive value="0"/>
+            <xs:maxInclusive value="99"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="DateSType">
+        <xs:restriction base="xs:token">
+            <xs:pattern value="([1-9]|0[1-9]|[12][0-9]|3[01])\.([1-9]|0[1-9]|1[012])\.\d{4}"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="Str7">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="7"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="Str2">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="2"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="Str6">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="6"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="Str5">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="5"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="Str40">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="40"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="DblNeg12_2SType">
+        <xs:restriction base="xs:double">
+            <xs:pattern value="\d{0,12}(\.\d{0,2})?"/>
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>
+

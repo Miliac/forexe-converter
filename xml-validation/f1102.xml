@@ -1,0 +1,792 @@
+<?xml version="1.0"?>
+<f1102 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="mfp:anaf:dgti:f1102:declaratie:v1"
+       xmlns="mfp:anaf:dgti:f1102:declaratie:v1" d_rec="1" suma_control="293692586" luna_r="11" an="2019"
+       data_document="20.12.2019" nume_ip="CANTINA DE AJUTOR SOCIAL SI PENSIUNE" cui_ip="5120733"
+       formular_fara_valori="0">
+    <cont str_cont="117000002GXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="1170000"
+          rulaj_deb="132173.17" rulaj_cred="1831043.63"/>
+    <cont str_cont="121000002GXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="1210000"
+          rulaj_deb="10745449.61" rulaj_cred="10916629.66"/>
+    <cont str_cont="213010002GXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="2130100"
+          rulaj_deb="117096"/>
+    <cont str_cont="214000002GXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="2140000"
+          rulaj_deb="51496.18"/>
+    <cont str_cont="280080002GXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="2800800"
+          rulaj_deb="129561.67" rulaj_cred="3970.3"/>
+    <cont str_cont="280080102GXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="2800801"
+          rulaj_deb="0" rulaj_cred="288921.58"/>
+    <cont str_cont="281030102GXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="2810301"
+          rulaj_deb="21807.99" rulaj_cred="79257.73"/>
+    <cont str_cont="281040002GXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="2810400"
+          rulaj_deb="195001.66" rulaj_cred="218788.78"/>
+    <cont str_cont="302010002GXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="3020100"
+          rulaj_deb="502379.88" rulaj_cred="523963.61"/>
+    <cont str_cont="302020002GXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="3020200"
+          rulaj_deb="12110.48" rulaj_cred="12504.31"/>
+    <cont str_cont="302030002GXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="3020300"
+          rulaj_deb="7866.95" rulaj_cred="6570.39"/>
+    <cont str_cont="302040002GXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="3020400"
+          rulaj_deb="56165.1" rulaj_cred="53733.26"/>
+    <cont str_cont="302070002GXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="3020700"
+          rulaj_deb="7437996.85" rulaj_cred="7233774.82"/>
+    <cont str_cont="302080002GXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="3020800"
+          rulaj_deb="68779.24" rulaj_cred="88668.29"/>
+    <cont str_cont="303010002GXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="3030100"
+          rulaj_deb="100339.12" rulaj_cred="119195.72"/>
+    <cont str_cont="303020002GXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="3030200"
+          rulaj_deb="118771.84" rulaj_cred="866.12"/>
+    <cont str_cont="371000002GXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="3710000"
+          rulaj_deb="7472902.4" rulaj_cred="7442473.22"/>
+    <cont str_cont="378000002GXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="3780000"
+          rulaj_deb="3019892.88" rulaj_cred="3026230.08"/>
+    <cont str_cont="381000002GXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="3810000"
+          rulaj_deb="-77.46" rulaj_cred="0"/>
+    <cont str_cont="401010002G545000200101XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4010100"
+          cf="545000" ce="200101" rulaj_deb="38918.24" rulaj_cred="40480.97"/>
+    <cont str_cont="401010002G545000200102XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4010100"
+          cf="545000" ce="200102" rulaj_deb="324391.01" rulaj_cred="347080.55"/>
+    <cont str_cont="401010002G545000200103XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4010100"
+          cf="545000" ce="200103" rulaj_deb="112082.12" rulaj_cred="119937.05"/>
+    <cont str_cont="401010002G545000200104XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4010100"
+          cf="545000" ce="200104" rulaj_deb="20878.57" rulaj_cred="22124.27"/>
+    <cont str_cont="401010002G545000200105XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4010100"
+          cf="545000" ce="200105" rulaj_deb="25373.99" rulaj_cred="25373.99"/>
+    <cont str_cont="401010002G545000200106XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4010100"
+          cf="545000" ce="200106" rulaj_deb="25836.73" rulaj_cred="28744.26"/>
+    <cont str_cont="401010002G545000200108XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4010100"
+          cf="545000" ce="200108" rulaj_deb="3198.11" rulaj_cred="3198.11"/>
+    <cont str_cont="401010002G545000200109XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4010100"
+          cf="545000" ce="200109" rulaj_deb="101010.84" rulaj_cred="107348.64"/>
+    <cont str_cont="401010002G545000200130XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4010100"
+          cf="545000" ce="200130" rulaj_deb="5727.21" rulaj_cred="14700.24"/>
+    <cont str_cont="401010002G545000200200XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4010100"
+          cf="545000" ce="200200" rulaj_deb="170316.87" rulaj_cred="176990.15"/>
+    <cont str_cont="401010002G545000200301XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4010100"
+          cf="545000" ce="200301" rulaj_deb="3630292.83" rulaj_cred="3897903.02"/>
+    <cont str_cont="401010002G545000200501XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4010100"
+          cf="545000" ce="200501" rulaj_deb="45781" rulaj_cred="45781"/>
+    <cont str_cont="401010002G545000200530XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4010100"
+          cf="545000" ce="200530" rulaj_deb="43120.21" rulaj_cred="45712.05"/>
+    <cont str_cont="401010002G545000200602XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4010100"
+          cf="545000" ce="200602" rulaj_deb="11642" rulaj_cred="11642"/>
+    <cont str_cont="401010002G545000201100XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4010100"
+          cf="545000" ce="201100" rulaj_deb="840" rulaj_cred="840"/>
+    <cont str_cont="401010002G545000201200XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4010100"
+          cf="545000" ce="201200" rulaj_deb="0" rulaj_cred="595"/>
+    <cont str_cont="401010002G545000203030XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4010100"
+          cf="545000" ce="203030" rulaj_deb="17418.6" rulaj_cred="20578.86"/>
+    <cont str_cont="401010002G685050100206XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4010100"
+          cf="685050" ce="100206" rulaj_deb="110700" rulaj_cred="110700"/>
+    <cont str_cont="401010002G685050200101XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4010100"
+          cf="685050" ce="200101" rulaj_deb="12378.81" rulaj_cred="7507.84"/>
+    <cont str_cont="401010002G685050200102XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4010100"
+          cf="685050" ce="200102" rulaj_deb="9477.7" rulaj_cred="15815.6"/>
+    <cont str_cont="401010002G685050200103XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4010100"
+          cf="685050" ce="200103" rulaj_deb="46477.65" rulaj_cred="48369.97"/>
+    <cont str_cont="401010002G685050200104XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4010100"
+          cf="685050" ce="200104" rulaj_deb="9802.14" rulaj_cred="10650.89"/>
+    <cont str_cont="401010002G685050200106XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4010100"
+          cf="685050" ce="200106" rulaj_deb="3267.08" rulaj_cred="8087.1"/>
+    <cont str_cont="401010002G685050200108XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4010100"
+          cf="685050" ce="200108" rulaj_deb="10299.03" rulaj_cred="10453.4"/>
+    <cont str_cont="401010002G685050200109XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4010100"
+          cf="685050" ce="200109" rulaj_deb="79084.83" rulaj_cred="87632.71"/>
+    <cont str_cont="401010002G685050200130XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4010100"
+          cf="685050" ce="200130" rulaj_deb="648.56" rulaj_cred="648.56"/>
+    <cont str_cont="401010002G685050200200XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4010100"
+          cf="685050" ce="200200" rulaj_deb="28343.53" rulaj_cred="45106.91"/>
+    <cont str_cont="401010002G685050200301XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4010100"
+          cf="685050" ce="200301" rulaj_deb="918111.18" rulaj_cred="1144274.52"/>
+    <cont str_cont="401010002G685050200530XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4010100"
+          cf="685050" ce="200530" rulaj_deb="10066.86" rulaj_cred="13783.24"/>
+    <cont str_cont="401010002G685050200601XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4010100"
+          cf="685050" ce="200601" rulaj_deb="3025" rulaj_cred="3025"/>
+    <cont str_cont="401010002G685050201100XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4010100"
+          cf="685050" ce="201100" rulaj_deb="7347.71" rulaj_cred="7347.71"/>
+    <cont str_cont="401010002G685050201200XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4010100"
+          cf="685050" ce="201200" rulaj_deb="17958.5" rulaj_cred="20058.5"/>
+    <cont str_cont="401010002G685050201300XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4010100"
+          cf="685050" ce="201300" rulaj_deb="4812.92" rulaj_cred="4812.92"/>
+    <cont str_cont="401010002G685050203030XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4010100"
+          cf="685050" ce="203030" rulaj_deb="657.68" rulaj_cred="2965.86"/>
+    <cont str_cont="404010002G685050710103XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4040100"
+          cf="685050" ce="710103" rulaj_deb="0" rulaj_cred="168592.18"/>
+    <cont str_cont="408000002G545000200301XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4080000"
+          cf="545000" ce="200301" rulaj_deb="2354.4" rulaj_cred="2354.4"/>
+    <cont str_cont="409010102G545000200101XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4090101"
+          cf="545000" ce="200101" rulaj_deb="2744.06" rulaj_cred="262.66"/>
+    <cont str_cont="409010102G545000200102XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4090101"
+          cf="545000" ce="200102" rulaj_deb="1313.05" rulaj_cred="1552.94"/>
+    <cont str_cont="409010102G545000200105XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4090101"
+          cf="545000" ce="200105" rulaj_deb="15000" rulaj_cred="25018.56"/>
+    <cont str_cont="409010102G545000200301XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4090101"
+          cf="545000" ce="200301" rulaj_deb="8260.01" rulaj_cred="5680.21"/>
+    <cont str_cont="409010102G545000200530XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4090101"
+          cf="545000" ce="200530" rulaj_deb="1190" rulaj_cred="1190"/>
+    <cont str_cont="409010102G685050200101XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4090101"
+          cf="685050" ce="200101" rulaj_deb="-1190" rulaj_cred="0"/>
+    <cont str_cont="409010102G685050200106XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4090101"
+          cf="685050" ce="200106" rulaj_deb="1190" rulaj_cred="0"/>
+    <cont str_cont="409010102G685050200301XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4090101"
+          cf="685050" ce="200301" rulaj_deb="71956.17" rulaj_cred="71956.17"/>
+    <cont str_cont="409010202G545000200103XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4090102"
+          cf="545000" ce="200103" rulaj_deb="6338.27" rulaj_cred="6338.18"/>
+    <cont str_cont="409010202G545000200104XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4090102"
+          cf="545000" ce="200104" rulaj_deb="886.27" rulaj_cred="45.56"/>
+    <cont str_cont="409010202G545000200108XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4090102"
+          cf="545000" ce="200108" rulaj_deb="277" rulaj_cred="277"/>
+    <cont str_cont="409010202G545000200109XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4090102"
+          cf="545000" ce="200109" rulaj_deb="6742.54" rulaj_cred="4378.01"/>
+    <cont str_cont="409010202G545000200130XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4090102"
+          cf="545000" ce="200130" rulaj_deb="1068.38" rulaj_cred="955.33"/>
+    <cont str_cont="409010202G545000200200XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4090102"
+          cf="545000" ce="200200" rulaj_deb="0" rulaj_cred="427.46"/>
+    <cont str_cont="409010202G545000203030XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4090102"
+          cf="545000" ce="203030" rulaj_deb="561.07" rulaj_cred="0"/>
+    <cont str_cont="409010202G685050200108XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4090102"
+          cf="685050" ce="200108" rulaj_deb="6.27"/>
+    <cont str_cont="409010202G685050200130XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4090102"
+          cf="685050" ce="200130" rulaj_deb="535.5" rulaj_cred="535.5"/>
+    <cont str_cont="409010202G685050201300XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4090102"
+          cf="685050" ce="201300" rulaj_deb="2379.92" rulaj_cred="2379.92"/>
+    <cont str_cont="409010202G685050203030XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4090102"
+          cf="685050" ce="203030" rulaj_deb="111637.36" rulaj_cred="110700.76"/>
+    <cont str_cont="411010102G331600XXXXXXXXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4110101"
+          cf="331600" rulaj_deb="1791506.47" rulaj_cred="1529613.16"/>
+    <cont str_cont="418000002G331600XXXXXXXXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4180000"
+          cf="331600" rulaj_deb="1569465.74" rulaj_cred="1586923.66"/>
+    <cont str_cont="419000002G331600XXXXXXXXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4190000"
+          cf="331600" rulaj_deb="1680.67" rulaj_cred="2443.54"/>
+    <cont str_cont="419000002G430900XXXXXXXXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4190000"
+          cf="430900" rulaj_deb="3319.16" rulaj_cred="3413.58"/>
+    <cont str_cont="421000002G685050100101XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4210000"
+          cf="685050" ce="100101" rulaj_deb="5396382" rulaj_cred="5461010"/>
+    <cont str_cont="423000002G685050100130XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4230000"
+          cf="685050" ce="100130" rulaj_deb="52284" rulaj_cred="52284"/>
+    <cont str_cont="423000002G685050100306XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4230000"
+          cf="685050" ce="100306" rulaj_deb="99678" rulaj_cred="99678"/>
+    <cont str_cont="427010002G685050100101XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4270100"
+          cf="685050" ce="100101" rulaj_deb="29387" rulaj_cred="29378"/>
+    <cont str_cont="428010102G685050100101XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4280101"
+          cf="685050" ce="100101" rulaj_deb="78445.18" rulaj_cred="148897.95"/>
+    <cont str_cont="431020002G685050100101XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4310200"
+          cf="685050" ce="100101" rulaj_deb="1328156" rulaj_cred="1359368"/>
+    <cont str_cont="431040002G685050100101XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4310400"
+          cf="685050" ce="100101" rulaj_deb="518578" rulaj_cred="532600"/>
+    <cont str_cont="431060002G685050100307XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4310600"
+          cf="685050" ce="100307" rulaj_deb="117372" rulaj_cred="120196"/>
+    <cont str_cont="431070002G685050100306XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4310700"
+          cf="685050" ce="100306" rulaj_deb="78077" rulaj_cred="21493"/>
+    <cont str_cont="442030002G545000203030XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4420300"
+          cf="545000" ce="203030" rulaj_deb="698.44" rulaj_cred="699.53"/>
+    <cont str_cont="442040002GXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4420400"
+          rulaj_deb="63628.46" rulaj_cred="698.44"/>
+    <cont str_cont="442060002GXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4420600"
+          rulaj_deb="466493.64" rulaj_cred="466493.64"/>
+    <cont str_cont="442070002GXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4420700"
+          rulaj_deb="403564.71" rulaj_cred="403564.71"/>
+    <cont str_cont="442080302GXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4420803"
+          rulaj_deb="496435.71" rulaj_cred="491320.16"/>
+    <cont str_cont="444000002G685050100101XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4440000"
+          cf="685050" ce="100101" rulaj_deb="359119" rulaj_cred="367266"/>
+    <cont str_cont="446010002G545000203030XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4460100"
+          cf="545000" ce="203030" rulaj_deb="21384" rulaj_cred="21384"/>
+    <cont str_cont="446010002G685050594000XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4460100"
+          cf="685050" ce="594000" rulaj_deb="68371" rulaj_cred="69134"/>
+    <cont str_cont="448010002GXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4480100"
+          rulaj_deb="100450.7" rulaj_cred="101400.83"/>
+    <cont str_cont="461010102G331600XXXXXXXXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4610101"
+          cf="331600" rulaj_deb="119032.33" rulaj_cred="122870.81"/>
+    <cont str_cont="461010102G430900XXXXXXXXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4610101"
+          cf="430900" rulaj_deb="42566.86" rulaj_cred="4379.36"/>
+    <cont str_cont="462010102G545000200301XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4620101"
+          cf="545000" ce="200301" rulaj_deb="13838" rulaj_cred="37383.72"/>
+    <cont str_cont="471000002GXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4710000"
+          rulaj_deb="31582.47" rulaj_cred="23773.26"/>
+    <cont str_cont="473010902GXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="4730109"
+          rulaj_deb="7191291.26" rulaj_cred="7212774.01"/>
+    <cont str_cont="512050202GXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="5120502"
+          rulaj_deb="1859338.19" rulaj_cred="1844220.65"/>
+    <cont str_cont="529020102GXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="5290201"
+          rulaj_deb="3658622.97" rulaj_cred="3605379.13"/>
+    <cont str_cont="529090202GXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="5290902"
+          rulaj_deb="1745464.03" rulaj_cred="1528337.88"/>
+    <cont str_cont="531010102G331600XXXXXXXXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="5310101"
+          cf="331600" rulaj_deb="6147547.5" rulaj_cred="6132433.82"/>
+    <cont str_cont="531010102G430900XXXXXXXXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="5310101"
+          cf="430900" rulaj_deb="100582.7" rulaj_cred="100450.7"/>
+    <cont str_cont="531010102G545000200101XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="5310101"
+          cf="545000" ce="200101" rulaj_deb="25" rulaj_cred="25"/>
+    <cont str_cont="531010102G545000200105XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="5310101"
+          cf="545000" ce="200105" rulaj_deb="355.43" rulaj_cred="355.43"/>
+    <cont str_cont="531010102G545000200108XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="5310101"
+          cf="545000" ce="200108" rulaj_deb="125.98" rulaj_cred="125.98"/>
+    <cont str_cont="531010102G545000203030XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="5310101"
+          cf="545000" ce="203030" rulaj_deb="2570.93" rulaj_cred="2570.93"/>
+    <cont str_cont="531010102G685050100113XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="5310101"
+          cf="685050" ce="100113" rulaj_deb="1759" rulaj_cred="1759"/>
+    <cont str_cont="531010102G685050200108XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="5310101"
+          cf="685050" ce="200108" rulaj_deb="44.6" rulaj_cred="44.6"/>
+    <cont str_cont="531010102G685050200601XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="5310101"
+          cf="685050" ce="200601" rulaj_deb="3342" rulaj_cred="3342"/>
+    <cont str_cont="531010102G685050203030XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="5310101"
+          cf="685050" ce="203030" rulaj_deb="2689.94" rulaj_cred="2689.94"/>
+    <cont str_cont="532040002GXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="5320400"
+          rulaj_deb="21008.4" rulaj_cred="11789.63"/>
+    <cont str_cont="532060002GXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="5320600"
+          rulaj_deb="22443.08" rulaj_cred="17631.5"/>
+    <cont str_cont="532080002GXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="5320800"
+          rulaj_deb="110700" rulaj_cred="110700"/>
+    <cont str_cont="542010002G545000200101XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="5420100"
+          cf="545000" ce="200101" rulaj_deb="25" rulaj_cred="25"/>
+    <cont str_cont="542010002G545000200105XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="5420100"
+          cf="545000" ce="200105" rulaj_deb="355.43" rulaj_cred="355.43"/>
+    <cont str_cont="542010002G545000200108XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="5420100"
+          cf="545000" ce="200108" rulaj_deb="125.98" rulaj_cred="125.98"/>
+    <cont str_cont="542010002G545000203030XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="5420100"
+          cf="545000" ce="203030" rulaj_deb="2946.93" rulaj_cred="2946.93"/>
+    <cont str_cont="542010002G685050100113XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="5420100"
+          cf="685050" ce="100113" rulaj_deb="1708" rulaj_cred="1708"/>
+    <cont str_cont="542010002G685050200108XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="5420100"
+          cf="685050" ce="200108" rulaj_deb="44.6" rulaj_cred="44.6"/>
+    <cont str_cont="542010002G685050200601XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="5420100"
+          cf="685050" ce="200601" rulaj_deb="2620" rulaj_cred="2620"/>
+    <cont str_cont="542010002G685050203030XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="5420100"
+          cf="685050" ce="203030" rulaj_deb="2135.5" rulaj_cred="2135.5"/>
+    <cont str_cont="550010102GXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="5500101"
+          rulaj_deb="65003.95" rulaj_cred="4827.18"/>
+    <cont str_cont="552000002GXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="5520000"
+          rulaj_deb="39593.15" rulaj_cred="13838"/>
+    <cont str_cont="561010102G330800XXXXXXXXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="5610101"
+          cf="330800" rulaj_deb="4379.36" rulaj_cred="4379.36"/>
+    <cont str_cont="561010102G331600XXXXXXXXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="5610101"
+          cf="331600" rulaj_deb="5132162.01" rulaj_cred="0"/>
+    <cont str_cont="561010102G335000XXXXXXXXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="5610101"
+          cf="335000" rulaj_deb="920287.39" rulaj_cred="0"/>
+    <cont str_cont="561010102G430900XXXXXXXXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="5610101"
+          cf="430900" rulaj_deb="7871000" rulaj_cred="0"/>
+    <cont str_cont="561010102G431900XXXXXXXXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="5610101"
+          cf="431900" rulaj_deb="460000"/>
+    <cont str_cont="581010102GXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="5810101"
+          rulaj_deb="11465364.39" rulaj_cred="11465364.39"/>
+    <cont str_cont="602010002G545000200102XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="6020100"
+          cf="545000" ce="200102" rulaj_deb="183893.42" rulaj_cred="152792.14"/>
+    <cont str_cont="602010002G685050200102XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="6020100"
+          cf="685050" ce="200102" rulaj_deb="11000.91" rulaj_cred="8344.61"/>
+    <cont str_cont="602020002G545000200105XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="6020200"
+          cf="545000" ce="200105" rulaj_deb="12482.13" rulaj_cred="10064.71"/>
+    <cont str_cont="602030002G545000200102XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="6020300"
+          cf="545000" ce="200102" rulaj_deb="106963.32" rulaj_cred="67024.99"/>
+    <cont str_cont="602030002G685050200102XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="6020300"
+          cf="685050" ce="200102" rulaj_deb="3335.85" rulaj_cred="1375.84"/>
+    <cont str_cont="602040002G545000200106XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="6020400"
+          cf="545000" ce="200106" rulaj_deb="25261.02" rulaj_cred="21713.75"/>
+    <cont str_cont="602040002G685050200106XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="6020400"
+          cf="685050" ce="200106" rulaj_deb="8131.2" rulaj_cred="3267.08"/>
+    <cont str_cont="602070002G545000200301XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="6020700"
+          cf="545000" ce="200301" rulaj_deb="3564222.85" rulaj_cred="2776343.94"/>
+    <cont str_cont="602070002G685050200301XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="6020700"
+          cf="685050" ce="200301" rulaj_deb="960743.02" rulaj_cred="785675.92"/>
+    <cont str_cont="602080002G545000200101XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="6020800"
+          cf="545000" ce="200101" rulaj_deb="54591.11" rulaj_cred="47085.39"/>
+    <cont str_cont="602080002G545000200130XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="6020800"
+          cf="545000" ce="200130" rulaj_deb="6504.08" rulaj_cred="496.39"/>
+    <cont str_cont="602080002G685050200101XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="6020800"
+          cf="685050" ce="200101" rulaj_deb="18589.53" rulaj_cred="18164.07"/>
+    <cont str_cont="610000002G545000200103XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="6100000"
+          cf="545000" ce="200103" rulaj_deb="97658.96" rulaj_cred="80429.5"/>
+    <cont str_cont="610000002G545000200104XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="6100000"
+          cf="545000" ce="200104" rulaj_deb="17771.51" rulaj_cred="14518.92"/>
+    <cont str_cont="610000002G685050200103XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="6100000"
+          cf="685050" ce="200103" rulaj_deb="43853.49" rulaj_cred="36001.32"/>
+    <cont str_cont="610000002G685050200104XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="6100000"
+          cf="685050" ce="200104" rulaj_deb="10423.52" rulaj_cred="8100.54"/>
+    <cont str_cont="611000002G545000200200XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="6110000"
+          cf="545000" ce="200200" rulaj_deb="137856.61" rulaj_cred="26404.93"/>
+    <cont str_cont="611000002G685050200109XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="6110000"
+          cf="685050" ce="200109" rulaj_deb="2357.39" rulaj_cred="2357.39"/>
+    <cont str_cont="611000002G685050200200XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="6110000"
+          cf="685050" ce="200200" rulaj_deb="45106.91" rulaj_cred="26457.18"/>
+    <cont str_cont="612000002G545000203030XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="6120000"
+          cf="545000" ce="203030" rulaj_deb="2625" rulaj_cred="2625"/>
+    <cont str_cont="613000002G685050203030XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="6130000"
+          cf="685050" ce="203030" rulaj_deb="2265.93" rulaj_cred="2265.93"/>
+    <cont str_cont="614000002G545000200602XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="6140000"
+          cf="545000" ce="200602" rulaj_deb="11746" rulaj_cred="11642"/>
+    <cont str_cont="614000002G685050200601XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="6140000"
+          cf="685050" ce="200601" rulaj_deb="3772" rulaj_cred="4372"/>
+    <cont str_cont="626000002G545000200108XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="6260000"
+          cf="545000" ce="200108" rulaj_deb="2687.46" rulaj_cred="2199.23"/>
+    <cont str_cont="626000002G685050200108XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="6260000"
+          cf="685050" ce="200108" rulaj_deb="10453.4" rulaj_cred="8385.76"/>
+    <cont str_cont="627000002G545000203030XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="6270000"
+          cf="545000" ce="203030" rulaj_deb="55" rulaj_cred="30"/>
+    <cont str_cont="628000002G545000200109XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="6280000"
+          cf="545000" ce="200109" rulaj_deb="95244.17" rulaj_cred="74627.17"/>
+    <cont str_cont="628000002G545000200130XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="6280000"
+          cf="545000" ce="200130" rulaj_deb="1680.78" rulaj_cred="1383.78"/>
+    <cont str_cont="628000002G545000201100XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="6280000"
+          cf="545000" ce="201100" rulaj_deb="800" rulaj_cred="800"/>
+    <cont str_cont="628000002G545000201200XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="6280000"
+          cf="545000" ce="201200" rulaj_deb="500"/>
+    <cont str_cont="628000002G685050200109XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="6280000"
+          cf="685050" ce="200109" rulaj_deb="85771.16" rulaj_cred="65008.64"/>
+    <cont str_cont="628000002G685050200130XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="6280000"
+          cf="685050" ce="200130" rulaj_deb="648.56" rulaj_cred="648.55"/>
+    <cont str_cont="628000002G685050201100XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="6280000"
+          cf="685050" ce="201100" rulaj_deb="4701.95" rulaj_cred="4701.95"/>
+    <cont str_cont="628000002G685050201200XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="6280000"
+          cf="685050" ce="201200" rulaj_deb="20058.5" rulaj_cred="17958.5"/>
+    <cont str_cont="628000002G685050201300XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="6280000"
+          cf="685050" ce="201300" rulaj_deb="5084.24" rulaj_cred="3780"/>
+    <cont str_cont="629010002G545000203030XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="6290100"
+          cf="545000" ce="203030" rulaj_deb="16178.58" rulaj_cred="10447.16"/>
+    <cont str_cont="629010002G685050203030XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="6290100"
+          cf="685050" ce="203030" rulaj_deb="3220.58" rulaj_cred="1825.78"/>
+    <cont str_cont="635010002G545000203030XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="6350100"
+          cf="545000" ce="203030" rulaj_deb="16038" rulaj_cred="16038"/>
+    <cont str_cont="635010002G685050203030XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="6350100"
+          cf="685050" ce="203030" rulaj_deb="150" rulaj_cred="150"/>
+    <cont str_cont="635010002G685050594000XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="6350100"
+          cf="685050" ce="594000" rulaj_deb="69134" rulaj_cred="56364"/>
+    <cont str_cont="641000002G685050100101XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="6410000"
+          cf="685050" ce="100101" rulaj_deb="4832451" rulaj_cred="3954265"/>
+    <cont str_cont="641000002G685050100105XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="6410000"
+          cf="685050" ce="100105" rulaj_deb="213830" rulaj_cred="84431"/>
+    <cont str_cont="641000002G685050100106XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="6410000"
+          cf="685050" ce="100106" rulaj_deb="19452" rulaj_cred="15568"/>
+    <cont str_cont="641000002G685050100113XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="6410000"
+          cf="685050" ce="100113" rulaj_deb="1759" rulaj_cred="119"/>
+    <cont str_cont="641000002G685050100117XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="6410000"
+          cf="685050" ce="100117" rulaj_deb="243315" rulaj_cred="191343"/>
+    <cont str_cont="641000002G685050100130XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="6410000"
+          cf="685050" ce="100130" rulaj_deb="51422" rulaj_cred="42559"/>
+    <cont str_cont="642000002G685050100206XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="6420000"
+          cf="685050" ce="100206" rulaj_deb="110700"/>
+    <cont str_cont="645070002G685050100307XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="6450700"
+          cf="685050" ce="100307" rulaj_deb="120196" rulaj_cred="96069"/>
+    <cont str_cont="681010002G685050710102XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="6810100"
+          cf="685050" ce="710102" rulaj_deb="34098.4" rulaj_cred="27898.69"/>
+    <cont str_cont="681010002G685050710103XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="6810100"
+          cf="685050" ce="710103" rulaj_deb="210468.67" rulaj_cred="172827.38"/>
+    <cont str_cont="751010002G330800XXXXXXXXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="7510100"
+          cf="330800" rulaj_deb="613194.9" rulaj_cred="756055.89"/>
+    <cont str_cont="751010002G331600XXXXXXXXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="7510100"
+          cf="331600" rulaj_deb="4179041.43" rulaj_cred="5438948.43"/>
+    <cont str_cont="751010002G335000XXXXXXXXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="7510100"
+          cf="335000" rulaj_deb="3668.87" rulaj_cred="4438.43"/>
+    <cont str_cont="770000002G545000200101XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="7700000"
+          cf="545000" ce="200101" rulaj_deb="0" rulaj_cred="39655.1"/>
+    <cont str_cont="770000002G545000200102XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="7700000"
+          cf="545000" ce="200102" rulaj_cred="322975.7"/>
+    <cont str_cont="770000002G545000200103XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="7700000"
+          cf="545000" ce="200103" rulaj_cred="112082.21"/>
+    <cont str_cont="770000002G545000200104XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="7700000"
+          cf="545000" ce="200104" rulaj_deb="930.93" rulaj_cred="21423.56"/>
+    <cont str_cont="770000002G545000200105XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="7700000"
+          cf="545000" ce="200105" rulaj_cred="15355.43"/>
+    <cont str_cont="770000002G545000200106XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="7700000"
+          cf="545000" ce="200106" rulaj_deb="0" rulaj_cred="24465.85"/>
+    <cont str_cont="770000002G545000200108XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="7700000"
+          cf="545000" ce="200108" rulaj_cred="3198.11"/>
+    <cont str_cont="770000002G545000200109XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="7700000"
+          cf="545000" ce="200109" rulaj_deb="7876.25" rulaj_cred="119899.66"/>
+    <cont str_cont="770000002G545000200130XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="7700000"
+          cf="545000" ce="200130" rulaj_cred="5871.04"/>
+    <cont str_cont="770000002G545000200200XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="7700000"
+          cf="545000" ce="200200" rulaj_cred="161132.01"/>
+    <cont str_cont="770000002G545000200301XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="7700000"
+          cf="545000" ce="200301" rulaj_cred="3629785.75"/>
+    <cont str_cont="770000002G545000200501XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="7700000"
+          cf="545000" ce="200501" rulaj_deb="0" rulaj_cred="45781"/>
+    <cont str_cont="770000002G545000200530XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="7700000"
+          cf="545000" ce="200530" rulaj_cred="44564.64"/>
+    <cont str_cont="770000002G545000200602XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="7700000"
+          cf="545000" ce="200602" rulaj_cred="11746"/>
+    <cont str_cont="770000002G545000201100XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="7700000"
+          cf="545000" ce="201100" rulaj_deb="0" rulaj_cred="840"/>
+    <cont str_cont="770000002G545000203030XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="7700000"
+          cf="545000" ce="203030" rulaj_cred="41329.85"/>
+    <cont str_cont="770000002G685050100101XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="7700000"
+          cf="685050" ce="100101" rulaj_deb="566" rulaj_cred="4880599"/>
+    <cont str_cont="770000002G685050100105XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="7700000"
+          cf="685050" ce="100105" rulaj_deb="0" rulaj_cred="149078"/>
+    <cont str_cont="770000002G685050100106XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="7700000"
+          cf="685050" ce="100106" rulaj_deb="0" rulaj_cred="18931"/>
+    <cont str_cont="770000002G685050100113XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="7700000"
+          cf="685050" ce="100113" rulaj_deb="0" rulaj_cred="1759"/>
+    <cont str_cont="770000002G685050100117XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="7700000"
+          cf="685050" ce="100117" rulaj_deb="0" rulaj_cred="234056"/>
+    <cont str_cont="770000002G685050100130XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="7700000"
+          cf="685050" ce="100130" rulaj_deb="0" rulaj_cred="49600"/>
+    <cont str_cont="770000002G685050100206XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="7700000"
+          cf="685050" ce="100206" rulaj_cred="110700"/>
+    <cont str_cont="770000002G685050100307XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="7700000"
+          cf="685050" ce="100307" rulaj_deb="0" rulaj_cred="117372"/>
+    <cont str_cont="770000002G685050200101XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="7700000"
+          cf="685050" ce="200101" rulaj_deb="0" rulaj_cred="12378.81"/>
+    <cont str_cont="770000002G685050200102XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="7700000"
+          cf="685050" ce="200102" rulaj_deb="0" rulaj_cred="12150.1"/>
+    <cont str_cont="770000002G685050200103XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="7700000"
+          cf="685050" ce="200103" rulaj_deb="0" rulaj_cred="45377.67"/>
+    <cont str_cont="770000002G685050200104XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="7700000"
+          cf="685050" ce="200104" rulaj_cred="9802.14"/>
+    <cont str_cont="770000002G685050200106XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="7700000"
+          cf="685050" ce="200106" rulaj_deb="0" rulaj_cred="3267.08"/>
+    <cont str_cont="770000002G685050200108XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="7700000"
+          cf="685050" ce="200108" rulaj_deb="0" rulaj_cred="11181.4"/>
+    <cont str_cont="770000002G685050200109XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="7700000"
+          cf="685050" ce="200109" rulaj_cred="79084.83"/>
+    <cont str_cont="770000002G685050200130XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="7700000"
+          cf="685050" ce="200130" rulaj_cred="648.56"/>
+    <cont str_cont="770000002G685050200200XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="7700000"
+          cf="685050" ce="200200" rulaj_cred="28343.53"/>
+    <cont str_cont="770000002G685050200301XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="7700000"
+          cf="685050" ce="200301" rulaj_deb="0" rulaj_cred="915438.78"/>
+    <cont str_cont="770000002G685050200530XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="7700000"
+          cf="685050" ce="200530" rulaj_cred="10066.86"/>
+    <cont str_cont="770000002G685050200601XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="7700000"
+          cf="685050" ce="200601" rulaj_deb="773" rulaj_cred="3155"/>
+    <cont str_cont="770000002G685050201100XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="7700000"
+          cf="685050" ce="201100" rulaj_deb="0" rulaj_cred="7076.39"/>
+    <cont str_cont="770000002G685050201200XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="7700000"
+          cf="685050" ce="201200" rulaj_cred="17958.5"/>
+    <cont str_cont="770000002G685050201300XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="7700000"
+          cf="685050" ce="201300" rulaj_cred="6474.24"/>
+    <cont str_cont="770000002G685050203030XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="7700000"
+          cf="685050" ce="203030" rulaj_deb="559.44" rulaj_cred="4029.14"/>
+    <cont str_cont="770000002G685050594000XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="7700000"
+          cf="685050" ce="594000" rulaj_deb="0" rulaj_cred="68371"/>
+    <cont str_cont="770000002G685050850101XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="7700000"
+          cf="685050" ce="850101" rulaj_deb="25872.36" rulaj_cred="-21427"/>
+    <cont str_cont="772020002G430900XXXXXXXXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="7720200"
+          cf="430900" rulaj_deb="6000000" rulaj_cred="7871000"/>
+    <cont str_cont="772020002G431900XXXXXXXXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="7720200"
+          cf="431900" rulaj_cred="460000"/>
+    <cont str_cont="803000002GXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8030000"
+          rulaj_deb="329818.71" rulaj_cred="0"/>
+    <cont str_cont="806000002G545000200101XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8060000"
+          cf="545000" ce="200101" rulaj_deb="90000"/>
+    <cont str_cont="806000002G545000200102XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8060000"
+          cf="545000" ce="200102" rulaj_deb="500000"/>
+    <cont str_cont="806000002G545000200103XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8060000"
+          cf="545000" ce="200103" rulaj_deb="300000"/>
+    <cont str_cont="806000002G545000200104XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8060000"
+          cf="545000" ce="200104" rulaj_deb="35000"/>
+    <cont str_cont="806000002G545000200105XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8060000"
+          cf="545000" ce="200105" rulaj_deb="30000"/>
+    <cont str_cont="806000002G545000200106XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8060000"
+          cf="545000" ce="200106" rulaj_deb="50000"/>
+    <cont str_cont="806000002G545000200108XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8060000"
+          cf="545000" ce="200108" rulaj_deb="15000"/>
+    <cont str_cont="806000002G545000200109XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8060000"
+          cf="545000" ce="200109" rulaj_deb="200000"/>
+    <cont str_cont="806000002G545000200130XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8060000"
+          cf="545000" ce="200130" rulaj_deb="12000"/>
+    <cont str_cont="806000002G545000200200XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8060000"
+          cf="545000" ce="200200" rulaj_deb="730000"/>
+    <cont str_cont="806000002G545000200301XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8060000"
+          cf="545000" ce="200301" rulaj_deb="8208169"/>
+    <cont str_cont="806000002G545000200501XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8060000"
+          cf="545000" ce="200501" rulaj_deb="100000"/>
+    <cont str_cont="806000002G545000200503XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8060000"
+          cf="545000" ce="200503" rulaj_deb="40000"/>
+    <cont str_cont="806000002G545000200530XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8060000"
+          cf="545000" ce="200530" rulaj_deb="250000"/>
+    <cont str_cont="806000002G545000200601XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8060000"
+          cf="545000" ce="200601" rulaj_deb="25000"/>
+    <cont str_cont="806000002G545000200602XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8060000"
+          cf="545000" ce="200602" rulaj_deb="40000"/>
+    <cont str_cont="806000002G545000201100XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8060000"
+          cf="545000" ce="201100" rulaj_deb="10000"/>
+    <cont str_cont="806000002G545000201200XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8060000"
+          cf="545000" ce="201200" rulaj_deb="10000"/>
+    <cont str_cont="806000002G545000201300XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8060000"
+          cf="545000" ce="201300" rulaj_deb="30000"/>
+    <cont str_cont="806000002G545000203001XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8060000"
+          cf="545000" ce="203001" rulaj_deb="50000"/>
+    <cont str_cont="806000002G545000203002XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8060000"
+          cf="545000" ce="203002" rulaj_deb="20000"/>
+    <cont str_cont="806000002G545000203030XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8060000"
+          cf="545000" ce="203030" rulaj_deb="300000"/>
+    <cont str_cont="806000002G685050100101XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8060000"
+          cf="685050" ce="100101" rulaj_deb="5450000"/>
+    <cont str_cont="806000002G685050100105XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8060000"
+          cf="685050" ce="100105" rulaj_deb="260000"/>
+    <cont str_cont="806000002G685050100106XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8060000"
+          cf="685050" ce="100106" rulaj_deb="25000"/>
+    <cont str_cont="806000002G685050100113XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8060000"
+          cf="685050" ce="100113" rulaj_deb="10000"/>
+    <cont str_cont="806000002G685050100117XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8060000"
+          cf="685050" ce="100117" rulaj_deb="276000"/>
+    <cont str_cont="806000002G685050100130XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8060000"
+          cf="685050" ce="100130" rulaj_deb="70000"/>
+    <cont str_cont="806000002G685050100206XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8060000"
+          cf="685050" ce="100206" rulaj_deb="127000"/>
+    <cont str_cont="806000002G685050100306XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8060000"
+          cf="685050" ce="100306" rulaj_deb="48000"/>
+    <cont str_cont="806000002G685050100307XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8060000"
+          cf="685050" ce="100307" rulaj_deb="150000"/>
+    <cont str_cont="806000002G685050200101XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8060000"
+          cf="685050" ce="200101" rulaj_deb="30000" rulaj_cred="0"/>
+    <cont str_cont="806000002G685050200102XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8060000"
+          cf="685050" ce="200102" rulaj_deb="22000"/>
+    <cont str_cont="806000002G685050200103XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8060000"
+          cf="685050" ce="200103" rulaj_deb="65000"/>
+    <cont str_cont="806000002G685050200104XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8060000"
+          cf="685050" ce="200104" rulaj_deb="20000"/>
+    <cont str_cont="806000002G685050200105XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8060000"
+          cf="685050" ce="200105" rulaj_deb="10000"/>
+    <cont str_cont="806000002G685050200106XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8060000"
+          cf="685050" ce="200106" rulaj_deb="10000"/>
+    <cont str_cont="806000002G685050200108XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8060000"
+          cf="685050" ce="200108" rulaj_deb="15000"/>
+    <cont str_cont="806000002G685050200109XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8060000"
+          cf="685050" ce="200109" rulaj_deb="100000"/>
+    <cont str_cont="806000002G685050200130XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8060000"
+          cf="685050" ce="200130" rulaj_deb="10000"/>
+    <cont str_cont="806000002G685050200200XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8060000"
+          cf="685050" ce="200200" rulaj_deb="135000"/>
+    <cont str_cont="806000002G685050200301XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8060000"
+          cf="685050" ce="200301" rulaj_deb="1370000"/>
+    <cont str_cont="806000002G685050200401XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8060000"
+          cf="685050" ce="200401" rulaj_deb="5000"/>
+    <cont str_cont="806000002G685050200402XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8060000"
+          cf="685050" ce="200402" rulaj_deb="5000"/>
+    <cont str_cont="806000002G685050200501XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8060000"
+          cf="685050" ce="200501" rulaj_deb="40000"/>
+    <cont str_cont="806000002G685050200530XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8060000"
+          cf="685050" ce="200530" rulaj_deb="80000"/>
+    <cont str_cont="806000002G685050200601XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8060000"
+          cf="685050" ce="200601" rulaj_deb="15000"/>
+    <cont str_cont="806000002G685050200602XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8060000"
+          cf="685050" ce="200602" rulaj_deb="20000"/>
+    <cont str_cont="806000002G685050201100XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8060000"
+          cf="685050" ce="201100" rulaj_deb="10000"/>
+    <cont str_cont="806000002G685050201200XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8060000"
+          cf="685050" ce="201200" rulaj_deb="50000"/>
+    <cont str_cont="806000002G685050201300XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8060000"
+          cf="685050" ce="201300" rulaj_deb="35000"/>
+    <cont str_cont="806000002G685050203030XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8060000"
+          cf="685050" ce="203030" rulaj_deb="35000"/>
+    <cont str_cont="806000002G685050594000XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8060000"
+          cf="685050" ce="594000" rulaj_deb="100000"/>
+    <cont str_cont="806000002G685050850101XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8060000"
+          cf="685050" ce="850101" rulaj_deb="-48000"/>
+    <cont str_cont="806600002G545000200101XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8066000"
+          cf="545000" ce="200101" rulaj_deb="45000"/>
+    <cont str_cont="806600002G545000200102XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8066000"
+          cf="545000" ce="200102" rulaj_deb="322975.7"/>
+    <cont str_cont="806600002G545000200103XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8066000"
+          cf="545000" ce="200103" rulaj_deb="195000"/>
+    <cont str_cont="806600002G545000200104XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8066000"
+          cf="545000" ce="200104" rulaj_deb="25000"/>
+    <cont str_cont="806600002G545000200105XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8066000"
+          cf="545000" ce="200105" rulaj_deb="30000"/>
+    <cont str_cont="806600002G545000200106XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8066000"
+          cf="545000" ce="200106" rulaj_deb="50000"/>
+    <cont str_cont="806600002G545000200108XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8066000"
+          cf="545000" ce="200108" rulaj_deb="10000"/>
+    <cont str_cont="806600002G545000200109XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8066000"
+          cf="545000" ce="200109" rulaj_deb="150000"/>
+    <cont str_cont="806600002G545000200130XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8066000"
+          cf="545000" ce="200130" rulaj_deb="10000"/>
+    <cont str_cont="806600002G545000200200XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8066000"
+          cf="545000" ce="200200" rulaj_deb="173000"/>
+    <cont str_cont="806600002G545000200301XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8066000"
+          cf="545000" ce="200301" rulaj_deb="4500000"/>
+    <cont str_cont="806600002G545000200501XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8066000"
+          cf="545000" ce="200501" rulaj_deb="45781"/>
+    <cont str_cont="806600002G545000200503XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8066000"
+          cf="545000" ce="200503" rulaj_deb="30000"/>
+    <cont str_cont="806600002G545000200530XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8066000"
+          cf="545000" ce="200530" rulaj_deb="150000"/>
+    <cont str_cont="806600002G545000200601XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8066000"
+          cf="545000" ce="200601" rulaj_deb="19000"/>
+    <cont str_cont="806600002G545000200602XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8066000"
+          cf="545000" ce="200602" rulaj_deb="40000"/>
+    <cont str_cont="806600002G545000201100XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8066000"
+          cf="545000" ce="201100" rulaj_deb="10000"/>
+    <cont str_cont="806600002G545000201200XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8066000"
+          cf="545000" ce="201200" rulaj_deb="10000"/>
+    <cont str_cont="806600002G545000201300XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8066000"
+          cf="545000" ce="201300" rulaj_deb="30000"/>
+    <cont str_cont="806600002G545000203001XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8066000"
+          cf="545000" ce="203001" rulaj_deb="25000"/>
+    <cont str_cont="806600002G545000203002XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8066000"
+          cf="545000" ce="203002" rulaj_deb="20000"/>
+    <cont str_cont="806600002G545000203030XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8066000"
+          cf="545000" ce="203030" rulaj_deb="200000"/>
+    <cont str_cont="806600002G685050100101XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8066000"
+          cf="685050" ce="100101" rulaj_deb="5450000"/>
+    <cont str_cont="806600002G685050100105XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8066000"
+          cf="685050" ce="100105" rulaj_deb="260000"/>
+    <cont str_cont="806600002G685050100106XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8066000"
+          cf="685050" ce="100106" rulaj_deb="25000"/>
+    <cont str_cont="806600002G685050100113XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8066000"
+          cf="685050" ce="100113" rulaj_deb="10000"/>
+    <cont str_cont="806600002G685050100117XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8066000"
+          cf="685050" ce="100117" rulaj_deb="276000"/>
+    <cont str_cont="806600002G685050100130XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8066000"
+          cf="685050" ce="100130" rulaj_deb="70000"/>
+    <cont str_cont="806600002G685050100206XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8066000"
+          cf="685050" ce="100206" rulaj_deb="127000"/>
+    <cont str_cont="806600002G685050100306XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8066000"
+          cf="685050" ce="100306" rulaj_deb="48000"/>
+    <cont str_cont="806600002G685050100307XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8066000"
+          cf="685050" ce="100307" rulaj_deb="150000"/>
+    <cont str_cont="806600002G685050200101XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8066000"
+          cf="685050" ce="200101" rulaj_deb="30000"/>
+    <cont str_cont="806600002G685050200102XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8066000"
+          cf="685050" ce="200102" rulaj_deb="22000"/>
+    <cont str_cont="806600002G685050200103XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8066000"
+          cf="685050" ce="200103" rulaj_deb="64779"/>
+    <cont str_cont="806600002G685050200104XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8066000"
+          cf="685050" ce="200104" rulaj_deb="20000"/>
+    <cont str_cont="806600002G685050200105XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8066000"
+          cf="685050" ce="200105" rulaj_deb="10000"/>
+    <cont str_cont="806600002G685050200106XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8066000"
+          cf="685050" ce="200106" rulaj_deb="10000"/>
+    <cont str_cont="806600002G685050200108XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8066000"
+          cf="685050" ce="200108" rulaj_deb="15000"/>
+    <cont str_cont="806600002G685050200109XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8066000"
+          cf="685050" ce="200109" rulaj_deb="100000"/>
+    <cont str_cont="806600002G685050200130XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8066000"
+          cf="685050" ce="200130" rulaj_deb="10000"/>
+    <cont str_cont="806600002G685050200200XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8066000"
+          cf="685050" ce="200200" rulaj_deb="47887"/>
+    <cont str_cont="806600002G685050200301XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8066000"
+          cf="685050" ce="200301" rulaj_deb="1113221.78"/>
+    <cont str_cont="806600002G685050200401XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8066000"
+          cf="685050" ce="200401" rulaj_deb="5000"/>
+    <cont str_cont="806600002G685050200402XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8066000"
+          cf="685050" ce="200402" rulaj_deb="5000"/>
+    <cont str_cont="806600002G685050200501XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8066000"
+          cf="685050" ce="200501" rulaj_deb="40000"/>
+    <cont str_cont="806600002G685050200530XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8066000"
+          cf="685050" ce="200530" rulaj_deb="80000"/>
+    <cont str_cont="806600002G685050200601XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8066000"
+          cf="685050" ce="200601" rulaj_deb="15000"/>
+    <cont str_cont="806600002G685050200602XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8066000"
+          cf="685050" ce="200602" rulaj_deb="20000"/>
+    <cont str_cont="806600002G685050201100XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8066000"
+          cf="685050" ce="201100" rulaj_deb="7076.83"/>
+    <cont str_cont="806600002G685050201200XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8066000"
+          cf="685050" ce="201200" rulaj_deb="50000"/>
+    <cont str_cont="806600002G685050201300XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8066000"
+          cf="685050" ce="201300" rulaj_deb="35000"/>
+    <cont str_cont="806600002G685050203030XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8066000"
+          cf="685050" ce="203030" rulaj_deb="29000"/>
+    <cont str_cont="806600002G685050594000XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8066000"
+          cf="685050" ce="594000" rulaj_deb="100000"/>
+    <cont str_cont="806700002G545000200101XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8067000"
+          cf="545000" ce="200101" rulaj_deb="90000" rulaj_cred="0"/>
+    <cont str_cont="806700002G545000200102XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8067000"
+          cf="545000" ce="200102" rulaj_deb="500000" rulaj_cred="0"/>
+    <cont str_cont="806700002G545000200103XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8067000"
+          cf="545000" ce="200103" rulaj_deb="195000" rulaj_cred="0"/>
+    <cont str_cont="806700002G545000200104XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8067000"
+          cf="545000" ce="200104" rulaj_deb="25000" rulaj_cred="0"/>
+    <cont str_cont="806700002G545000200105XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8067000"
+          cf="545000" ce="200105" rulaj_deb="30000" rulaj_cred="0"/>
+    <cont str_cont="806700002G545000200106XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8067000"
+          cf="545000" ce="200106" rulaj_deb="50000" rulaj_cred="0"/>
+    <cont str_cont="806700002G545000200108XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8067000"
+          cf="545000" ce="200108" rulaj_deb="15000" rulaj_cred="0"/>
+    <cont str_cont="806700002G545000200109XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8067000"
+          cf="545000" ce="200109" rulaj_deb="150000" rulaj_cred="0"/>
+    <cont str_cont="806700002G545000200130XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8067000"
+          cf="545000" ce="200130" rulaj_deb="12000" rulaj_cred="0"/>
+    <cont str_cont="806700002G545000200200XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8067000"
+          cf="545000" ce="200200" rulaj_deb="316636" rulaj_cred="0"/>
+    <cont str_cont="806700002G545000200301XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8067000"
+          cf="545000" ce="200301" rulaj_deb="4600000" rulaj_cred="0"/>
+    <cont str_cont="806700002G545000200501XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8067000"
+          cf="545000" ce="200501" rulaj_deb="100000" rulaj_cred="0"/>
+    <cont str_cont="806700002G545000200503XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8067000"
+          cf="545000" ce="200503" rulaj_deb="30000" rulaj_cred="0"/>
+    <cont str_cont="806700002G545000200530XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8067000"
+          cf="545000" ce="200530" rulaj_deb="150000" rulaj_cred="0"/>
+    <cont str_cont="806700002G545000200601XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8067000"
+          cf="545000" ce="200601" rulaj_deb="19000"/>
+    <cont str_cont="806700002G545000200602XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8067000"
+          cf="545000" ce="200602" rulaj_deb="40000" rulaj_cred="0"/>
+    <cont str_cont="806700002G545000201100XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8067000"
+          cf="545000" ce="201100" rulaj_deb="10000" rulaj_cred="0"/>
+    <cont str_cont="806700002G545000201200XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8067000"
+          cf="545000" ce="201200" rulaj_deb="10000" rulaj_cred="0"/>
+    <cont str_cont="806700002G545000201300XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8067000"
+          cf="545000" ce="201300" rulaj_deb="30000"/>
+    <cont str_cont="806700002G545000203001XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8067000"
+          cf="545000" ce="203001" rulaj_deb="25000"/>
+    <cont str_cont="806700002G545000203002XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8067000"
+          cf="545000" ce="203002" rulaj_deb="20000"/>
+    <cont str_cont="806700002G545000203030XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8067000"
+          cf="545000" ce="203030" rulaj_deb="200000" rulaj_cred="0"/>
+    <cont str_cont="806700002G685050100101XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8067000"
+          cf="685050" ce="100101" rulaj_deb="6000000" rulaj_cred="0"/>
+    <cont str_cont="806700002G685050100105XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8067000"
+          cf="685050" ce="100105" rulaj_deb="400000" rulaj_cred="0"/>
+    <cont str_cont="806700002G685050100106XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8067000"
+          cf="685050" ce="100106" rulaj_deb="25000" rulaj_cred="0"/>
+    <cont str_cont="806700002G685050100107XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8067000"
+          cf="685050" ce="100107" rulaj_deb="20000"/>
+    <cont str_cont="806700002G685050100113XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8067000"
+          cf="685050" ce="100113" rulaj_deb="10000" rulaj_cred="0"/>
+    <cont str_cont="806700002G685050100117XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8067000"
+          cf="685050" ce="100117" rulaj_deb="326000" rulaj_cred="0"/>
+    <cont str_cont="806700002G685050100130XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8067000"
+          cf="685050" ce="100130" rulaj_deb="100000" rulaj_cred="0"/>
+    <cont str_cont="806700002G685050100206XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8067000"
+          cf="685050" ce="100206" rulaj_deb="167000" rulaj_cred="0"/>
+    <cont str_cont="806700002G685050100306XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8067000"
+          cf="685050" ce="100306" rulaj_deb="48000"/>
+    <cont str_cont="806700002G685050100307XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8067000"
+          cf="685050" ce="100307" rulaj_deb="150000" rulaj_cred="0"/>
+    <cont str_cont="806700002G685050200101XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8067000"
+          cf="685050" ce="200101" rulaj_deb="67500" rulaj_cred="0"/>
+    <cont str_cont="806700002G685050200102XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8067000"
+          cf="685050" ce="200102" rulaj_deb="241500" rulaj_cred="0"/>
+    <cont str_cont="806700002G685050200103XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8067000"
+          cf="685050" ce="200103" rulaj_deb="77100" rulaj_cred="0"/>
+    <cont str_cont="806700002G685050200104XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8067000"
+          cf="685050" ce="200104" rulaj_deb="27074.36" rulaj_cred="0"/>
+    <cont str_cont="806700002G685050200105XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8067000"
+          cf="685050" ce="200105" rulaj_deb="40000"/>
+    <cont str_cont="806700002G685050200106XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8067000"
+          cf="685050" ce="200106" rulaj_deb="60000" rulaj_cred="0"/>
+    <cont str_cont="806700002G685050200108XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8067000"
+          cf="685050" ce="200108" rulaj_deb="25000" rulaj_cred="0"/>
+    <cont str_cont="806700002G685050200109XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8067000"
+          cf="685050" ce="200109" rulaj_deb="142288" rulaj_cred="0"/>
+    <cont str_cont="806700002G685050200130XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8067000"
+          cf="685050" ce="200130" rulaj_deb="20000" rulaj_cred="0"/>
+    <cont str_cont="806700002G685050200200XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8067000"
+          cf="685050" ce="200200" rulaj_deb="66751" rulaj_cred="0"/>
+    <cont str_cont="806700002G685050200301XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8067000"
+          cf="685050" ce="200301" rulaj_deb="1830000" rulaj_cred="0"/>
+    <cont str_cont="806700002G685050200401XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8067000"
+          cf="685050" ce="200401" rulaj_deb="5000"/>
+    <cont str_cont="806700002G685050200402XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8067000"
+          cf="685050" ce="200402" rulaj_deb="5000" rulaj_cred="0"/>
+    <cont str_cont="806700002G685050200501XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8067000"
+          cf="685050" ce="200501" rulaj_deb="95000"/>
+    <cont str_cont="806700002G685050200503XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8067000"
+          cf="685050" ce="200503" rulaj_deb="20000"/>
+    <cont str_cont="806700002G685050200530XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8067000"
+          cf="685050" ce="200530" rulaj_deb="80000" rulaj_cred="0"/>
+    <cont str_cont="806700002G685050200601XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8067000"
+          cf="685050" ce="200601" rulaj_deb="15000" rulaj_cred="0"/>
+    <cont str_cont="806700002G685050200602XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8067000"
+          cf="685050" ce="200602" rulaj_deb="20000"/>
+    <cont str_cont="806700002G685050201100XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8067000"
+          cf="685050" ce="201100" rulaj_deb="10000" rulaj_cred="0"/>
+    <cont str_cont="806700002G685050201200XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8067000"
+          cf="685050" ce="201200" rulaj_deb="50000" rulaj_cred="0"/>
+    <cont str_cont="806700002G685050201300XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8067000"
+          cf="685050" ce="201300" rulaj_deb="35000" rulaj_cred="0"/>
+    <cont str_cont="806700002G685050203030XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8067000"
+          cf="685050" ce="203030" rulaj_deb="29000" rulaj_cred="0"/>
+    <cont str_cont="806700002G685050594000XXXXXXXXXXXXXXXXXX" cod_sector="02" cod_sursa="G" simbol_p_cont="8067000"
+          cf="685050" ce="594000" rulaj_deb="100000" rulaj_cred="0"/>
+</f1102>
