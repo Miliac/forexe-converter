@@ -14,21 +14,31 @@ public class XLSReader {
 
     public static void main(String[] args) throws IOException {
         FileInputStream fis = new FileInputStream(new File("src/resources/Balanta cumulata_nov_2019.XLSX"));
-        //creating Workbook instance that refers to .xlsx file
 
+        //creating Workbook instance that refers to .xlsx file
         XSSFWorkbook wb = new XSSFWorkbook(fis);
-        XSSFSheet sheet = wb.getSheet("Pagina 2");     //creating a Sheet object to retrieve object
-        Iterator<Row> itr = sheet.iterator();    //iterating over excel file
+
+        //creating a Sheet object to retrieve object
+        XSSFSheet sheet = wb.getSheet("Pagina 2");
+
+        //iterating over excel file
+        Iterator<Row> itr = sheet.iterator();
+
         while (itr.hasNext()) {
             Row row = itr.next();
-            Iterator<Cell> cellIterator = row.cellIterator();   //iterating over each column
+
+            //iterating over each column
+            Iterator<Cell> cellIterator = row.cellIterator();
+
             while (cellIterator.hasNext()) {
                 Cell cell = cellIterator.next();
                 switch (cell.getCellType()) {
-                    case STRING:    //field that represents string cell type
+                    //field that represents string cell type
+                    case STRING:
                         System.out.print(cell.getStringCellValue() + "\t\t\t");
                         break;
-                    case NUMERIC:    //field that represents number cell type
+                    //field that represents number cell type
+                    case NUMERIC:
                         System.out.print(cell.getNumericCellValue() + "\t\t\t");
                         break;
                     default:
