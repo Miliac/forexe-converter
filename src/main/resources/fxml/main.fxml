@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.stage.Screen?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<GridPane fx:controller="controller.MainController"
+          xmlns:fx="http://javafx.com/fxml"
+          prefWidth="${screen.visualBounds.width}"
+          prefHeight="${screen.visualBounds.height}"
+          alignment="center" hgap="10" vgap="10"
+          style="-fx-background-color: #364353;">
+    <fx:define>
+        <Screen fx:factory="getPrimary" fx:id="screen"/>
+    </fx:define>
+
+    <Label fx:id="selectedFileLabel" text="no files selected" GridPane.rowIndex="0" GridPane.columnIndex="3" style="-fx-text-fill: white;"/>
+
+    <Button fx:id="selectFileButton" text="Select File" GridPane.rowIndex="1" GridPane.columnIndex="3"
+            onAction="#onSelectFileButtonClicked"/>
+
+    <Button fx:id="convertXlsButton" text="Convert" GridPane.rowIndex="2" GridPane.columnIndex="3"
+            onAction="#onConvertXlsButtonClicked"/>
+</GridPane>
+
