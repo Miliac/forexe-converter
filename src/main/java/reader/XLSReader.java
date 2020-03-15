@@ -23,8 +23,6 @@ public class XLSReader {
         //creating a Sheet object to retrieve object
         XSSFSheet sheet = wb.getSheet("Pagina 1");
 
-        Iterator<Row> iterator = sheet.iterator();
-
         Row firstRow = sheet.getRow(0);
         Integer[] columnNumbers = new Integer[Columns.values().length];
 
