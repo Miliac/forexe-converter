@@ -28,9 +28,9 @@ public class ConversionService {
         try {
             Map<String, Map<Columns,List<Cell>>> extractedColumns = xlsReader.read(selectedFile);
 
-//          extractedColumns.forEach((k, v) -> extractedColumns.put(k, filterClasa(extractedColumns, k)));
+          extractedColumns.forEach((k, v) -> extractedColumns.put(k, filterClasa(extractedColumns, k)));
 
-            extractedColumns.put("Clasa 2", filterClasa(extractedColumns, "Clasa 2"));
+//            extractedColumns.put("Clasa 2", filterClasa(extractedColumns, "Clasa 2"));
 
             Map<String, ContType> contTypes = getContType(extractedColumns);
 
@@ -49,10 +49,12 @@ public class ConversionService {
 
         List<Cell> finalDebitorColumn = debitorColumn;
         List<Cell> finalCreditorColumn = creditorColumn;
-        List<Cell> finalSymbolColumn = symbolColumn;
-        symbolColumn = symbolColumn.stream().filter(cell -> filterByClass(clasa, cell, finalSymbolColumn) &&
-                (finalDebitorColumn.get(cell.getRowIndex()).getNumericCellValue() > 0 ||
-                        finalCreditorColumn.get(cell.getRowIndex()).getNumericCellValue() > 0)).collect(Collectors.toList());
+        List<Cell> finalSymbolColumn1 = symbolColumn;
+        List<Cell> finalSymbolColumn = symbolColumn.stream().filter(cell -> finalDebitorColumn.get(finalSymbolColumn1.indexOf(cell)).getNumericCellValue() != 0 ||
+                        finalCreditorColumn.get(finalSymbolColumn1.indexOf(cell)).getNumericCellValue() != 0).collect(Collectors.toList());
+
+        symbolColumn = symbolColumn.stream().filter(cell -> filterByClass(clasa, cell, finalSymbolColumn)).collect(Collectors.toList());
+
         List<Cell> filteredSymbolColumn = symbolColumn;
         debitorColumn = debitorColumn.stream().filter(cell -> filterCell(cell, filteredSymbolColumn))
                 .collect(Collectors.toList());
@@ -72,9 +74,9 @@ public class ConversionService {
             case "Clasa 2":
                 if (cell.getStringCellValue().length() == 6) {
                     int i = symbolColumn.indexOf(cell) + 1;
-                    while ((symbolColumn.get(i).getStringCellValue().length() == 6 ||
-                            symbolColumn.get(i).getStringCellValue().length() == 3) &&
-                            i < symbolColumn.size()) {
+                    while (i < symbolColumn.size() &&
+                            symbolColumn.get(i).getStringCellValue().length() > 6 &&
+                            !symbolColumn.get(i).getStringCellValue().toLowerCase().contains("clasa")) {
                         addedCells.add(symbolColumn.get(i));
                         i++;
                     }
@@ -90,6 +92,32 @@ public class ConversionService {
                     }
                     addedCells.clear();
                     return false;
+                }
+            case "Clasa 3":
+                if (cell.getStringCellValue().length() == 3) {
+                    addedCells = symbolColumn.stream().filter(nextCell -> nextCell.getStringCellValue().length() == 6 &&
+                            nextCell.getStringCellValue().contains(cell.getStringCellValue()))
+                            .collect(Collectors.toList());
+                    if(addedCells.size() > 1) {
+                        return false;
+                    } else {
+                        Cell parent = addedCells.get(0);
+                        addedCells = symbolColumn.stream().filter(nextCell -> nextCell.getStringCellValue().length() > 6 &&
+                                nextCell.getStringCellValue().contains(parent.getStringCellValue()))
+                                .collect(Collectors.toList());
+                        if(addedCells.size() > 1) {
+                            return false;
+                        } else {
+                            addedCells.clear();
+                            return true;
+                        }
+                    }
+                } else {
+                    if(addedCells.contains(cell)) {
+                        return true;
+                    } else {
+                        return false;
+                    }
                 }
             default:
                 return false;
