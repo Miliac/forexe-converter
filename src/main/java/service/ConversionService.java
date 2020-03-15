@@ -22,17 +22,30 @@ public class ConversionService {
     public void convert(File selectedFile) {
 
         try {
-            Map<Columns, List<Cell>> extractedColumns = xlsReader.read(selectedFile);
-            Map<String, ContType> contTypes = new LinkedHashMap<>();
-            extractedColumns.forEach((key, value) -> {
-                switch (key) {
+            Map<String, Map<Columns,List<Cell>>> extractedColumns = xlsReader.read(selectedFile);
+
+            //filtrare
+
+            Map<String, ContType> contTypes = getContType(extractedColumns);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private Map<String, ContType> getContType(Map<String, Map<Columns, List<Cell>>> extractedColumns) {
+        Map<String, ContType> contTypes = new LinkedHashMap<>();
+        extractedColumns.forEach((key, value) -> {
+            value.forEach((column, cells) -> {
+                switch (column) {
                     case SIMBOL:
-                        value.forEach(cell -> {
+                        cells.forEach(cell -> {
                             contTypes.put(String.valueOf(cell.getRowIndex()), new ContType());
                         });
                         break;
                     case DEBITOR:
-                        value.forEach(cell -> {
+                        cells.forEach(cell -> {
                             double rulDeb = cell.getNumericCellValue();
                             ContType contType = contTypes.getOrDefault(String.valueOf(cell.getRowIndex()), new ContType());
                             contType.setRulajDeb(rulDeb);
@@ -40,7 +53,7 @@ public class ConversionService {
                         });
                         break;
                     case CREDITOR:
-                        value.forEach(cell -> {
+                        cells.forEach(cell -> {
                             double rulCred = cell.getNumericCellValue();
                             ContType contType = contTypes.getOrDefault(String.valueOf(cell.getRowIndex()), new ContType());
                             contType.setRulajCred(rulCred);
@@ -51,10 +64,8 @@ public class ConversionService {
                         break;
                 }
             });
+        });
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        return contTypes;
     }
 }

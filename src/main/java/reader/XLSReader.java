@@ -14,7 +14,7 @@ import java.util.*;
 
 public class XLSReader {
 
-    public Map<Columns, List<Cell>> read(File file) throws IOException {
+    public Map<String, Map<Columns,List<Cell>>> read(File file) throws IOException {
         FileInputStream fis = new FileInputStream(file);
 
         //creating Workbook instance that refers to .xlsx file
@@ -35,32 +35,45 @@ public class XLSReader {
                 }
             }
         }
+        String currentClass = "";
+        Map<String, Map<Columns,List<Cell>>> extractedColumns = new LinkedHashMap<>();
 
-        Map<Columns, List<Cell>> extractedColumns = new LinkedHashMap<>();
-
-        for(int i=0; i < Columns.values().length;i++) {
-            if (columnNumbers[i] != null) {
-                List<Cell> cells = new ArrayList<>();
-                for(Row row : sheet) {
-                    if(row.getRowNum() > 2) {
+        for(Row row : sheet) {
+            if(row.getRowNum() >= 2) {
+                for(int i=0; i < Columns.values().length;i++) {
+                    if (columnNumbers[i] != null) {
                         Cell cell = row.getCell(columnNumbers[i]);
                         if (cell != null && cell.getCellType() != CellType.BLANK) {
                             if (Columns.values()[i].equals(Columns.SIMBOL)) {
-                                if (cell.getCellType().equals(CellType.STRING) && !cell.getStringCellValue().isBlank() && !cell.getStringCellValue().contains("Clasa")) {
-                                    cells.add(cell);
+                                if (cell.getCellType().equals(CellType.STRING) && !cell.getStringCellValue().isBlank()) {
+                                    if(cell.getStringCellValue().contains("Clasa")) {
+                                        currentClass = cell.getStringCellValue();
+                                        addCell(currentClass,i, extractedColumns, cell);
+                                    } else {
+                                        addCell(currentClass,i, extractedColumns, cell);
+                                    }
                                 }
                             } else {
-                                cells.add(cell);
+                                addCell(currentClass,i, extractedColumns, cell);
                             }
                         }
+                    } else{
+                        System.out.println("Could not find column " + Columns.values()[i] + " in first row of " + file.getPath());
                     }
                 }
-                extractedColumns.put(Columns.values()[i], cells);
-            }else{
-                System.out.println("Could not find column " + Columns.values()[i] + " in first row of " + file.getPath());
+
             }
+
         }
 
         return extractedColumns;
+    }
+
+    private void addCell(String currentClass, int column, Map<String, Map<Columns, List<Cell>>> extractedColumns, Cell cell) {
+        Map<Columns, List<Cell>> columns = extractedColumns.getOrDefault(currentClass, new LinkedHashMap<>());
+        List<Cell> cells = columns.getOrDefault(Columns.values()[column], new ArrayList<>());
+        cells.add(cell);
+        columns.put(Columns.values()[column], cells);
+        extractedColumns.put(currentClass, columns);
     }
 }
