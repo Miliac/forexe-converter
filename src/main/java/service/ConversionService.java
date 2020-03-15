@@ -53,7 +53,7 @@ public class ConversionService {
         List<Cell> finalSymbolColumn = symbolColumn.stream().filter(cell -> finalDebitorColumn.get(finalSymbolColumn1.indexOf(cell)).getNumericCellValue() != 0 ||
                         finalCreditorColumn.get(finalSymbolColumn1.indexOf(cell)).getNumericCellValue() != 0).collect(Collectors.toList());
 
-        symbolColumn = symbolColumn.stream().filter(cell -> filterByClass(clasa, cell, finalSymbolColumn)).collect(Collectors.toList());
+        symbolColumn = finalSymbolColumn.stream().filter(cell -> filterByClass(clasa, cell, finalSymbolColumn)).collect(Collectors.toList());
 
         List<Cell> filteredSymbolColumn = symbolColumn;
         debitorColumn = debitorColumn.stream().filter(cell -> filterCell(cell, filteredSymbolColumn))
