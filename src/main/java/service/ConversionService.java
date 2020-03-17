@@ -2,6 +2,7 @@ package service;
 
 import model.Columns;
 import model.ContType;
+import model.F1102Type;
 import org.apache.poi.ss.usermodel.Cell;
 import reader.XLSReader;
 
@@ -23,7 +24,7 @@ public class ConversionService {
 
     private List<Cell> addedCells = new ArrayList<>();
 
-    public void convert(File selectedFile) {
+    public void convert(File selectedFile, F1102Type f1102Type) {
 
         try {
             Map<String, Map<Columns,List<Cell>>> extractedColumns = xlsReader.read(selectedFile);
@@ -113,11 +114,16 @@ public class ConversionService {
                         }
                     }
                 } else {
-                    if(addedCells.contains(cell)) {
-                        return true;
-                    } else {
-                        return false;
-                    }
+                    return addedCells.contains(cell);
+                }
+            case "Clasa 4":
+                if (cell.getStringCellValue().length() == 6 || cell.getStringCellValue().length() == 9) {
+                    addedCells = symbolColumn.stream().filter(nextCell -> nextCell.getStringCellValue().length() > 30 &&
+                            nextCell.getStringCellValue().contains(cell.getStringCellValue()))
+                            .collect(Collectors.toList());
+                    return addedCells.isEmpty();
+                } else {
+                    return addedCells.contains(cell);
                 }
             default:
                 return false;
@@ -136,35 +142,33 @@ public class ConversionService {
 
     private Map<String, ContType> getContType(Map<String, Map<Columns, List<Cell>>> extractedColumns) {
         Map<String, ContType> contTypes = new LinkedHashMap<>();
-        extractedColumns.forEach((key, value) -> {
-            value.forEach((column, cells) -> {
-                switch (column) {
-                    case SIMBOL:
-                        cells.forEach(cell -> {
-                            contTypes.put(String.valueOf(cell.getRowIndex()), new ContType());
-                        });
-                        break;
-                    case DEBITOR:
-                        cells.forEach(cell -> {
-                            double rulDeb = cell.getNumericCellValue();
-                            ContType contType = contTypes.getOrDefault(String.valueOf(cell.getRowIndex()), new ContType());
-                            contType.setRulajDeb(rulDeb);
-                            contTypes.replace(String.valueOf(cell.getRowIndex()), contType);
-                        });
-                        break;
-                    case CREDITOR:
-                        cells.forEach(cell -> {
-                            double rulCred = cell.getNumericCellValue();
-                            ContType contType = contTypes.getOrDefault(String.valueOf(cell.getRowIndex()), new ContType());
-                            contType.setRulajCred(rulCred);
-                            contTypes.replace(String.valueOf(cell.getRowIndex()), contType);
-                        });
-                        break;
-                    default:
-                        break;
-                }
-            });
-        });
+        extractedColumns.forEach((key, value) -> value.forEach((column, cells) -> {
+            switch (column) {
+                case SIMBOL:
+                    cells.forEach(cell -> {
+                        contTypes.put(String.valueOf(cell.getRowIndex()), new ContType());
+                    });
+                    break;
+                case DEBITOR:
+                    cells.forEach(cell -> {
+                        double rulDeb = cell.getNumericCellValue();
+                        ContType contType = contTypes.getOrDefault(String.valueOf(cell.getRowIndex()), new ContType());
+                        contType.setRulajDeb(rulDeb);
+                        contTypes.replace(String.valueOf(cell.getRowIndex()), contType);
+                    });
+                    break;
+                case CREDITOR:
+                    cells.forEach(cell -> {
+                        double rulCred = cell.getNumericCellValue();
+                        ContType contType = contTypes.getOrDefault(String.valueOf(cell.getRowIndex()), new ContType());
+                        contType.setRulajCred(rulCred);
+                        contTypes.replace(String.valueOf(cell.getRowIndex()), contType);
+                    });
+                    break;
+                default:
+                    break;
+            }
+        }));
 
         return contTypes;
     }
