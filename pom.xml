@@ -11,6 +11,7 @@
     <properties>
         <apache.poi.version>4.1.2</apache.poi.version>
         <jaxb.version>2.3.1</jaxb.version>
+        <jackson.version>2.9.8</jackson.version>
     </properties>
 
     <dependencies>
@@ -28,6 +29,11 @@
             <groupId>javax.xml.bind</groupId>
             <artifactId>jaxb-api</artifactId>
             <version>${jaxb.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.version}</version>
         </dependency>
 
     </dependencies>
