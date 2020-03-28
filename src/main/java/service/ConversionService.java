@@ -55,6 +55,7 @@ public class ConversionService {
                 JAXBContext contextObj = JAXBContext.newInstance(F1102Type.class);
                 Marshaller marshallerObj = contextObj.createMarshaller();
                 marshallerObj.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+                marshallerObj.setProperty(Marshaller.JAXB_SCHEMA_LOCATION, "mfp:anaf:dgti:f1102:declaratie:v1");
                 marshallerObj.marshal(objectFactory.createF1102(f1102Type), new FileOutputStream(RESULT_PATH));
                 System.out.println("Xml file generated with success");
             } catch (JAXBException e) {

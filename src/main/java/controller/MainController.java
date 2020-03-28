@@ -127,7 +127,7 @@ public class MainController {
         f1102Type.setDataDocument(datePicker.getValue().toString());
         f1102Type.setNumeIp(nameTextField.getText());
         f1102Type.setDRec(sectorComboBox.getSelectionModel().getSelectedIndex());
-//        f1102Type.setSumaControl(Integer.parseInt(sumTextField.getText()));
+        f1102Type.setSumaControl(Integer.parseInt(sumTextField.getText()));
         return f1102Type;
     }
 

@@ -38,13 +38,19 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 @XmlType(name = "F1102Type", namespace = "mfp:anaf:dgti:f1102:declaratie:v1", propOrder = {
     "cont"
 })
-@XmlRootElement
 public class F1102Type {
 
     @XmlElement(namespace = "mfp:anaf:dgti:f1102:declaratie:v1", required = true)
     protected List<ContType> cont;
     @XmlAttribute(name = "suma_control", required = true)
     protected long sumaControl;
+    @XmlAttribute(name = "luna_r", required = true)
+    protected int lunaR;
+    @XmlAttribute(name = "an", required = true)
+    protected int an;
+    @XmlAttribute(name = "data_document", required = true)
+    @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
+    protected String dataDocument;
     @XmlAttribute(name = "d_rec", required = true)
     protected int dRec;
     @XmlAttribute(name = "nume_ip", required = true)
@@ -52,13 +58,6 @@ public class F1102Type {
     @XmlAttribute(name = "cui_ip", required = true)
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String cuiIp;
-    @XmlAttribute(name = "an", required = true)
-    protected int an;
-    @XmlAttribute(name = "luna_r", required = true)
-    protected int lunaR;
-    @XmlAttribute(name = "data_document", required = true)
-    @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
-    protected String dataDocument;
 
     /**
      * Gets the value of the cont property.
