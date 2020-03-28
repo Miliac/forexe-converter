@@ -4,6 +4,7 @@ import model.ClassSymbols;
 import model.Columns;
 import model.ContType;
 import model.F1102Type;
+import model.ObjectFactory;
 import org.apache.poi.ss.usermodel.Cell;
 import reader.ClassSymbolsReader;
 import reader.ExceptionsReader;
@@ -50,10 +51,11 @@ public class ConversionService {
             List<ContType> contTypes = getContType(extractedColumns);
             f1102Type.setCont(contTypes.stream().filter(contType -> filterByCont(contType, contTypes)).collect(Collectors.toList()));
             try {
+                ObjectFactory objectFactory = new ObjectFactory();
                 JAXBContext contextObj = JAXBContext.newInstance(F1102Type.class);
                 Marshaller marshallerObj = contextObj.createMarshaller();
                 marshallerObj.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-                marshallerObj.marshal(f1102Type, new FileOutputStream(RESULT_PATH));
+                marshallerObj.marshal(objectFactory.createF1102(f1102Type), new FileOutputStream(RESULT_PATH));
                 System.out.println("Xml file generated with success");
             } catch (JAXBException e) {
                 e.printStackTrace();
