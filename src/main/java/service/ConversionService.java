@@ -6,6 +6,7 @@ import model.ContType;
 import model.F1102Type;
 import org.apache.poi.ss.usermodel.Cell;
 import reader.ClassSymbolsReader;
+import reader.ExceptionsReader;
 import reader.XLSReader;
 
 import javax.naming.spi.ObjectFactoryBuilder;
@@ -24,12 +25,16 @@ import java.util.stream.Collectors;
 
 public class ConversionService {
 
+    private static final String RESULT_PATH = "src/main/resources/result.xml";
+
     private XLSReader xlsReader;
     private ClassSymbolsReader symbolsReader;
+    private ExceptionsReader exceptionsReader;
 
     public ConversionService() {
         xlsReader = new XLSReader();
         symbolsReader = new ClassSymbolsReader();
+        exceptionsReader = new ExceptionsReader();
     }
 
     private List<Cell> cellsWithCF = new ArrayList<>();
@@ -40,7 +45,8 @@ public class ConversionService {
         try {
             Map<String, Map<Columns,List<Cell>>> extractedColumns = xlsReader.read(selectedFile);
             Map<String, ClassSymbols> symbols = symbolsReader.read();
-            extractedColumns.forEach((className, columns) -> extractedColumns.put(className, filterClass(className, columns, symbols)));
+            Map<String, String> exceptions = exceptionsReader.read();
+            extractedColumns.forEach((className, columns) -> extractedColumns.put(className, filterClass(className, columns, symbols, exceptions)));
 
             Map<String, ContType> contTypes = getContType(extractedColumns);
             f1102Type.setCont(new ArrayList<>(contTypes.values()));
@@ -48,7 +54,7 @@ public class ConversionService {
                 JAXBContext contextObj = JAXBContext.newInstance(F1102Type.class);
                 Marshaller marshallerObj = contextObj.createMarshaller();
                 marshallerObj.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-                marshallerObj.marshal(f1102Type, new FileOutputStream("src/main/resources/result.xml"));
+                marshallerObj.marshal(f1102Type, new FileOutputStream(RESULT_PATH));
             } catch (JAXBException e) {
                 e.printStackTrace();
             }
@@ -60,7 +66,7 @@ public class ConversionService {
 
     }
 
-    private Map<Columns, List<Cell>> filterClass(String className, Map<Columns, List<Cell>> columns, Map<String, ClassSymbols> symbols) {
+    private Map<Columns, List<Cell>> filterClass(String className, Map<Columns, List<Cell>> columns, Map<String, ClassSymbols> symbols, Map<String, String> exceptions) {
 
         List<Cell> symbolColumn = columns.get(Columns.SIMBOL);
         List<Cell> debitorColumn = columns.get(Columns.DEBITOR);
@@ -74,7 +80,7 @@ public class ConversionService {
             .map(this::getCellTrimValue)
             .collect(Collectors.toList());
 
-        List<Cell> filteredSymbolColumn = finalSymbolColumn.stream().filter(cell -> filterByClass(className, cell, symbols, finalSymbolColumn)).collect(Collectors.toList());
+        List<Cell> filteredSymbolColumn = finalSymbolColumn.stream().filter(cell -> filterByClass(className, cell, symbols, finalSymbolColumn, exceptions)).collect(Collectors.toList());
         debitorColumn = debitorColumn.stream().filter(cell -> filterCell(cell, filteredSymbolColumn))
                 .collect(Collectors.toList());
         creditorColumn = creditorColumn.stream().filter(cell -> filterCell(cell, filteredSymbolColumn)).collect(Collectors.toList());
@@ -86,70 +92,83 @@ public class ConversionService {
         return columns;
     }
 
-    private boolean filterByClass(String className, Cell cell, Map<String, ClassSymbols> symbols, List<Cell> symbolColumns) {
+    private boolean filterByClass(String className, Cell cell, Map<String, ClassSymbols> symbols, List<Cell> symbolColumns, Map<String, String> exceptions) {
         ClassSymbols classSymbols = symbols.getOrDefault(className, new ClassSymbols());
 
-        if(cell.getStringCellValue().length() == 3) {
-            String symbol = cell.getStringCellValue().concat("0000");
-            if(classSymbols.getAccountSymbolsEndInFourZeros().contains(symbol)) {
-                cellsWithCF = symbolColumns.stream()
-                        .filter(nextCell -> nextCell.getStringCellValue().startsWith(symbol) && nextCell.getStringCellValue().length() == 16)
-                        .collect(Collectors.toList());
-                cellsWithCF = cellsWithCF.stream()
-                        .filter(nextCell -> filterDifferentSymbol(nextCell, cellsWithCF))
-                        .collect(Collectors.toList());
-                return cellsWithCF.size() < 2;
-            } else {
-                cellsWithCF.clear();
-                return false;
-            }
-        }
+        if(exceptions.containsKey(cell.getStringCellValue())) {
+            cell.setCellValue(exceptions.get(cell.getStringCellValue()));
+            return true;
+        } else {
 
-        if(cell.getStringCellValue().length() == 5 || cell.getStringCellValue().length() == 7) {
-            String symbol = cell.getStringCellValue().length() == 5 ? cell.getStringCellValue().concat("00") : cell.getStringCellValue();
-            if(classSymbols.getAccountSymbolsWithCFAndCE().contains(symbol)) {
-                cellsWithCFAndCE = symbolColumns.stream()
-                        .filter(nextCell -> nextCell.getStringCellValue().startsWith(cell.getStringCellValue()) &&
-                                (nextCell.getStringCellValue().length() == 20 || nextCell.getStringCellValue().length() == 22))
-                        .filter(nextCell -> !classSymbols.getAccountSymbolsWithCFAndCE().contains(getSymbol(nextCell)))
-                        .collect(Collectors.toList());
-                return cellsWithCFAndCE.size() != 0;
-            }
-
-            if(!symbol.endsWith("00")) {
-                return classSymbols.getAccountSymbols().contains(symbol);
-            }
-
-            if(classSymbols.getAccountSymbolsEndInTwoZeros().contains(symbol)) {
-                cellsWithCF = symbolColumns.stream()
-                        .filter(nextCell -> nextCell.getStringCellValue().startsWith(cell.getStringCellValue()) && nextCell.getStringCellValue().length() == 16)
-                        .collect(Collectors.toList());
-                cellsWithCF = cellsWithCF.stream()
-                        .filter(nextCell -> filterDifferentSymbol(nextCell, cellsWithCF))
-                        .collect(Collectors.toList());
-                return cellsWithCF.size() < 2;
-            } else {
-                cellsWithCF.clear();
-                return false;
-            }
-        }
-
-        if(cell.getStringCellValue().length() >= 14 && cell.getStringCellValue().length() < 20) {
-            String symbol = getSymbol(cell);
-            if(classSymbols.getAccountSymbolsWithCF().contains(symbol)) {
-                return true;
-            } else {
-                if (cellsWithCF.size() >= 2) {
-                    return cellsWithCF.contains(cell);
+            if (cell.getStringCellValue().length() == 3) {
+                String symbol = cell.getStringCellValue().concat("0000");
+                if (classSymbols.getAccountSymbolsEndInFourZeros().contains(symbol)) {
+                    cellsWithCF = symbolColumns.stream()
+                            .filter(nextCell -> nextCell.getStringCellValue().startsWith(symbol) && nextCell.getStringCellValue().length() == 16)
+                            .collect(Collectors.toList());
+                    cellsWithCF = cellsWithCF.stream()
+                            .filter(nextCell -> filterDifferentSymbol(nextCell, cellsWithCF))
+                            .collect(Collectors.toList());
+                    return cellsWithCF.size() < 2;
                 } else {
-                    return classSymbols.getAccountSymbols().contains(symbol);
+                    cellsWithCF.clear();
+                    return false;
                 }
             }
-        }
 
-        if(cell.getStringCellValue().length() >= 20 && cell.getStringCellValue().length() <= 22) {
-            String symbol = getSymbol(cell);
-            return classSymbols.getAccountSymbolsWithCFAndCE().contains(symbol);
+            if (cell.getStringCellValue().length() == 5 || cell.getStringCellValue().length() == 7) {
+                String symbol = cell.getStringCellValue().length() == 5 ? cell.getStringCellValue().concat("00") : cell.getStringCellValue();
+                if (classSymbols.getAccountSymbolsWithCFAndCE().contains(symbol)) {
+                    cellsWithCFAndCE = symbolColumns.stream()
+                            .filter(nextCell -> nextCell.getStringCellValue().startsWith(cell.getStringCellValue()) &&
+                                    (nextCell.getStringCellValue().length() == 20 || nextCell.getStringCellValue().length() == 22))
+                            .filter(nextCell -> !classSymbols.getAccountSymbolsWithCFAndCE().contains(getSymbol(nextCell)))
+                            .collect(Collectors.toList());
+                    return cellsWithCFAndCE.size() != 0;
+                }
+
+                if (!symbol.endsWith("00")) {
+                    return classSymbols.getAccountSymbols().contains(symbol);
+                }
+
+                if (classSymbols.getAccountSymbolsEndInTwoZeros().contains(symbol)) {
+                    cellsWithCF = symbolColumns.stream()
+                            .filter(nextCell -> nextCell.getStringCellValue().startsWith(cell.getStringCellValue()) && nextCell.getStringCellValue().length() == 16)
+                            .collect(Collectors.toList());
+                    cellsWithCF = cellsWithCF.stream()
+                            .filter(nextCell -> filterDifferentSymbol(nextCell, cellsWithCF))
+                            .collect(Collectors.toList());
+                    return cellsWithCF.size() < 2;
+                } else {
+                    cellsWithCF.clear();
+                    return false;
+                }
+            }
+
+            if (cell.getStringCellValue().length() >= 14 && cell.getStringCellValue().length() < 20) {
+                String symbol = getSymbol(cell);
+                if (classSymbols.getAccountSymbolsWithCF().contains(symbol)) {
+                    return true;
+                } else {
+                    if (cellsWithCF.size() >= 2) {
+                        return cellsWithCF.contains(cell);
+                    } else {
+                        cell.setCellValue(cell.getStringCellValue().substring(0, 10));
+                        return classSymbols.getAccountSymbols().contains(symbol);
+                    }
+                }
+            }
+
+            if (cell.getStringCellValue().length() >= 20 && cell.getStringCellValue().length() <= 22) {
+                String symbol = getSymbol(cell);
+                if (classSymbols.getAccountSymbolsWithCFAndCE().contains(symbol) && cell.getStringCellValue().length() == 20) {
+                    cellsWithCFAndCE = symbolColumns.stream()
+                            .filter(nextCell -> nextCell.getStringCellValue().startsWith(cell.getStringCellValue()) && nextCell.getStringCellValue().length() == 22)
+                            .collect(Collectors.toList());
+                    return cellsWithCFAndCE.size() == 0;
+                }
+                return classSymbols.getAccountSymbolsWithCFAndCE().contains(symbol);
+            }
         }
 
         return false;
