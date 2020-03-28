@@ -3,11 +3,7 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.*;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
@@ -42,6 +38,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 @XmlType(name = "F1102Type", namespace = "mfp:anaf:dgti:f1102:declaratie:v1", propOrder = {
     "cont"
 })
+@XmlRootElement
 public class F1102Type {
 
     @XmlElement(namespace = "mfp:anaf:dgti:f1102:declaratie:v1", required = true)
@@ -90,6 +87,10 @@ public class F1102Type {
             cont = new ArrayList<ContType>();
         }
         return this.cont;
+    }
+
+    public void setCont(List<ContType> contTypes) {
+        this.cont = contTypes;
     }
 
     /**

@@ -8,7 +8,13 @@ import org.apache.poi.ss.usermodel.Cell;
 import reader.ClassSymbolsReader;
 import reader.XLSReader;
 
+import javax.naming.spi.ObjectFactoryBuilder;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -36,9 +42,17 @@ public class ConversionService {
             Map<String, ClassSymbols> symbols = symbolsReader.read();
             extractedColumns.forEach((className, columns) -> extractedColumns.put(className, filterClass(className, columns, symbols)));
 
-//            extractedColumns.put("Clasa 2", filterClasa(extractedColumns, "Clasa 2"));
-
             Map<String, ContType> contTypes = getContType(extractedColumns);
+            f1102Type.setCont(new ArrayList<>(contTypes.values()));
+            try {
+                JAXBContext contextObj = JAXBContext.newInstance(F1102Type.class);
+                Marshaller marshallerObj = contextObj.createMarshaller();
+                marshallerObj.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+                marshallerObj.marshal(f1102Type, new FileOutputStream("src/main/resources/result.xml"));
+            } catch (JAXBException e) {
+                e.printStackTrace();
+            }
+
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -54,10 +68,11 @@ public class ConversionService {
 
         List<Cell> finalDebitorColumn = debitorColumn;
         List<Cell> finalCreditorColumn = creditorColumn;
-        List<Cell> finalSymbolColumn = symbolColumn.stream().filter(cell -> finalDebitorColumn.get(symbolColumn.indexOf(cell)).getNumericCellValue() != 0 ||
-                        finalCreditorColumn.get(symbolColumn.indexOf(cell)).getNumericCellValue() != 0)
-                        .map(this::getCellTrimValue)
-                        .collect(Collectors.toList());
+        List<Cell> finalSymbolColumn = symbolColumn.stream().filter(cell ->
+            (finalDebitorColumn.get(symbolColumn.indexOf(cell)).getNumericCellValue() < 0 || finalDebitorColumn.get(symbolColumn.indexOf(cell)).getNumericCellValue() >= 1) ||
+            (finalCreditorColumn.get(symbolColumn.indexOf(cell)).getNumericCellValue() < 0 || finalCreditorColumn.get(symbolColumn.indexOf(cell)).getNumericCellValue() >= 1))
+            .map(this::getCellTrimValue)
+            .collect(Collectors.toList());
 
         List<Cell> filteredSymbolColumn = finalSymbolColumn.stream().filter(cell -> filterByClass(className, cell, symbols, finalSymbolColumn)).collect(Collectors.toList());
         debitorColumn = debitorColumn.stream().filter(cell -> filterCell(cell, filteredSymbolColumn))
@@ -119,7 +134,7 @@ public class ConversionService {
             }
         }
 
-        if(cell.getStringCellValue().length() > 15 && cell.getStringCellValue().length() < 20) {
+        if(cell.getStringCellValue().length() >= 14 && cell.getStringCellValue().length() < 20) {
             String symbol = getSymbol(cell);
             if(classSymbols.getAccountSymbolsWithCF().contains(symbol)) {
                 return true;
@@ -176,7 +191,45 @@ public class ConversionService {
             switch (column) {
                 case SIMBOL:
                     cells.forEach(cell -> {
-                        contTypes.put(String.valueOf(cell.getRowIndex()), new ContType());
+                        String simbol = cell.getStringCellValue();
+                        ContType contType = contTypes.getOrDefault(String.valueOf(cell.getRowIndex()), new ContType());
+                        contType.setCodSector("02");
+                        contType.setCodSursa("G");
+                        if(simbol.length() <= 7) {
+                            while(simbol.length()<7) {
+                                simbol = simbol.concat("0");
+                            }
+                            contType.setSimbolPCont(simbol);
+                            contType.setCf("");
+                            contType.setCe("");
+
+                        } else {
+                            String simbolPCont = simbol.substring(0, 7);
+                            if(simbol.length() > 10 && simbol.length() <= 16) {
+                                String cf = simbol.substring(10);
+                                while(cf.length()<6) {
+                                    cf = cf.concat("0");
+                                }
+                                contType.setCf(cf);
+                                contType.setCe("");
+                            }
+                            if(simbol.length() > 16) {
+                                String cf = simbol.substring(10,16);
+                                String ce = simbol.substring(17);
+                                while(ce.length()<6) {
+                                    ce = ce.concat("0");
+                                }
+                                contType.setCf(cf);
+                                contType.setCe(ce);
+                            }
+                            contType.setSimbolPCont(simbolPCont);
+                        }
+                        String strCont = contType.getSimbolPCont() + contType.getCodSector() + contType.getCodSursa() + contType.getCf() + contType.getCe();
+                        while(strCont.length() < 40) {
+                            strCont = strCont.concat("X");
+                        }
+                        contType.setStrCont(strCont);
+                        contTypes.put(String.valueOf(cell.getRowIndex()), contType);
                     });
                     break;
                 case DEBITOR:
@@ -184,7 +237,7 @@ public class ConversionService {
                         double rulDeb = cell.getNumericCellValue();
                         ContType contType = contTypes.getOrDefault(String.valueOf(cell.getRowIndex()), new ContType());
                         contType.setRulajDeb(rulDeb);
-                        contTypes.replace(String.valueOf(cell.getRowIndex()), contType);
+                        contTypes.put(String.valueOf(cell.getRowIndex()), contType);
                     });
                     break;
                 case CREDITOR:
@@ -192,7 +245,7 @@ public class ConversionService {
                         double rulCred = cell.getNumericCellValue();
                         ContType contType = contTypes.getOrDefault(String.valueOf(cell.getRowIndex()), new ContType());
                         contType.setRulajCred(rulCred);
-                        contTypes.replace(String.valueOf(cell.getRowIndex()), contType);
+                        contTypes.put(String.valueOf(cell.getRowIndex()), contType);
                     });
                     break;
                 default:

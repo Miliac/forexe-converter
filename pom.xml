@@ -12,6 +12,8 @@
         <apache.poi.version>4.1.2</apache.poi.version>
         <jaxb.version>2.3.1</jaxb.version>
         <jackson.version>2.9.8</jackson.version>
+        <javax.activation.version>1.1.1</javax.activation.version>
+        <jaxb.runtime.version>2.3.2</jaxb.runtime.version>
     </properties>
 
     <dependencies>
@@ -35,7 +37,16 @@
             <artifactId>jackson-databind</artifactId>
             <version>${jackson.version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>javax.activation</groupId>
+            <artifactId>activation</artifactId>
+            <version>${javax.activation.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jaxb</groupId>
+            <artifactId>jaxb-runtime</artifactId>
+            <version>${jaxb.runtime.version}</version>
+        </dependency>
     </dependencies>
 
     <build>

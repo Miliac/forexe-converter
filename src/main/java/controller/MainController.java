@@ -57,9 +57,12 @@ public class MainController {
         sectorComboBox.getItems().setAll(getSectors());
         yearComboBox.getSelectionModel().select(String.valueOf(LocalDate.now().getYear()));
         monthComboBox.getSelectionModel().select(String.valueOf(LocalDate.now().getMonthValue()));
-        sectorComboBox.getSelectionModel().select(0);
+        sectorComboBox.getSelectionModel().select(1);
         noRadioButton.setSelected(true);
         setDatePicker();
+        nameTextField.setText("CANTINA DE AJUTOR SOCIAL SI PENSIUNE");
+        cifTextField.setText("5120733");
+        sumTextField.setText("0");
         conversionService = new ConversionService();
     }
 
