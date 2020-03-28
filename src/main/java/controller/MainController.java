@@ -42,6 +42,7 @@ public class MainController {
     @FXML
     private TextField sumTextField;
 
+    private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
     private FileChooser fileChooser;
     private File selectedFile;
     private ConversionService conversionService;
@@ -124,7 +125,7 @@ public class MainController {
         f1102Type.setAn(Integer.parseInt(yearComboBox.getValue()));
         f1102Type.setLunaR(Integer.parseInt(monthComboBox.getValue()));
         f1102Type.setCuiIp(cifTextField.getText());
-        f1102Type.setDataDocument(datePicker.getValue().toString());
+        f1102Type.setDataDocument(datePicker.getValue().format(dateTimeFormatter));
         f1102Type.setNumeIp(nameTextField.getText());
         f1102Type.setDRec(sectorComboBox.getSelectionModel().getSelectedIndex());
         f1102Type.setSumaControl(Integer.parseInt(sumTextField.getText()));
@@ -136,7 +137,6 @@ public class MainController {
         datePicker.setEditable(false);
         datePicker.setConverter(new StringConverter<>()
         {
-            private DateTimeFormatter dateTimeFormatter= DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
             @Override
             public String toString(LocalDate localDate)

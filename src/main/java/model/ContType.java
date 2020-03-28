@@ -40,27 +40,27 @@ import java.math.BigDecimal;
 @XmlType(name = "ContType", namespace = "mfp:anaf:dgti:f1102:declaratie:v1")
 public class ContType {
 
-    @XmlAttribute(name = "simbol_p_cont", required = true)
-    protected String simbolPCont;
-    @XmlAttribute(name = "cod_sursa", required = true)
-    protected String codSursa;
+    @XmlAttribute(name = "str_cont", required = true)
+    protected String strCont;
     @XmlAttribute(name = "cod_sector", required = true)
     protected String codSector;
+    @XmlAttribute(name = "cod_sursa", required = true)
+    protected String codSursa;
+    @XmlAttribute(name = "simbol_p_cont", required = true)
+    protected String simbolPCont;
     @XmlAttribute(name = "cf")
     protected String cf;
     @XmlAttribute(name = "ce")
     protected String ce;
+    @XmlAttribute(name = "rulaj_deb")
+    protected BigDecimal rulajDeb;
+    @XmlAttribute(name = "rulaj_cred")
+    protected BigDecimal rulajCred;
     @XmlAttribute(name = "cod_esa")
     protected String codEsa;
     @XmlAttribute(name = "cui_p")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String cuiP;
-    @XmlAttribute(name = "str_cont", required = true)
-    protected String strCont;
-    @XmlAttribute(name = "rulaj_deb")
-    protected BigDecimal rulajDeb;
-    @XmlAttribute(name = "rulaj_cred")
-    protected BigDecimal rulajCred;
 
     /**
      * Gets the value of the simbolPCont property.
