@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import java.math.BigDecimal;
 
 
 /**
@@ -57,9 +58,9 @@ public class ContType {
     @XmlAttribute(name = "str_cont", required = true)
     protected String strCont;
     @XmlAttribute(name = "rulaj_deb")
-    protected Double rulajDeb;
+    protected BigDecimal rulajDeb;
     @XmlAttribute(name = "rulaj_cred")
-    protected Double rulajCred;
+    protected BigDecimal rulajCred;
 
     /**
      * Gets the value of the simbolPCont property.
@@ -258,10 +259,10 @@ public class ContType {
      * 
      * @return
      *     possible object is
-     *     {@link Double }
+     *     {@link BigDecimal }
      *     
      */
-    public Double getRulajDeb() {
+    public BigDecimal getRulajDeb() {
         return rulajDeb;
     }
 
@@ -270,10 +271,10 @@ public class ContType {
      * 
      * @param value
      *     allowed object is
-     *     {@link Double }
+     *     {@link BigDecimal }
      *     
      */
-    public void setRulajDeb(Double value) {
+    public void setRulajDeb(BigDecimal value) {
         this.rulajDeb = value;
     }
 
@@ -282,10 +283,10 @@ public class ContType {
      * 
      * @return
      *     possible object is
-     *     {@link Double }
+     *     {@link BigDecimal }
      *     
      */
-    public Double getRulajCred() {
+    public BigDecimal getRulajCred() {
         return rulajCred;
     }
 
@@ -294,10 +295,10 @@ public class ContType {
      * 
      * @param value
      *     allowed object is
-     *     {@link Double }
+     *     {@link BigDecimal }
      *     
      */
-    public void setRulajCred(Double value) {
+    public void setRulajCred(BigDecimal value) {
         this.rulajCred = value;
     }
 

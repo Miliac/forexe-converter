@@ -9,14 +9,13 @@ import reader.ClassSymbolsReader;
 import reader.ExceptionsReader;
 import reader.XLSReader;
 
-import javax.naming.spi.ObjectFactoryBuilder;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
-import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -48,13 +47,14 @@ public class ConversionService {
             Map<String, String> exceptions = exceptionsReader.read();
             extractedColumns.forEach((className, columns) -> extractedColumns.put(className, filterClass(className, columns, symbols, exceptions)));
 
-            Map<String, ContType> contTypes = getContType(extractedColumns);
-            f1102Type.setCont(new ArrayList<>(contTypes.values()));
+            List<ContType> contTypes = getContType(extractedColumns);
+            f1102Type.setCont(contTypes.stream().filter(contType -> filterByCont(contType, contTypes)).collect(Collectors.toList()));
             try {
                 JAXBContext contextObj = JAXBContext.newInstance(F1102Type.class);
                 Marshaller marshallerObj = contextObj.createMarshaller();
                 marshallerObj.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
                 marshallerObj.marshal(f1102Type, new FileOutputStream(RESULT_PATH));
+                System.out.println("Xml file generated with success");
             } catch (JAXBException e) {
                 e.printStackTrace();
             }
@@ -64,6 +64,19 @@ public class ConversionService {
             e.printStackTrace();
         }
 
+    }
+
+    private boolean filterByCont(ContType contType, List<ContType> contTypes) {
+        int indexCont = contTypes.indexOf(contType);
+        if(indexCont > 0) {
+            ContType previousCont = contTypes.get(indexCont - 1);
+            if (contType.getStrCont().equals(previousCont.getStrCont())) {
+                previousCont.setRulajDeb(previousCont.getRulajDeb().add(contType.getRulajDeb()));
+                previousCont.setRulajCred(previousCont.getRulajCred().add(contType.getRulajCred()));
+                return false;
+            }
+        }
+        return true;
     }
 
     private Map<Columns, List<Cell>> filterClass(String className, Map<Columns, List<Cell>> columns, Map<String, ClassSymbols> symbols, Map<String, String> exceptions) {
@@ -204,7 +217,7 @@ public class ConversionService {
                 cell.getStringCellValue().substring(0, 5).concat("00") : cell.getStringCellValue().substring(0, 7);
     }
 
-    private Map<String, ContType> getContType(Map<String, Map<Columns, List<Cell>>> extractedColumns) {
+    private List<ContType> getContType(Map<String, Map<Columns, List<Cell>>> extractedColumns) {
         Map<String, ContType> contTypes = new LinkedHashMap<>();
         extractedColumns.forEach((key, value) -> value.forEach((column, cells) -> {
             switch (column) {
@@ -214,25 +227,24 @@ public class ConversionService {
                         ContType contType = contTypes.getOrDefault(String.valueOf(cell.getRowIndex()), new ContType());
                         contType.setCodSector("02");
                         contType.setCodSursa("G");
-                        if(simbol.length() <= 7) {
+                        if(simbol.length() <= 10) {
                             while(simbol.length()<7) {
                                 simbol = simbol.concat("0");
                             }
-                            contType.setSimbolPCont(simbol);
+                            contType.setSimbolPCont(simbol.substring(0, 7));
                             contType.setCf("");
                             contType.setCe("");
 
                         } else {
                             String simbolPCont = simbol.substring(0, 7);
-                            if(simbol.length() > 10 && simbol.length() <= 16) {
+                            if(simbol.length() <= 16) {
                                 String cf = simbol.substring(10);
                                 while(cf.length()<6) {
                                     cf = cf.concat("0");
                                 }
                                 contType.setCf(cf);
                                 contType.setCe("");
-                            }
-                            if(simbol.length() > 16) {
+                            } else {
                                 String cf = simbol.substring(10,16);
                                 String ce = simbol.substring(17);
                                 while(ce.length()<6) {
@@ -253,17 +265,17 @@ public class ConversionService {
                     break;
                 case DEBITOR:
                     cells.forEach(cell -> {
-                        double rulDeb = cell.getNumericCellValue();
+                        BigDecimal rulDeb = BigDecimal.valueOf(cell.getNumericCellValue());
                         ContType contType = contTypes.getOrDefault(String.valueOf(cell.getRowIndex()), new ContType());
-                        contType.setRulajDeb(rulDeb);
+                        contType.setRulajDeb(rulDeb.equals(BigDecimal.valueOf(0.0)) ? null : rulDeb);
                         contTypes.put(String.valueOf(cell.getRowIndex()), contType);
                     });
                     break;
                 case CREDITOR:
                     cells.forEach(cell -> {
-                        double rulCred = cell.getNumericCellValue();
+                        BigDecimal rulCred = BigDecimal.valueOf(cell.getNumericCellValue());
                         ContType contType = contTypes.getOrDefault(String.valueOf(cell.getRowIndex()), new ContType());
-                        contType.setRulajCred(rulCred);
+                        contType.setRulajCred(rulCred.equals(BigDecimal.valueOf(0.0)) ? null : rulCred);
                         contTypes.put(String.valueOf(cell.getRowIndex()), contType);
                     });
                     break;
@@ -272,6 +284,6 @@ public class ConversionService {
             }
         }));
 
-        return contTypes;
+        return new ArrayList<>(contTypes.values());
     }
 }
