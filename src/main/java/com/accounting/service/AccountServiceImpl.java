@@ -21,14 +21,13 @@ import java.util.stream.Collectors;
 @Transactional
 public class AccountServiceImpl implements AccountService {
 
-    private static final int PASSWORD_STRENGTH = 16;
     private AccountRepository accountRepository;
     private BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
     public AccountServiceImpl(AccountRepository accountRepository) {
         this.accountRepository = accountRepository;
-        this.passwordEncoder = new BCryptPasswordEncoder(PASSWORD_STRENGTH);
+        this.passwordEncoder = new BCryptPasswordEncoder();
     }
 
     @Override
