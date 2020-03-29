@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Login Page</title>
 
@@ -18,19 +18,19 @@
                 <h3>Bun venit</h3>
             </div>
             <div class="card-body">
-                <form>
+                <form method="post" th:action="@{/}">
                     <div class="input-group form-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fas fa-user"></i></span>
                         </div>
-                        <input type="text" class="form-control" placeholder="nume utilizator">
+                        <input type="text" class="form-control" placeholder="nume utilizator" id="username" name="username">
 
                     </div>
                     <div class="input-group form-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fas fa-key"></i></span>
                         </div>
-                        <input type="password" class="form-control" placeholder="parola">
+                        <input type="password" class="form-control" placeholder="parola" id="password" name="password">
                     </div>
                     <div class="form-group">
                         <input type="submit" value="Intra in cont" class="btn float-right login_btn">

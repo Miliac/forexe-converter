@@ -18,6 +18,8 @@ public class AccountDTO {
     private String cui;
     @NotNull
     private String status;
+    @NotNull
+    private String role;
 
     private String modalId;
 
@@ -78,5 +80,13 @@ public class AccountDTO {
 
     public void setModalId(String modalId) {
         this.modalId = modalId;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }

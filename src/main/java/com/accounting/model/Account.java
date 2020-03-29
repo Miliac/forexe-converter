@@ -22,6 +22,8 @@ public class Account implements Serializable {
     private String cui;
     @Column(name = "status", length = 10, nullable = true)
     private String status;
+    @Column(name = "role", length = 5, nullable = false)
+    private String role;
 
     public Account() {
     }
@@ -72,5 +74,13 @@ public class Account implements Serializable {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }

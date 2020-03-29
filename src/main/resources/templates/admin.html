@@ -1,6 +1,6 @@
 <!DOCTYPE HTML>
 
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Accounting Admin Page</title>
 
@@ -26,6 +26,7 @@
         <div class="navbar navbar-inverse">
             <a href="/admin" class="navbar-brand links">Accounting administrator</a>
             <a data-toggle="modal" data-target="#modal-create" th:attr="data-target='#modal-create'">New account</a>
+            <a class="links" th:href="@{/logout}" title="Log Out">Log OUT</a>
             <div class="modal" th:id="modal-create">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -34,7 +35,7 @@
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                         </div>
                         <div class="modal-body">
-                            <form class="form-horizontal" action="#" th:action="@{/account/save}" method="post" th:object="${account}">
+                            <form class="form-horizontal" action="#" th:action="@{/account/save}" method="post" th:object="${accountForm}">
                                 <fieldset>
                                     <div class="form-group">
                                         <label class="col-md-4 control-label" for="username">Username</label>
@@ -76,7 +77,16 @@
                                         <div class="col-md-10">
                                             <select id="newStatus" name="status" th:field="*{status}">
                                                 <option th:each="status : ${accountStatuses}" th:value="${status}" th:text="${status}"
-                                                        th:selected="${status==active}"></option>
+                                                        th:selected="${status=='active'}"></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label" for="role">Role</label>
+                                        <div class="col-md-10">
+                                            <select id="newRole" name="role" th:field="*{role}">
+                                                <option th:each="role : ${accountRoles}" th:value="${role}" th:text="${role}"
+                                                        th:selected="${role=='USER'}"></option>
                                             </select>
                                         </div>
                                     </div>
@@ -125,7 +135,7 @@
                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                                     </div>
                                     <div class="modal-body">
-                                        <form class="form-horizontal" action="#" th:action="@{/account/save/{account}(account=${account})}" method="post">
+                                        <form class="form-horizontal" action="#" th:object="${accountForm}" th:action="@{/account/save}" method="post">
                                             <fieldset>
                                                 <div class="form-group">
                                                     <label class="col-md-4 control-label" for="username">Username</label>
@@ -133,11 +143,11 @@
 
                                                         <input id="id" name="id" type="hidden"
                                                                placeholder="id" class="form-control input-md"
-                                                               th:value="${account.idAccount}"/>
+                                                               th:value="${account.idAccount}" th:field="*{idAccount}"/>
 
                                                         <input id="username" name="username" type="text"
                                                                placeholder="Username" class="form-control input-md"
-                                                               th:value="${account.username}"/>
+                                                               th:value="${account.username}" th:field="*{username}"/>
 
                                                         <span th:if="${existUsername !=null}" style="color:Red;"> Already Exist !</span>
                                                     </div>
@@ -146,7 +156,7 @@
                                                     <label class="col-md-4 control-label" for="name">Name</label>
                                                     <div class="col-md-10">
                                                         <input id="name" name="name" type="text" placeholder="Name" class="form-control input-md"
-                                                               th:value="${account.name}"
+                                                               th:value="${account.name}" th:field="*{name}"
                                                         />
                                                     </div>
                                                 </div>
@@ -155,15 +165,24 @@
                                                     </label>
                                                     <div class="col-md-10">
                                                         <input id="cui" name="cui" type="text" placeholder="CUI" class="form-control input-md"
-                                                               th:value="${account.cui}"/>
+                                                               th:value="${account.cui}" th:field="*{cui}"/>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label class="col-md-4 control-label" for="status">Status</label>
                                                     <div class="col-md-10">
-                                                        <select id="status" name="status">
-                                                            <option th:each="status : ${accountStatuses}" th:value="${status}" th:text="${status}"
-                                                                    th:selected="${status==account.status}"></option>
+                                                        <select id="status" name="status" th:field="*{status}">
+                                                            <option th:each="status : ${accountStatuses}" th:text="${status}"
+                                                                    th:value="${account.status}" th:selected="${status==account.status}"></option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-md-4 control-label" for="role">Role</label>
+                                                    <div class="col-md-10">
+                                                        <select id="role" name="role" th:field="*{role}">
+                                                            <option th:each="role : ${accountRoles}" th:text="${role}"
+                                                                    th:value="${account.role}" th:selected="${role==account.role}"></option>
                                                         </select>
                                                     </div>
                                                 </div>

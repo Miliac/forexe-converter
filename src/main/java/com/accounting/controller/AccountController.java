@@ -23,7 +23,7 @@ public class AccountController {
     }
 
     @PostMapping("/save")
-    public String saveAccount(@Valid @ModelAttribute("account") AccountDTO account, BindingResult result, Model model) {
+    public String saveAccount(@Valid @ModelAttribute("accountForm") AccountDTO account, BindingResult result, Model model) {
         if(result.hasErrors()) {
             model.addAttribute("hasErrors", true);
             model.addAttribute("modalId", account.getModalId());
