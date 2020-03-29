@@ -1,8 +1,7 @@
-package reader;
+package com.accounting.reader;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import model.ClassSymbols;
 
 import java.io.File;
 import java.io.IOException;

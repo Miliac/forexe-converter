@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css?family=Numans');
+
+html,body{
+    background-image: linear-gradient(#0a203b, #174680);
+    /*background-color: #364353;*/
+    background-size: cover;
+    height: 100%;
+    font-family: 'Numans', sans-serif;
+    color : #C6C6C6;
+}
+
+.links{
+    color : #C6C6C6;
+}
+
+.modal {
+    color: darkblue;
+}
+
+.modal-edit-header {
+    background-color: darkblue;
+    color: white;
+}
+
+.modal-delete-header {
+    background-color: darkred;
+    color: white;
+}

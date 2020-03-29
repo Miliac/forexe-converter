@@ -1,5 +1,5 @@
 
-package model;
+package com.accounting.model;
 
 import java.util.ArrayList;
 import java.util.List;

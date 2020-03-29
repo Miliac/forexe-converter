@@ -1,0 +1,212 @@
+<!DOCTYPE HTML>
+
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Accounting Admin Page</title>
+
+    <link rel="stylesheet" th:href="@{webjars/bootstrap/4.2.1/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{webjars/font-awesome/5.13.0/css/all.css}"/>
+    <link rel="stylesheet" th:href="@{/css/admin.css}"/>
+    <script th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/4.2.1/js/bootstrap.min.js}"></script>
+
+    <!--Custom styles-->
+    <link rel="stylesheet" type="text/css" href="../static/css/admin.css">
+
+    <script th:if="${existUsername != null || hasErrors != null}">
+        $(function () {
+            var modalId = @Model.modalId;
+            alert(modalId);
+            $(modalId).modal('show');
+        });
+    </script>
+</head>
+<body>
+    <div role="navigation">
+        <div class="navbar navbar-inverse">
+            <a href="/admin" class="navbar-brand links">Accounting administrator</a>
+            <a data-toggle="modal" data-target="#modal-create" th:attr="data-target='#modal-create'">New account</a>
+            <div class="modal" th:id="modal-create">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header modal-edit-header">
+                            <h4 class="modal-title">Create Account</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <form class="form-horizontal" action="#" th:action="@{/account/save}" method="post" th:object="${account}">
+                                <fieldset>
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label" for="username">Username</label>
+                                        <div class="col-md-10">
+
+                                            <input id="newModalId" name="modalId" type="hidden" placeholder="id" class="form-control input-md"
+                                                   th:field="*{modalId}" value="modal-create"/>
+
+                                            <input id="newUsername" name="username" type="text"
+                                                   placeholder="Username" class="form-control input-md"
+                                                   th:field="*{username}"/>
+
+                                            <span th:if="${existUsername !=null}" style="color:Red;"> Already Exist !</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label" for="password">Password</label>
+                                        <div class="col-md-10">
+                                            <input id="password" name="password" type="text" placeholder="Password" class="form-control input-md"
+                                                   th:field="*{password}"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label" for="name">Name</label>
+                                        <div class="col-md-10">
+                                            <input id="newName" name="name" type="text" placeholder="Name" class="form-control input-md"
+                                                   th:field="*{name}"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label" for="cui">CUI</label>
+                                        <div class="col-md-10">
+                                            <input id="newCui" name="cui" type="text" placeholder="CUI" class="form-control input-md"
+                                                   th:field="*{cui}"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label" for="status">Status</label>
+                                        <div class="col-md-10">
+                                            <select id="newStatus" name="status" th:field="*{status}">
+                                                <option th:each="status : ${accountStatuses}" th:value="${status}" th:text="${status}"
+                                                        th:selected="${status==active}"></option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label" for="save"></label>
+                                        <div class="col-md-10">
+                                            <button id="newAccountSave" name="save" class="btn btn-primary">
+                                                Save
+                                            </button>
+                                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container text-center" id="contactsDiv">
+        <h3>Accounts</h3>
+        <hr>
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered text-left">
+                <tr>
+                    <th>Username</th>
+                    <th>Name</th>
+                    <th>CUI</th>
+                    <th>Status</th>
+                    <th>Option</th>
+                </tr>
+                <tr th:each="account : ${accounts}">
+                    <td data-th-text="${account.username}">Username</td>
+                    <td data-th-text="${account.name}">Name</td>
+                    <td data-th-text="${account.cui}">CUI</td>
+                    <td data-th-text="${account.status}">Status</td>
+                    <td>
+                        <a data-toggle="modal" data-target="#modal-edit" th:attr="data-target='#modal-edit'+${account.idAccount}"><span class="fas fa-pen"></span>Edit</a>
+                        <div class="modal" th:id="modal-edit+${account.idAccount}">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header modal-edit-header">
+                                        <h4 class="modal-title">Edit Account</h4>
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form class="form-horizontal" action="#" th:action="@{/account/save/{account}(account=${account})}" method="post">
+                                            <fieldset>
+                                                <div class="form-group">
+                                                    <label class="col-md-4 control-label" for="username">Username</label>
+                                                    <div class="col-md-10">
+
+                                                        <input id="id" name="id" type="hidden"
+                                                               placeholder="id" class="form-control input-md"
+                                                               th:value="${account.idAccount}"/>
+
+                                                        <input id="username" name="username" type="text"
+                                                               placeholder="Username" class="form-control input-md"
+                                                               th:value="${account.username}"/>
+
+                                                        <span th:if="${existUsername !=null}" style="color:Red;"> Already Exist !</span>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-md-4 control-label" for="name">Name</label>
+                                                    <div class="col-md-10">
+                                                        <input id="name" name="name" type="text" placeholder="Name" class="form-control input-md"
+                                                               th:value="${account.name}"
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-md-4 control-label" for="cui">CUI
+                                                    </label>
+                                                    <div class="col-md-10">
+                                                        <input id="cui" name="cui" type="text" placeholder="CUI" class="form-control input-md"
+                                                               th:value="${account.cui}"/>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-md-4 control-label" for="status">Status</label>
+                                                    <div class="col-md-10">
+                                                        <select id="status" name="status">
+                                                            <option th:each="status : ${accountStatuses}" th:value="${status}" th:text="${status}"
+                                                                    th:selected="${status==account.status}"></option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-md-4 control-label" for="save"></label>
+                                                    <div class="col-md-10">
+                                                        <button id="save" name="save" class="btn btn-primary">
+                                                            Save
+                                                        </button>
+                                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <a data-toggle="modal" data-target="#modal-warning" th:attr="data-target='#modal-warning'+${account.idAccount}" class="text-danger"><span class="fas fa-trash-alt"></span>Delete</a>
+
+                        <div class="modal modal-warning fade in" th:id="modal-warning+${account.idAccount}" >
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header modal-delete-header">
+                                        <h5 class="modal-title">Delete Account</h5>
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <h4>Are you sure want to delete this account?</h4>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
+                                        <a type="button" class="btn btn-outline" th:href="@{/account/delete/{id}(id=${account.idAccount})}"><i class="fa fa-check"></i>&nbsp;Yes</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

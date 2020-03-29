@@ -1,6 +1,6 @@
-package reader;
+package com.accounting.reader;
 
-import model.Columns;
+import com.accounting.model.Columns;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
@@ -43,7 +43,8 @@ public class XLSReader {
                         Cell cell = row.getCell(columnNumbers[i]);
                         if (cell != null && cell.getCellType() != CellType.BLANK) {
                             if (Columns.values()[i].equals(Columns.SIMBOL)) {
-                                if (cell.getCellType().equals(CellType.STRING) && !cell.getStringCellValue().isBlank()) {
+//                                && !cell.getStringCellValue().isBlank()
+                                if (cell.getCellType().equals(CellType.STRING) ) {
                                     if(cell.getStringCellValue().contains("Clasa")) {
                                         currentClass = cell.getStringCellValue();
                                         Map<Columns, List<Cell>> columns = extractedColumns.getOrDefault(currentClass, new LinkedHashMap<>());

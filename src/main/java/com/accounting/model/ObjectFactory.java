@@ -1,5 +1,5 @@
 
-package model;
+package com.accounting.model;
 
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.XmlElementDecl;

@@ -1,4 +1,4 @@
-package model;
+package com.accounting.model;
 
 public enum Columns {
 

@@ -1,14 +1,14 @@
-package service;
+package com.accounting.service;
 
-import model.ClassSymbols;
-import model.Columns;
-import model.ContType;
-import model.F1102Type;
-import model.ObjectFactory;
+import com.accounting.model.ClassSymbols;
+import com.accounting.model.Columns;
+import com.accounting.model.ContType;
+import com.accounting.model.F1102Type;
+import com.accounting.model.ObjectFactory;
 import org.apache.poi.ss.usermodel.Cell;
-import reader.ClassSymbolsReader;
-import reader.ExceptionsReader;
-import reader.XLSReader;
+import com.accounting.reader.ClassSymbolsReader;
+import com.accounting.reader.ExceptionsReader;
+import com.accounting.reader.XLSReader;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
