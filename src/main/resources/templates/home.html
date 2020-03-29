@@ -1,10 +1,125 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>HOME</title>
+    <title>Accounting Admin Page</title>
+
+    <link rel="stylesheet" th:href="@{webjars/bootstrap/4.2.1/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{webjars/font-awesome/5.13.0/css/all.css}"/>
+    <link rel="stylesheet" th:href="@{/css/home.css}"/>
+    <script th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/4.2.1/js/bootstrap.min.js}"></script>
+
+    <script>
+        $(function () {
+            $('#datetimepicker').dateTime;
+        });
+    </script>
 </head>
 <body>
-<h1>THIS IS THE HOME PAGE!!!!!!</h1>
+<div class="container">
+    <div class="d-flex justify-content-center h-100">
+        <div class="card">
+            <div class="card-header">
+                <h3>Balanta de verificare</h3>
+            </div>
+            <div class="card-body">
+                <form method="post" th:action="@{/}" th:object="${f1102Type}">
+                    <div class="row">
+                        <div class="col columns" style="margin-left: auto">
+                            <div class="input-group form-group">
+                                <label class="control-label" for="year">An</label>
+                                <select class="browser-default custom-select" id="year" name="year" th:field="*{an}">
+                                    <option th:each="year : ${years}" th:value="${year}" th:text="${year}"
+                                            th:selected="${year==currentYear}"></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col columns">
+                            <div class="input-group form-group">
+                                <label class="control-label" for="month">Luna</label>
+                                <select class="browser-default custom-select" id="month" name="month" th:field="*{lunaR}">
+                                    <option th:each="month : ${months}" th:value="${month}" th:text="${month}"
+                                            th:selected="${month==currentMonth}"></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col" style="max-width: 400px; margin-right: auto">
+                            <div class="form-group">
+                                <div class='input-group date' id='datetimepicker'>
+                                    <label class="control-label" for="date">Data intocmire</label>
+                                    <input type='text' class="form-control" id="date" name="date" th:field="*{dataDocument}"/>
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-calendar-alt"></i></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <h5 style="font-style: italic">Informatii generale</h5>
+                    <div class="row">
+                        <div class="col">
+                            <div class="input-group form-group">
+                                <label class="control-label" for="name">Denumire entitate publica</label>
+                                <input id="name" name="name" type="text" placeholder="Denumire entitate publica" class="form-control input-md"
+                                       th:field="*{numeIp}"/>
+                            </div>
+                        </div>
+                        <div class="col" style="max-width: 420px">
+                            <div class="input-group form-group">
+                                <label class="control-label" for="cui">CUI entitate publica</label>
+                                <input id="cui" name="cui" type="text" placeholder="CUI entitate publica" class="form-control input-md"
+                                       th:field="*{numeIp}"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="input-group form-group">
+                                <label class="control-label" for="name" style="margin-right: 128px">Sector buget</label>
+                                <select class="browser-default custom-select" id="sector" name="month">
+                                    <option th:each="sector : ${sectors}" th:value="${sector}" th:text="${sector}"
+                                            th:selected="${sector=='02 - Buget local'}"></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col" style="max-width: 420px">
+                            <div class="input-group form-group">
+                                <label class="control-label">Formular fara valori</label>
+                                <div style="margin-left: 15px">
+                                    <label class="radio-inline"><input type="radio" name="optradio">Da</label>
+                                    <label class="radio-inline"><input type="radio" name="optradio" checked>Nu</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="input-group form-group">
+                                <label class="control-label" for="suma-control" style="margin-right: 124px">Suma control</label>
+                                <input id="suma-control" name="suma-control" type="text" placeholder="Suma control" class="form-control input-md"
+                                       th:field="*{sumaControl}"/>
+                            </div>
+                        </div>
+                        <div class="col" style="max-width: 420px">
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-group">
+                            <div class="custom-file file-choose" >
+                                <input type="file" class="custom-file-input" id="inputGroupFile01"
+                                       aria-describedby="inputGroupFileAddon01">
+                                <label class="custom-file-label" for="inputGroupFile01">Choose XML file</label>
+                            </div>
+                            <div class="form-group" style="margin-top: 5px">
+                                <input type="submit" value="Convert to xml" class="btn float-right btn-primary">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

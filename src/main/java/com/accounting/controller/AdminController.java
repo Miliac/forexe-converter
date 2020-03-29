@@ -20,7 +20,7 @@ public class AdminController {
     @GetMapping("/admin")
     public String getAdminView(Model model) {
         model.addAttribute("accounts",accountService.getAccounts());
-        model.addAttribute("accountForm", new AccountDTO());
+        model.addAttribute("account", new AccountDTO());
         model.addAttribute("accountStatuses", Arrays.asList("active", "inactive"));
         model.addAttribute("accountRoles", Arrays.asList("USER", "ADMIN"));
         return "admin";

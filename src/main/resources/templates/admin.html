@@ -10,14 +10,10 @@
     <script th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
     <script th:src="@{/webjars/bootstrap/4.2.1/js/bootstrap.min.js}"></script>
 
-    <!--Custom styles-->
-    <link rel="stylesheet" type="text/css" href="../static/css/admin.css">
-
-    <script th:if="${existUsername != null || hasErrors != null}">
+    <script th:if="${existUsername != null || hasErrors != null}" th:inline="javascript">
         $(function () {
-            var modalId = @Model.modalId;
-            alert(modalId);
-            $(modalId).modal('show');
+            var modalId = /*[[${modalId}]]*/ "";
+            $('#'+modalId).modal('show');
         });
     </script>
 </head>
@@ -35,20 +31,17 @@
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                         </div>
                         <div class="modal-body">
-                            <form class="form-horizontal" action="#" th:action="@{/account/save}" method="post" th:object="${accountForm}">
+                            <form class="form-horizontal" action="#" th:action="@{/account/create}" method="post" th:object="${account}">
                                 <fieldset>
                                     <div class="form-group">
                                         <label class="col-md-4 control-label" for="username">Username</label>
                                         <div class="col-md-10">
 
-                                            <input id="newModalId" name="modalId" type="hidden" placeholder="id" class="form-control input-md"
-                                                   th:field="*{modalId}" value="modal-create"/>
-
                                             <input id="newUsername" name="username" type="text"
                                                    placeholder="Username" class="form-control input-md"
                                                    th:field="*{username}"/>
-
-                                            <span th:if="${existUsername !=null}" style="color:Red;"> Already Exist !</span>
+                                            <p th:errors="*{username}" th:if="${#fields.hasErrors('username')}" style="color:Red;"></p>
+                                            <span th:if="${existUsername == true}" style="color:Red;"> Already Exist !</span>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -118,6 +111,7 @@
                     <th>Name</th>
                     <th>CUI</th>
                     <th>Status</th>
+                    <th>Role</th>
                     <th>Option</th>
                 </tr>
                 <tr th:each="account : ${accounts}">
@@ -125,6 +119,7 @@
                     <td data-th-text="${account.name}">Name</td>
                     <td data-th-text="${account.cui}">CUI</td>
                     <td data-th-text="${account.status}">Status</td>
+                    <td data-th-text="${account.role}">Role</td>
                     <td>
                         <a data-toggle="modal" data-target="#modal-edit" th:attr="data-target='#modal-edit'+${account.idAccount}"><span class="fas fa-pen"></span>Edit</a>
                         <div class="modal" th:id="modal-edit+${account.idAccount}">
@@ -135,7 +130,7 @@
                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                                     </div>
                                     <div class="modal-body">
-                                        <form class="form-horizontal" action="#" th:object="${accountForm}" th:action="@{/account/save}" method="post">
+                                        <form class="form-horizontal" action="#" th:object="${account}" th:action="@{/account/edit}" method="post">
                                             <fieldset>
                                                 <div class="form-group">
                                                     <label class="col-md-4 control-label" for="username">Username</label>
@@ -143,11 +138,11 @@
 
                                                         <input id="id" name="id" type="hidden"
                                                                placeholder="id" class="form-control input-md"
-                                                               th:value="${account.idAccount}" th:field="*{idAccount}"/>
+                                                               th:field="*{idAccount}"/>
 
                                                         <input id="username" name="username" type="text"
                                                                placeholder="Username" class="form-control input-md"
-                                                               th:value="${account.username}" th:field="*{username}"/>
+                                                               th:field="*{username}"/>
 
                                                         <span th:if="${existUsername !=null}" style="color:Red;"> Already Exist !</span>
                                                     </div>
@@ -156,7 +151,7 @@
                                                     <label class="col-md-4 control-label" for="name">Name</label>
                                                     <div class="col-md-10">
                                                         <input id="name" name="name" type="text" placeholder="Name" class="form-control input-md"
-                                                               th:value="${account.name}" th:field="*{name}"
+                                                               th:field="*{name}"
                                                         />
                                                     </div>
                                                 </div>
@@ -165,7 +160,7 @@
                                                     </label>
                                                     <div class="col-md-10">
                                                         <input id="cui" name="cui" type="text" placeholder="CUI" class="form-control input-md"
-                                                               th:value="${account.cui}" th:field="*{cui}"/>
+                                                               th:field="*{cui}"/>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
@@ -216,8 +211,10 @@
                                         <h4>Are you sure want to delete this account?</h4>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
-                                        <a type="button" class="btn btn-outline" th:href="@{/account/delete/{id}(id=${account.idAccount})}"><i class="fa fa-check"></i>&nbsp;Yes</a>
+                                        <form action="#" th:action="@{/account/delete/{id}(id=${account.idAccount})}" method="post">
+                                            <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
+                                            <button id="deleteAccount" name="delete" class="btn"><i class="fa fa-check"></i>&nbsp;Yes</button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>

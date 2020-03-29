@@ -6,22 +6,20 @@ import javax.validation.constraints.Size;
 public class AccountDTO {
 
     private int idAccount;
-    @NotNull
-    @Size(min=6, max=30)
+    @NotNull(message = "Username is empty!")
+    @Size(min=6, max=30, message = "Username size is not between 6 and 30 characters!")
     private String username;
-    @NotNull
-    @Size(min=8, max=20)
+    @NotNull(message = "Password is empty!")
+    @Size(min=8, max=20, message = "Password size is not between 8 and 20 characters!")
     private String password;
-    @Size(min=3, max=100)
+    @Size(min=3, max=100, message = "Name size is not between 3 and 100 characters!")
     private String name;
-    @Size(min=7, max=7)
+    @Size(min=7, max=7, message = "CUI should have exactly 7 characters!")
     private String cui;
-    @NotNull
+    @NotNull(message = "Status is empty!")
     private String status;
-    @NotNull
+    @NotNull(message = "Role is empty!")
     private String role;
-
-    private String modalId;
 
     public AccountDTO() {
     }
@@ -72,14 +70,6 @@ public class AccountDTO {
 
     public void setStatus(String status) {
         this.status = status;
-    }
-
-    public String getModalId() {
-        return modalId;
-    }
-
-    public void setModalId(String modalId) {
-        this.modalId = modalId;
     }
 
     public String getRole() {
