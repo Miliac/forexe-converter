@@ -23,7 +23,7 @@
                 <h3>Balanta de verificare</h3>
             </div>
             <div class="card-body">
-                <form method="post" th:action="@{/}" th:object="${f1102Type}">
+                <form enctype="multipart/form-data" method="post" th:action="@{/home}" th:object="${f1102Type}">
                     <div class="row">
                         <div class="col columns" style="margin-left: auto">
                             <div class="input-group form-group">
@@ -47,7 +47,7 @@
                             <div class="form-group">
                                 <div class='input-group date' id='datetimepicker'>
                                     <label class="control-label" for="date">Data intocmire</label>
-                                    <input type='text' class="form-control" id="date" name="date" th:field="*{dataDocument}"/>
+                                    <input type="date" class="form-control" id="date" name="date" th:field="*{dataDocument}"/>
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-calendar-alt"></i></i></span>
                                     </div>
@@ -68,7 +68,7 @@
                             <div class="input-group form-group">
                                 <label class="control-label" for="cui">CUI entitate publica</label>
                                 <input id="cui" name="cui" type="text" placeholder="CUI entitate publica" class="form-control input-md"
-                                       th:field="*{numeIp}"/>
+                                       th:field="*{cuiIp}"/>
                             </div>
                         </div>
                     </div>
@@ -76,7 +76,7 @@
                         <div class="col">
                             <div class="input-group form-group">
                                 <label class="control-label" for="name" style="margin-right: 128px">Sector buget</label>
-                                <select class="browser-default custom-select" id="sector" name="month">
+                                <select class="browser-default custom-select" id="sector" name="month" th:field="*{sector}">
                                     <option th:each="sector : ${sectors}" th:value="${sector}" th:text="${sector}"
                                             th:selected="${sector=='02 - Buget local'}"></option>
                                 </select>
@@ -86,8 +86,8 @@
                             <div class="input-group form-group">
                                 <label class="control-label">Formular fara valori</label>
                                 <div style="margin-left: 15px">
-                                    <label class="radio-inline"><input type="radio" name="optradio">Da</label>
-                                    <label class="radio-inline"><input type="radio" name="optradio" checked>Nu</label>
+                                    <label class="radio-inline"><input type="radio" th:field="*{documentCuValori}" th:value="1">Da</label>
+                                    <label class="radio-inline"><input type="radio" th:field="*{documentCuValori}" th:value="0" checked>Nu</label>
                                 </div>
                             </div>
                         </div>
@@ -108,8 +108,8 @@
                         <div class="input-group">
                             <div class="custom-file file-choose" >
                                 <input type="file" class="custom-file-input" id="inputGroupFile01"
-                                       aria-describedby="inputGroupFileAddon01">
-                                <label class="custom-file-label" for="inputGroupFile01">Choose XML file</label>
+                                       aria-describedby="inputGroupFileAddon01" th:field="*{xlsFile}">
+                                <label class="custom-file-label" for="inputGroupFile01">Choose XLS file</label>
                             </div>
                             <div class="form-group" style="margin-top: 5px">
                                 <input type="submit" value="Convert to xml" class="btn float-right btn-primary">

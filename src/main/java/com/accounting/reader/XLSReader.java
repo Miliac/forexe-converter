@@ -6,19 +6,20 @@ import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 public class XLSReader {
 
-    public Map<String, Map<Columns,List<Cell>>> read(File file) throws IOException {
-        FileInputStream fis = new FileInputStream(file);
+    public Map<String, Map<Columns,List<Cell>>> read(MultipartFile multipartFile) throws IOException {
 
         //creating Workbook instance that refers to .xlsx file
-        XSSFWorkbook wb = new XSSFWorkbook(fis);
+        XSSFWorkbook wb = new XSSFWorkbook(multipartFile.getInputStream());
 
         //creating a Sheet object to retrieve object
         XSSFSheet sheet = wb.getSheet("Pagina 1");
@@ -59,7 +60,7 @@ public class XLSReader {
                             }
                         }
                     } else{
-                        System.out.println("Could not find column " + Columns.values()[i] + " in first row of " + file.getPath());
+                        System.out.println("Could not find column " + Columns.values()[i] + " in first row of " + multipartFile.getName());
                     }
                 }
 
