@@ -10,7 +10,7 @@
     <script th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
     <script th:src="@{/webjars/bootstrap/4.2.1/js/bootstrap.min.js}"></script>
 
-    <script th:if="${existUsername != null || hasErrors != null}" th:inline="javascript">
+    <script th:if="${hasErrors != null}" th:inline="javascript">
         $(function () {
             var modalId = /*[[${modalId}]]*/ "";
             $('#'+modalId).modal('show');
@@ -41,14 +41,14 @@
                                                    placeholder="Username" class="form-control input-md"
                                                    th:field="*{username}"/>
                                             <p th:errors="*{username}" th:if="${#fields.hasErrors('username')}" style="color:Red;"></p>
-                                            <span th:if="${existUsername == true}" style="color:Red;"> Already Exist !</span>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-md-4 control-label" for="password">Password</label>
                                         <div class="col-md-10">
-                                            <input id="password" name="password" type="text" placeholder="Password" class="form-control input-md"
+                                            <input id="createPassword" name="password" type="password" placeholder="Password" class="form-control input-md"
                                                    th:field="*{password}"/>
+                                            <p th:errors="*{password}" th:if="${#fields.hasErrors('password')}" style="color:Red;"></p>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -56,6 +56,7 @@
                                         <div class="col-md-10">
                                             <input id="newName" name="name" type="text" placeholder="Name" class="form-control input-md"
                                                    th:field="*{name}"/>
+                                            <p th:errors="*{name}" th:if="${#fields.hasErrors('name')}" style="color:Red;"></p>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -63,6 +64,7 @@
                                         <div class="col-md-10">
                                             <input id="newCui" name="cui" type="text" placeholder="CUI" class="form-control input-md"
                                                    th:field="*{cui}"/>
+                                            <p th:errors="*{cui}" th:if="${#fields.hasErrors('cui')}" style="color:Red;"></p>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -72,6 +74,7 @@
                                                 <option th:each="status : ${accountStatuses}" th:value="${status}" th:text="${status}"
                                                         th:selected="${status=='active'}"></option>
                                             </select>
+                                            <p th:errors="*{status}" th:if="${#fields.hasErrors('status')}" style="color:Red;"></p>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -81,6 +84,7 @@
                                                 <option th:each="role : ${accountRoles}" th:value="${role}" th:text="${role}"
                                                         th:selected="${role=='USER'}"></option>
                                             </select>
+                                            <p th:errors="*{role}" th:if="${#fields.hasErrors('role')}" style="color:Red;"></p>
                                         </div>
                                     </div>
 
@@ -130,29 +134,33 @@
                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                                     </div>
                                     <div class="modal-body">
-                                        <form class="form-horizontal" action="#" th:object="${account}" th:action="@{/account/edit}" method="post">
+                                        <form class="form-horizontal" action="#" th:object="${editAccount}" th:action="@{/account/edit}" method="post">
                                             <fieldset>
                                                 <div class="form-group">
                                                     <label class="col-md-4 control-label" for="username">Username</label>
                                                     <div class="col-md-10">
 
-                                                        <input id="id" name="id" type="hidden"
+                                                        <input id="idAccount" name="idAccount" type="hidden"
                                                                placeholder="id" class="form-control input-md"
-                                                               th:field="*{idAccount}"/>
+                                                               th:value="${account.idAccount}"/>
+
+                                                        <input id="password" name="password" type="hidden" placeholder="Password" class="form-control input-md"
+                                                               th:value="${account.password}"/>
 
                                                         <input id="username" name="username" type="text"
                                                                placeholder="Username" class="form-control input-md"
-                                                               th:field="*{username}"/>
+                                                               th:value="${account.username}"/>
 
-                                                        <span th:if="${existUsername !=null}" style="color:Red;"> Already Exist !</span>
+                                                        <p th:errors="*{username}" th:if="${#fields.hasErrors('username')}" style="color:Red;"></p>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label class="col-md-4 control-label" for="name">Name</label>
                                                     <div class="col-md-10">
                                                         <input id="name" name="name" type="text" placeholder="Name" class="form-control input-md"
-                                                               th:field="*{name}"
+                                                               th:value="${account.name}"
                                                         />
+                                                        <p th:errors="*{name}" th:if="${#fields.hasErrors('name')}" style="color:Red;"></p>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
@@ -160,25 +168,28 @@
                                                     </label>
                                                     <div class="col-md-10">
                                                         <input id="cui" name="cui" type="text" placeholder="CUI" class="form-control input-md"
-                                                               th:field="*{cui}"/>
+                                                               th:value="${account.cui}"/>
+                                                        <p th:errors="*{cui}" th:if="${#fields.hasErrors('cui')}" style="color:Red;"></p>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label class="col-md-4 control-label" for="status">Status</label>
                                                     <div class="col-md-10">
-                                                        <select id="status" name="status" th:field="*{status}">
+                                                        <select id="status" name="status">
                                                             <option th:each="status : ${accountStatuses}" th:text="${status}"
                                                                     th:value="${account.status}" th:selected="${status==account.status}"></option>
                                                         </select>
+                                                        <p th:errors="*{status}" th:if="${#fields.hasErrors('status')}" style="color:Red;"></p>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label class="col-md-4 control-label" for="role">Role</label>
                                                     <div class="col-md-10">
-                                                        <select id="role" name="role" th:field="*{role}">
+                                                        <select id="role" name="role">
                                                             <option th:each="role : ${accountRoles}" th:text="${role}"
                                                                     th:value="${account.role}" th:selected="${role==account.role}"></option>
                                                         </select>
+                                                        <p th:errors="*{role}" th:if="${#fields.hasErrors('role')}" style="color:Red;"></p>
                                                     </div>
                                                 </div>
 
@@ -214,6 +225,69 @@
                                         <form action="#" th:action="@{/account/delete/{id}(id=${account.idAccount})}" method="post">
                                             <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
                                             <button id="deleteAccount" name="delete" class="btn"><i class="fa fa-check"></i>&nbsp;Yes</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <a data-toggle="modal" data-target="#modal-edit" th:attr="data-target='#modal-change-password'"><span class="fas fa-key"></span>Change password</a>
+                        <div class="modal" th:id="modal-change-password">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header modal-edit-header">
+                                        <h4 class="modal-title">Change password</h4>
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form class="form-horizontal" action="#" th:object="${editAccount}" th:action="@{/account/changePassword}" method="post">
+                                            <fieldset>
+                                                <div class="form-group">
+                                                    <label class="col-md-4 control-label" for="name">Name</label>
+                                                    <div class="col-md-10">
+                                                        <input id="newPassword" name="newPassword" type="password" placeholder="New Password" class="form-control input-md"
+                                                               th:value="*{newPassword}"
+                                                        />
+                                                        <p th:errors="*{newPassword}" th:if="${#fields.hasErrors('newPassword')}" style="color:Red;"></p>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-md-4 control-label" for="cui">CUI
+                                                    </label>
+                                                    <div class="col-md-10">
+                                                        <input id="confirmPassword" name="confirmPassword" type="password" placeholder="Confirm Password" class="form-control input-md"
+                                                               th:value="*{confirmPassword}"/>
+                                                        <p th:errors="*{confirmPassword}" th:if="${#fields.hasErrors('confirmPassword')}" style="color:Red;"></p>
+                                                    </div>
+                                                </div>
+                                                <input id="hiddenId" name="idAccount" type="hidden" placeholder="id" class="form-control input-md"
+                                                       th:value="${account.idAccount}"/>
+
+                                                <input id="hiddenName" name="name" type="hidden" placeholder="Name" class="form-control input-md"
+                                                       th:value="${account.name}"/>
+
+                                                <input id="hiddenUsername" name="username" type="hidden" placeholder="Username" class="form-control input-md"
+                                                       th:value="${account.username}"/>
+
+                                                <input id="hiddenCui" name="cui" type="hidden" placeholder="CUI" class="form-control input-md"
+                                                       th:value="${account.cui}"/>
+
+                                                <input id="hiddenStatus" name="status" type="hidden" placeholder="Status" class="form-control input-md"
+                                                       th:value="${account.status}"/>
+
+                                                <input id="hiddenRole" name="role" type="hidden" placeholder="Role" class="form-control input-md"
+                                                       th:value="${account.role}"/>
+
+                                                <div class="form-group">
+                                                    <label class="col-md-4 control-label" for="save"></label>
+                                                    <div class="col-md-10">
+                                                        <button id="save" name="save" class="btn btn-primary">
+                                                            Change
+                                                        </button>
+                                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                                    </div>
+                                                </div>
+                                            </fieldset>
                                         </form>
                                     </div>
                                 </div>

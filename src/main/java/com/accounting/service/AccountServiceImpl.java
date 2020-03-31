@@ -72,11 +72,26 @@ public class AccountServiceImpl implements AccountService {
         return passwordEncoder;
     }
 
+    @Override
+    public void changePasswordAccount(int idAccount, String newPassword) {
+        Optional<Account> accountOptional = accountRepository.findById(idAccount);
+        if(accountOptional.isPresent()) {
+            Account account = accountOptional.get();
+            account.setPassword(getEncryptedPassword(newPassword));
+            accountRepository.save(account);
+        }
+    }
+
+    @Override
+    public String getEncryptedPassword(String password) {
+        return passwordEncoder.encode(password);
+    }
+
     private Account convertFromDTO(AccountDTO accountDTO) {
         Account account = new Account();
         account.setIdAccount(accountDTO.getIdAccount());
         account.setUsername(accountDTO.getUsername());
-        account.setPassword(passwordEncoder.encode(accountDTO.getPassword()));
+        account.setPassword(accountDTO.getPassword());
         account.setName(accountDTO.getName());
         account.setCui(accountDTO.getCui());
         account.setStatus(accountDTO.getStatus());
@@ -89,6 +104,7 @@ public class AccountServiceImpl implements AccountService {
         accountDTO.setIdAccount(account.getIdAccount());
         accountDTO.setUsername(account.getUsername());
         accountDTO.setName(account.getName());
+        accountDTO.setPassword(account.getPassword());
         accountDTO.setCui(account.getCui());
         accountDTO.setStatus(account.getStatus());
         accountDTO.setRole(account.getRole());

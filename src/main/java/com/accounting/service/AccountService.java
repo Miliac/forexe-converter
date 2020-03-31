@@ -17,4 +17,8 @@ public interface AccountService extends UserDetailsService {
     void deleteAccount(int id);
 
     BCryptPasswordEncoder getPasswordEncoder();
+
+    void changePasswordAccount(int idAccount, String newPassword);
+
+    String getEncryptedPassword(String password);
 }

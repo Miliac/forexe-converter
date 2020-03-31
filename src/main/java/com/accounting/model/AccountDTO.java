@@ -10,7 +10,7 @@ public class AccountDTO {
     @Size(min=6, max=30, message = "Username size is not between 6 and 30 characters!")
     private String username;
     @NotNull(message = "Password is empty!")
-    @Size(min=8, max=20, message = "Password size is not between 8 and 20 characters!")
+    @Size(min=8, max=70, message = "Password size is not between 8 and 20 characters!")
     private String password;
     @Size(min=3, max=100, message = "Name size is not between 3 and 100 characters!")
     private String name;
@@ -20,6 +20,8 @@ public class AccountDTO {
     private String status;
     @NotNull(message = "Role is empty!")
     private String role;
+    private String newPassword;
+    private String confirmPassword;
 
     public AccountDTO() {
     }
@@ -78,5 +80,21 @@ public class AccountDTO {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public String getNewPassword() {
+        return newPassword;
+    }
+
+    public void setNewPassword(String newPassword) {
+        this.newPassword = newPassword;
+    }
+
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
     }
 }

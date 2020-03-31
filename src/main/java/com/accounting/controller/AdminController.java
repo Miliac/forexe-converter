@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 @Controller
 public class AdminController {
@@ -20,7 +21,12 @@ public class AdminController {
     @GetMapping("/admin")
     public String getAdminView(Model model) {
         model.addAttribute("accounts",accountService.getAccounts());
-        model.addAttribute("account", new AccountDTO());
+        if(Objects.isNull(model.getAttribute("account"))) {
+            model.addAttribute("account", new AccountDTO());
+        }
+        if(Objects.isNull(model.getAttribute("editAccount"))) {
+            model.addAttribute("editAccount", new AccountDTO());
+        }
         model.addAttribute("accountStatuses", Arrays.asList("active", "inactive"));
         model.addAttribute("accountRoles", Arrays.asList("USER", "ADMIN"));
         return "admin";
