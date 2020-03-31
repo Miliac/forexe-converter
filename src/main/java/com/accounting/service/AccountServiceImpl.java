@@ -3,8 +3,9 @@ package com.accounting.service;
 import com.accounting.model.Account;
 import com.accounting.model.AccountDTO;
 import com.accounting.persistence.AccountRepository;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,6 +21,8 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 public class AccountServiceImpl implements AccountService {
+
+    private static final Logger logger = LogManager.getLogger(AccountServiceImpl.class);
 
     private AccountRepository accountRepository;
     private BCryptPasswordEncoder passwordEncoder;
@@ -40,6 +43,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public void saveAccount(AccountDTO account) {
+        logger.info("Account saved in database: {} ", account.toString());
         accountRepository.save(convertFromDTO(account));
     }
 
@@ -54,6 +58,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public void deleteAccount(int id) {
+        logger.info("Account with id {} deleted from database", id);
         accountRepository.deleteById(id);
     }
 
@@ -61,6 +66,7 @@ public class AccountServiceImpl implements AccountService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Account account = accountRepository.findAccountByUsername(username);
         if (account == null) {
+            logger.warn("Invalid username or password");
             throw new UsernameNotFoundException("Invalid username or password");
         }
         return new User(account.getUsername(), account.getPassword(), account.getStatus()
@@ -74,6 +80,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public void changePasswordAccount(int idAccount, String newPassword) {
+        logger.info("Password changed for account with id {}", idAccount);
         Optional<Account> accountOptional = accountRepository.findById(idAccount);
         if(accountOptional.isPresent()) {
             Account account = accountOptional.get();

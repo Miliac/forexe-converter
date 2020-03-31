@@ -1,8 +1,10 @@
 package com.accounting.reader;
 
+import com.accounting.model.ClassSymbols;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.accounting.model.ClassSymbols;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,6 +13,7 @@ import java.util.Map;
 
 public class ClassSymbolsReader {
 
+    private static final Logger logger = LogManager.getLogger(ClassSymbolsReader.class);
     private static final String RESOURCE_PATH = "src/main/resources/account-symbols.json";
 
     private ObjectMapper objectMapper;
@@ -24,8 +27,9 @@ public class ClassSymbolsReader {
         try {
             result = objectMapper.readValue(new File(RESOURCE_PATH), new TypeReference<Map<String, ClassSymbols>>() {
             });
+            logger.info("Account symbols file loaded in memory!");
         } catch (IOException e) {
-            System.out.println("Could not read account symbols " + e.getMessage());
+            logger.error("Could not read account symbols file: {} ", e.getMessage());
         }
         return result;
     }

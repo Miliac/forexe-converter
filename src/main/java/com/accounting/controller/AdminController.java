@@ -2,15 +2,20 @@ package com.accounting.controller;
 
 import com.accounting.model.AccountDTO;
 import com.accounting.service.AccountService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 import java.util.Objects;
 
 @Controller
 public class AdminController {
+
+    private static final Logger logger = LogManager.getLogger(AdminController.class);
 
     private AccountService accountService;
 
@@ -19,12 +24,14 @@ public class AdminController {
     }
 
     @GetMapping("/admin")
-    public String getAdminView(Model model) {
-        model.addAttribute("accounts",accountService.getAccounts());
-        if(Objects.isNull(model.getAttribute("newAccount"))) {
+    public String getAdminView(Model model, HttpServletRequest request) {
+        logger.info("User {} with IP: {} Executed {} request on endpoint: {}",
+                request.getRemoteUser(), request.getRemoteAddr(), request.getMethod(), request.getRequestURI());
+        model.addAttribute("accounts", accountService.getAccounts());
+        if (Objects.isNull(model.getAttribute("newAccount"))) {
             model.addAttribute("newAccount", new AccountDTO());
         }
-        if(Objects.isNull(model.getAttribute("editAccount"))) {
+        if (Objects.isNull(model.getAttribute("editAccount"))) {
             model.addAttribute("editAccount", new AccountDTO());
         }
         model.addAttribute("accountStatuses", Arrays.asList("active", "inactive"));

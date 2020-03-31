@@ -15,6 +15,7 @@
     </parent>
 
     <properties>
+        <java.version>11</java.version>
         <apache.poi.version>4.1.2</apache.poi.version>
         <jaxb.version>2.3.1</jaxb.version>
         <jackson.version>2.9.8</jackson.version>
@@ -22,7 +23,8 @@
         <jaxb.runtime.version>2.3.2</jaxb.runtime.version>
         <bootstrap.version>4.2.1</bootstrap.version>
         <font-awesome.version>5.13.0</font-awesome.version>
-        <jquery.verson>3.4.1</jquery.verson>
+        <jquery.version>3.4.1</jquery.version>
+        <log4j.version>2.7</log4j.version>
     </properties>
 
     <dependencies>
@@ -47,10 +49,6 @@
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.thymeleaf.extras</groupId>
-            <artifactId>thymeleaf-extras-springsecurity4</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
             <optional>true</optional>
@@ -68,7 +66,7 @@
         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>jquery</artifactId>
-            <version>${jquery.verson}</version>
+            <version>${jquery.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.poi</groupId>
@@ -100,6 +98,18 @@
             <artifactId>jaxb-runtime</artifactId>
             <version>${jaxb.runtime.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>${log4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>${log4j.version}</version>
+            <type>test-jar</type>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -111,6 +121,23 @@
                 <configuration>
                     <release>11</release>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>enforce</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <banDuplicatePomDependencyVersions/>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

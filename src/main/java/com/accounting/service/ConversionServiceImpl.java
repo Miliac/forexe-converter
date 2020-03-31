@@ -4,15 +4,15 @@ import com.accounting.model.*;
 import com.accounting.reader.ClassSymbolsReader;
 import com.accounting.reader.ExceptionsReader;
 import com.accounting.reader.XLSReader;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.poi.ss.usermodel.Cell;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -22,28 +22,38 @@ import java.util.stream.Collectors;
 @Service
 public class ConversionServiceImpl implements ConversionService {
 
+    private static final Logger logger = LogManager.getLogger(ConversionServiceImpl.class);
     private static final String RESULT_PATH = "src/main/resources/result.xml";
 
     private XLSReader xlsReader;
     private ClassSymbolsReader symbolsReader;
     private ExceptionsReader exceptionsReader;
 
+    private Map<String, ClassSymbols> symbols;
+    private Map<String, String> exceptions;
+    private List<Cell> cellsWithCF;
+    private List<Cell> cellsWithCFAndCE;
+
     public ConversionServiceImpl() {
         xlsReader = new XLSReader();
         symbolsReader = new ClassSymbolsReader();
         exceptionsReader = new ExceptionsReader();
+        init();
+        cellsWithCF = new ArrayList<>();
+        cellsWithCFAndCE = new ArrayList<>();
     }
 
-    private List<Cell> cellsWithCF = new ArrayList<>();
-    private List<Cell> cellsWithCFAndCE = new ArrayList<>();
+    private void init() {
+        symbols = symbolsReader.read();
+        exceptions = exceptionsReader.read();
+    }
 
     @Override
     public void convert(MultipartFile multipartFile, F1102Type f1102Type) {
 
-        try {
-            Map<String, Map<Columns,List<Cell>>> extractedColumns = xlsReader.read(multipartFile);
-            Map<String, ClassSymbols> symbols = symbolsReader.read();
-            Map<String, String> exceptions = exceptionsReader.read();
+        Map<String, Map<Columns, List<Cell>>> extractedColumns = xlsReader.read(multipartFile);
+
+        if (!extractedColumns.isEmpty()) {
             extractedColumns.forEach((className, columns) -> extractedColumns.put(className, filterClass(className, columns, symbols, exceptions)));
 
             List<ContType> contTypes = getContType(extractedColumns);
@@ -55,16 +65,13 @@ public class ConversionServiceImpl implements ConversionService {
                 marshallerObj.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
                 marshallerObj.setProperty(Marshaller.JAXB_SCHEMA_LOCATION, "mfp:anaf:dgti:f1102:declaratie:v1");
                 marshallerObj.marshal(objectFactory.createF1102(f1102Type), new FileOutputStream(RESULT_PATH));
-                System.out.println("Xml file generated with success");
-            } catch (JAXBException e) {
-                e.printStackTrace();
+                logger.info("Xml file generated with success!");
+            } catch (Exception e) {
+                logger.error(e.getMessage());
             }
-
-
-        } catch (IOException e) {
-            e.printStackTrace();
+        } else {
+            logger.info("No extracted columns, Xml file not generated!!!");
         }
-
     }
 
     private boolean filterByCont(ContType contType, List<ContType> contTypes) {
