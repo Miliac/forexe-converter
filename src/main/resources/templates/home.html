@@ -23,7 +23,7 @@
                 <h3>Balanta de verificare</h3>
             </div>
             <div class="card-body">
-                <form enctype="multipart/form-data" method="post" th:action="@{/home}" th:object="${f1102Type}">
+                <form enctype="multipart/form-data" method="post" th:action="@{/convertXML}" th:object="${f1102Type}">
                     <div class="row">
                         <div class="col columns" style="margin-left: auto">
                             <div class="input-group form-group">
@@ -105,6 +105,7 @@
                         </div>
                     </div>
                     <div class="row">
+                        <p th:error="*{xlsFile}" th:if="${#fields.hasErrors('xlsFile')}" style="color:Red;"></p>
                         <div class="input-group">
                             <div class="custom-file file-choose" >
                                 <input type="file" class="custom-file-input" id="inputGroupFile01"

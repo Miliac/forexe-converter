@@ -1,5 +1,6 @@
 package com.accounting.model;
 
+import com.accounting.validators.ValidXLSX;
 import org.springframework.web.multipart.MultipartFile;
 
 public class F1102TypeDTO {
@@ -12,6 +13,8 @@ public class F1102TypeDTO {
     private String sector;
     private int documentCuValori;
     private long sumaControl;
+
+    @ValidXLSX(message = "Please chose a valid XLSX file.")
     private MultipartFile xlsFile;
 
     public int getAn() {
