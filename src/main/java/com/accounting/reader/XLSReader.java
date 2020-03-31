@@ -43,9 +43,8 @@ public class XLSReader {
                     if (columnNumbers[i] != null) {
                         Cell cell = row.getCell(columnNumbers[i]);
                         if (cell != null && cell.getCellType() != CellType.BLANK) {
-                            if (Columns.values()[i].equals(Columns.SIMBOL)) {
-//                                && !cell.getStringCellValue().isBlank()
-                                if (cell.getCellType().equals(CellType.STRING) ) {
+                            if (Columns.values()[i].equals(Columns.SIMBOL )) {
+                                if (cell.getCellType().equals(CellType.STRING) && !cell.getStringCellValue().isBlank()) {
                                     if(cell.getStringCellValue().contains("Clasa")) {
                                         currentClass = cell.getStringCellValue();
                                         Map<Columns, List<Cell>> columns = extractedColumns.getOrDefault(currentClass, new LinkedHashMap<>());

@@ -14,10 +14,9 @@ import javax.xml.bind.Marshaller;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -234,8 +233,7 @@ public class ConversionServiceImpl implements ConversionService {
                                 simbol = simbol.concat("0");
                             }
                             contType.setSimbolPCont(simbol.substring(0, 7));
-                            contType.setCf("");
-                            contType.setCe("");
+
 
                         } else {
                             String simbolPCont = simbol.substring(0, 7);
@@ -245,7 +243,6 @@ public class ConversionServiceImpl implements ConversionService {
                                     cf = cf.concat("0");
                                 }
                                 contType.setCf(cf);
-                                contType.setCe("");
                             } else {
                                 String cf = simbol.substring(10,16);
                                 String ce = simbol.substring(17);
@@ -257,7 +254,9 @@ public class ConversionServiceImpl implements ConversionService {
                             }
                             contType.setSimbolPCont(simbolPCont);
                         }
-                        String strCont = contType.getSimbolPCont() + contType.getCodSector() + contType.getCodSursa() + contType.getCf() + contType.getCe();
+                        String strCont = contType.getSimbolPCont() + contType.getCodSector() + contType.getCodSursa() +
+                                (Objects.nonNull(contType.getCf()) ? contType.getCf() : "") +
+                                (Objects.nonNull(contType.getCe()) ? contType.getCe() : "");
                         while(strCont.length() < 40) {
                             strCont = strCont.concat("X");
                         }
@@ -298,10 +297,15 @@ public class ConversionServiceImpl implements ConversionService {
         F1102Type f1102Type = new F1102Type();
         f1102Type.setAn(f1102TypeDTO.getAn());
         f1102Type.setCuiIp(f1102TypeDTO.getCuiIp());
-        f1102Type.setDataDocument(f1102TypeDTO.getDataDocument());
+        f1102Type.setDataDocument(dateFormatter(f1102TypeDTO.getDataDocument()));
         f1102Type.setLunaR(f1102TypeDTO.getLunaR());
         f1102Type.setNumeIp(f1102TypeDTO.getNumeIp());
         f1102Type.setSumaControl(f1102TypeDTO.getSumaControl());
         return f1102Type;
+    }
+
+    private String dateFormatter(String dateString) {
+        LocalDate date = LocalDate.parse(dateString, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        return date.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
     }
 }
