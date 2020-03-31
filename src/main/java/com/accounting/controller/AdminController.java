@@ -21,8 +21,8 @@ public class AdminController {
     @GetMapping("/admin")
     public String getAdminView(Model model) {
         model.addAttribute("accounts",accountService.getAccounts());
-        if(Objects.isNull(model.getAttribute("account"))) {
-            model.addAttribute("account", new AccountDTO());
+        if(Objects.isNull(model.getAttribute("newAccount"))) {
+            model.addAttribute("newAccount", new AccountDTO());
         }
         if(Objects.isNull(model.getAttribute("editAccount"))) {
             model.addAttribute("editAccount", new AccountDTO());

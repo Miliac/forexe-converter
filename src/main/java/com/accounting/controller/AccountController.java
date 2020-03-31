@@ -24,8 +24,8 @@ public class AccountController {
     }
 
     @PostMapping("/create")
-    public String createAccount(@Valid @ModelAttribute("account") AccountDTO account, BindingResult result, RedirectAttributes redirectAttributes) {
-        return getRedirect(account, result, redirectAttributes, "modal-create", "account");
+    public String createAccount(@Valid @ModelAttribute("newAccount") AccountDTO account, BindingResult result, RedirectAttributes redirectAttributes) {
+        return getRedirect(account, result, redirectAttributes, "modal-create", "newAccount");
     }
 
     @PostMapping("/edit")

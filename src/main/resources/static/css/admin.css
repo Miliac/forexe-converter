@@ -26,3 +26,11 @@ html,body{
     background-color: darkred;
     color: white;
 }
+
+a {
+    cursor: pointer;
+}
+
+.delete-button {
+    color: #6d0711 !important;
+}
