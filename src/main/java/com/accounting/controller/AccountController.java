@@ -16,6 +16,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import static com.accounting.config.Utils.*;
+
 @Controller
 @RequestMapping("account")
 public class AccountController {
@@ -29,20 +31,19 @@ public class AccountController {
     }
 
     @PostMapping("/create")
-    public String createAccount(@Valid @ModelAttribute("newAccount") AccountDTO account, BindingResult result,
+    public String createAccount(@Valid @ModelAttribute(CREATE_MODEL) AccountDTO account, BindingResult result,
                                 RedirectAttributes redirectAttributes, HttpServletRequest request) {
         logger.info("User {} with IP: {} Executed {} request on endpoint: {}",
                 request.getRemoteUser(), request.getRemoteAddr(), request.getMethod(), request.getRequestURI());
-        return getRedirect(account, result, redirectAttributes, "modal-create", "newAccount");
+        return getRedirect(account, result, redirectAttributes, CREATE_MODAL, CREATE_MODEL);
     }
 
     @PostMapping("/edit")
-    public String editAccount(@Valid @ModelAttribute("editAccount") AccountDTO account, BindingResult result,
+    public String editAccount(@Valid @ModelAttribute(EDIT_MODEL) AccountDTO account, BindingResult result,
                               RedirectAttributes redirectAttributes, HttpServletRequest request) {
         logger.info("User {} with IP: {} Executed {} request on endpoint: {}",
                 request.getRemoteUser(), request.getRemoteAddr(), request.getMethod(), request.getRequestURI());
-        String modalId = "modal-edit" + account.getIdAccount();
-        return getRedirect(account, result, redirectAttributes, modalId, "editAccount");
+        return getRedirect(account, result, redirectAttributes, String.format(EDIT_MODAL, account.getIdAccount()), EDIT_MODEL);
     }
 
     @PostMapping("/delete/{id}")
@@ -50,55 +51,55 @@ public class AccountController {
         logger.info("User {} with IP: {} Executed {} request on endpoint: {}",
                 request.getRemoteUser(), request.getRemoteAddr(), request.getMethod(), request.getRequestURI());
         accountService.deleteAccount(id);
-        return "redirect:/admin";
+        return REDIRECT_ADMIN;
     }
 
     @PostMapping("/changePassword")
-    public String changePasswordAccount(@ModelAttribute("editAccount") AccountDTO account, BindingResult result,
+    public String changePasswordAccount(@ModelAttribute(EDIT_MODEL) AccountDTO account, BindingResult result,
                                         RedirectAttributes redirectAttributes, HttpServletRequest request) {
         logger.info("User {} with IP: {} Executed {} request on endpoint: {}",
                 request.getRemoteUser(), request.getRemoteAddr(), request.getMethod(), request.getRequestURI());
         if (StringUtils.isEmpty(account.getNewPassword())) {
-            result.rejectValue("newPassword", null, "New password should not be empty!");
-            redirectAttributes.addFlashAttribute("hasErrors", true);
-            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.editAccount", result);
-            redirectAttributes.addFlashAttribute("editAccount", account);
-            redirectAttributes.addFlashAttribute("modalId", "modal-change-password");
+            result.rejectValue(NEW_PASSWORD, ERROR_CODE, NEW_PASSWORD_ERROR);
+            redirectAttributes.addFlashAttribute(HAS_ERRORS, true);
+            redirectAttributes.addFlashAttribute(String.format(BINDING_RESULT, EDIT_MODEL), result);
+            redirectAttributes.addFlashAttribute(EDIT_MODEL, account);
+            redirectAttributes.addFlashAttribute(MODAL_ID, CHANGE_PASSWORD_MODAL);
         } else {
             if (!account.getNewPassword().equals(account.getConfirmPassword())) {
-                result.rejectValue("confirmPassword", null, "Confirm password should be same as password!");
-                redirectAttributes.addFlashAttribute("hasErrors", true);
-                redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.editAccount", result);
-                redirectAttributes.addFlashAttribute("editAccount", account);
-                redirectAttributes.addFlashAttribute("modalId", "modal-change-password");
+                result.rejectValue(CONFIRM_PASSWORD, ERROR_CODE, CONFIRM_PASSWORD_ERROR);
+                redirectAttributes.addFlashAttribute(HAS_ERRORS, true);
+                redirectAttributes.addFlashAttribute(String.format(BINDING_RESULT, EDIT_MODEL), result);
+                redirectAttributes.addFlashAttribute(EDIT_MODEL, account);
+                redirectAttributes.addFlashAttribute(MODAL_ID, CHANGE_PASSWORD_MODAL);
             } else {
                 accountService.changePasswordAccount(account.getIdAccount(), account.getNewPassword());
             }
         }
 
-        return "redirect:/admin";
+        return REDIRECT_ADMIN;
     }
 
     private String getRedirect(AccountDTO account, BindingResult result, RedirectAttributes redirectAttributes, String modalId, String accountModel) {
         if (result.hasErrors()) {
-            redirectAttributes.addFlashAttribute("hasErrors", true);
-            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult."+accountModel, result);
+            redirectAttributes.addFlashAttribute(HAS_ERRORS, true);
+            redirectAttributes.addFlashAttribute(String.format(BINDING_RESULT, accountModel) , result);
             redirectAttributes.addFlashAttribute(accountModel, account);
-            redirectAttributes.addFlashAttribute("modalId", modalId);
+            redirectAttributes.addFlashAttribute(MODAL_ID, modalId);
         } else {
             if (accountService.getAccountByName(account.getUsername()).isPresent()) {
-                result.rejectValue("username", null,"Username already exist!");
-                redirectAttributes.addFlashAttribute("hasErrors", true);
-                redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult."+accountModel, result);
+                result.rejectValue(USERNAME, ERROR_CODE,USERNAME_ERROR);
+                redirectAttributes.addFlashAttribute(HAS_ERRORS, true);
+                redirectAttributes.addFlashAttribute(String.format(BINDING_RESULT, accountModel), result);
                 redirectAttributes.addFlashAttribute(accountModel, account);
-                redirectAttributes.addFlashAttribute("modalId", modalId);
+                redirectAttributes.addFlashAttribute(MODAL_ID, modalId);
             } else {
-                if(modalId.equals("modal-create")) {
+                if(modalId.equals(CREATE_MODAL)) {
                     account.setPassword(accountService.getEncryptedPassword(account.getPassword()));
                 }
                 accountService.saveAccount(account);
             }
         }
-        return "redirect:/admin";
+        return REDIRECT_ADMIN;
     }
 }

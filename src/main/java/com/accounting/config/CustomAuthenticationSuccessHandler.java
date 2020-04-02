@@ -7,7 +7,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -19,14 +18,14 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
     private static final Logger logger = LogManager.getLogger(CustomAuthenticationSuccessHandler.class);
 
     @Override
-    public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
+    public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException {
         logger.info("User {} logged in from IP: {} ", authentication.getName(), httpServletRequest.getRemoteAddr());
         Set<String> roles = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
 
         if (roles.contains("ADMIN")) {
-            httpServletResponse.sendRedirect("/admin");
+            httpServletResponse.sendRedirect(Utils.ADMIN);
         } else {
-            httpServletResponse.sendRedirect("/home");
+            httpServletResponse.sendRedirect(Utils.HOME);
         }
     }
 }

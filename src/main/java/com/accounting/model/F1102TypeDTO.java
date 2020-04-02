@@ -3,6 +3,7 @@ package com.accounting.model;
 import com.accounting.validators.ValidXLSX;
 import org.springframework.web.multipart.MultipartFile;
 
+
 public class F1102TypeDTO {
 
     private int an;
@@ -16,6 +17,21 @@ public class F1102TypeDTO {
 
     @ValidXLSX(message = "Please chose a valid XLSX file.")
     private MultipartFile xlsFile;
+
+    public F1102TypeDTO() {
+    }
+
+    public F1102TypeDTO(int an, int lunaR, String dataDocument, String numeIp, String cuiIp, String sector, int documentCuValori, long sumaControl, MultipartFile xlsFile) {
+        this.an = an;
+        this.lunaR = lunaR;
+        this.dataDocument = dataDocument;
+        this.numeIp = numeIp;
+        this.cuiIp = cuiIp;
+        this.sector = sector;
+        this.documentCuValori = documentCuValori;
+        this.sumaControl = sumaControl;
+        this.xlsFile = xlsFile;
+    }
 
     public int getAn() {
         return an;

@@ -40,15 +40,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticated()
                 .and()
                 .formLogin()
-                .loginPage("/")
+                .loginPage(Utils.INDEX)
                 .successHandler(authenticationSuccessHandler)
                 .permitAll()
                 .and()
                 .logout()
                 .invalidateHttpSession(true)
                 .clearAuthentication(true)
-                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/")
+                .logoutRequestMatcher(new AntPathRequestMatcher(Utils.LOGOUT))
+                .logoutSuccessUrl(Utils.INDEX)
                 .permitAll();
 
     }

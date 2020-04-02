@@ -12,6 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 import java.util.Objects;
 
+import static com.accounting.config.Utils.CREATE_MODEL;
+import static com.accounting.config.Utils.EDIT_MODEL;
+
 @Controller
 public class AdminController {
 
@@ -28,11 +31,11 @@ public class AdminController {
         logger.info("User {} with IP: {} Executed {} request on endpoint: {}",
                 request.getRemoteUser(), request.getRemoteAddr(), request.getMethod(), request.getRequestURI());
         model.addAttribute("accounts", accountService.getAccounts());
-        if (Objects.isNull(model.getAttribute("newAccount"))) {
-            model.addAttribute("newAccount", new AccountDTO());
+        if (Objects.isNull(model.getAttribute(CREATE_MODEL))) {
+            model.addAttribute(CREATE_MODEL, new AccountDTO());
         }
-        if (Objects.isNull(model.getAttribute("editAccount"))) {
-            model.addAttribute("editAccount", new AccountDTO());
+        if (Objects.isNull(model.getAttribute(EDIT_MODEL))) {
+            model.addAttribute(EDIT_MODEL, new AccountDTO());
         }
         model.addAttribute("accountStatuses", Arrays.asList("active", "inactive"));
         model.addAttribute("accountRoles", Arrays.asList("USER", "ADMIN"));
