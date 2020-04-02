@@ -7,19 +7,18 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Objects;
 
-import static com.accounting.config.Utils.*;
+import static com.accounting.config.Utils.F1102_MODEL;
 
 @Controller
 public class MainController {
@@ -59,23 +58,7 @@ public class MainController {
     }
 
     @PostMapping("/home")
-    public String validateFile(@Valid @ModelAttribute(F1102_MODEL) F1102TypeDTO f1102TypeDTO, BindingResult result,
-                                 RedirectAttributes redirectAttributes, HttpServletRequest request) {
-
-        logger.info("User {} with IP: {} Executed {} request on endpoint: {}",
-                request.getRemoteUser(), request.getRemoteAddr(), request.getMethod(), request.getRequestURI());
-
-        if (result.hasErrors()) {
-            redirectAttributes.addFlashAttribute(String.format(BINDING_RESULT, F1102_MODEL), result);
-        } else {
-            redirectAttributes.addFlashAttribute(HAS_ERRORS, false);
-        }
-        redirectAttributes.addFlashAttribute(F1102_MODEL, f1102TypeDTO);
-        return REDIRECT_HOME;
-    }
-
-    @PostMapping("/convertXML")
-    public void convertXLSFile(@RequestBody F1102TypeDTO f1102TypeDTO, HttpServletResponse response, HttpServletRequest request) {
+    public void convertXLSFile(@ModelAttribute F1102TypeDTO f1102TypeDTO, HttpServletResponse response, HttpServletRequest request) {
 
         logger.info("User {} with IP: {} Executed {} request on endpoint: {}",
                 request.getRemoteUser(), request.getRemoteAddr(), request.getMethod(), request.getRequestURI());

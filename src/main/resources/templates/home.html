@@ -8,15 +8,30 @@
     <link rel="stylesheet" th:href="@{/css/home.css}"/>
     <script th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
     <script th:src="@{/webjars/bootstrap/4.2.1/js/bootstrap.min.js}"></script>
-
-    <script th:if="${hasErrors != null}" th:inline="javascript">
-        $(function () {
-            var f1102Type = /*[[${f1102Type}]]*/ "";
-            // console.log(f1102Type);
-            $.post('/convertXML',  f1102Type, function(data, status, jqXHR) {
-                console.log(status);
-            })
-        });
+    <script>
+        var valid = false;
+        function validate_fileupload(input_element) {
+            var el = document.getElementById("error");
+            var elem = document.getElementById("labelForFile");
+            var allowed_extensions = 'xlsx';
+            var fileName = input_element.split("\\").pop();
+            var file_extension = input_element.split('.').pop();
+                if (input_element === "") {
+                    elem.innerHTML = 'Chose a XLSX file'
+                } else {
+                    elem.innerHTML = fileName;
+                }
+                if (allowed_extensions === file_extension.toLowerCase()) {
+                    valid = true;
+                    el.innerHTML = "";
+                    return;
+                }
+            el.innerHTML = "Please select a valid XLSX file.";
+            valid = false;
+        }
+        function valid_form() {
+            return valid;
+        }
     </script>
 </head>
 <body>
@@ -112,17 +127,18 @@
                         <div class="input-group">
                             <div class="custom-file file-choose" >
                                 <input type="file" class="custom-file-input" id="inputGroupFile01"
-                                       aria-describedby="inputGroupFileAddon01" th:field="*{xlsFile}">
-                                <label class="custom-file-label" for="inputGroupFile01">Choose XLS file</label>
+                                       aria-describedby="inputGroupFileAddon01" onchange="validate_fileupload(this.value)"
+                                       th:field="*{xlsFile}">
+                                <label class="custom-file-label" for="inputGroupFile01" id="labelForFile">Choose a XLSX
+                                    file</label>
                             </div>
                             <div class="form-group" style="margin-top: 5px">
-                                <input type="submit" value="Convert to xml" class="btn float-right btn-primary">
+                                <input class="btn float-right btn-primary" onclick="return valid_form()" type="submit"
+                                       value="Convert to xml">
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <p th:errors="*{xlsFile}" th:if="${#fields.hasErrors('xlsFile')}" style="color:Red;"></p>
-                    </div>
+                    <div class="row" id="error" style="color:Red;"></div>
                 </form>
             </div>
         </div>
