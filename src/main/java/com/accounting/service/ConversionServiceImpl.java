@@ -19,6 +19,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static com.accounting.config.Utils.ZERO;
+
 @Service
 public class ConversionServiceImpl implements ConversionService {
 
@@ -80,12 +82,13 @@ public class ConversionServiceImpl implements ConversionService {
         int indexCont = contTypes.indexOf(contType);
         if (indexCont > 0) {
             ContType previousCont = contTypes.get(indexCont - 1);
-            if (contType.getStrCont()
-                    .equals(previousCont.getStrCont())) {
-                previousCont.setRulajDeb(previousCont.getRulajDeb()
-                        .add(contType.getRulajDeb()));
-                previousCont.setRulajCred(previousCont.getRulajCred()
-                        .add(contType.getRulajCred()));
+            if (contType.getStrCont().equals(previousCont.getStrCont())) {
+                BigDecimal rulajDebPrevious = Objects.nonNull(previousCont.getRulajDeb()) ? previousCont.getRulajDeb() : BigDecimal.valueOf(0.0);
+                BigDecimal rulajCredPrevious = Objects.nonNull(previousCont.getRulajCred()) ? previousCont.getRulajCred() : BigDecimal.valueOf(0.0);
+                BigDecimal rulajDebCont = Objects.nonNull(contType.getRulajDeb()) ? contType.getRulajDeb() : BigDecimal.valueOf(0.0);
+                BigDecimal rulajCredCont = Objects.nonNull(contType.getRulajCred()) ? contType.getRulajCred() : BigDecimal.valueOf(0.0);
+                previousCont.setRulajDeb(rulajDebPrevious.add(rulajDebCont));
+                previousCont.setRulajCred(rulajCredPrevious.add(rulajCredCont));
                 return false;
             }
         }
@@ -136,16 +139,12 @@ public class ConversionServiceImpl implements ConversionService {
             return true;
         } else {
 
-            if (cell.getStringCellValue()
-                    .length() == 3) {
-                String symbol = cell.getStringCellValue()
-                        .concat("0000");
+            if (cell.getStringCellValue().length() == 3) {
+                String symbol = cell.getStringCellValue().concat("0000");
                 if (classSymbols.getAccountSymbolsEndInFourZeros()
                         .contains(symbol)) {
                     cellsWithCF = symbolColumns.stream()
-                            .filter(nextCell -> nextCell.getStringCellValue()
-                                    .startsWith(symbol) && nextCell.getStringCellValue()
-                                    .length() == 16)
+                            .filter(nextCell -> nextCell.getStringCellValue().startsWith(symbol) && nextCell.getStringCellValue().length() == 16)
                             .collect(Collectors.toList());
                     cellsWithCF = cellsWithCF.stream()
                             .filter(nextCell -> filterDifferentSymbol(nextCell, cellsWithCF))
@@ -157,33 +156,22 @@ public class ConversionServiceImpl implements ConversionService {
                 }
             }
 
-            if (cell.getStringCellValue()
-                    .length() == 5 || cell.getStringCellValue()
-                    .length() == 7) {
-                String symbol = cell.getStringCellValue()
-                        .length() == 5 ? cell.getStringCellValue()
-                        .concat("00") : cell.getStringCellValue();
-                if (classSymbols.getAccountSymbolsWithCFAndCE()
-                        .contains(symbol)) {
+            if (cell.getStringCellValue().length() == 5 || cell.getStringCellValue().length() == 7) {
+                String symbol = cell.getStringCellValue().length() == 5 ? cell.getStringCellValue().concat("00") : cell.getStringCellValue();
+                if (classSymbols.getAccountSymbolsWithCFAndCE().contains(symbol)) {
                     cellsWithCFAndCE = symbolColumns.stream()
-                            .filter(nextCell -> nextCell.getStringCellValue()
-                                    .startsWith(cell.getStringCellValue()) &&
-                                    (nextCell.getStringCellValue()
-                                            .length() == 20 || nextCell.getStringCellValue()
-                                            .length() == 22))
-                            .filter(nextCell -> !classSymbols.getAccountSymbolsWithCFAndCE()
-                                    .contains(getSymbol(nextCell)))
+                            .filter(nextCell -> nextCell.getStringCellValue().startsWith(cell.getStringCellValue()) &&
+                                    (nextCell.getStringCellValue().length() == 20 || nextCell.getStringCellValue().length() == 22))
+                            .filter(nextCell -> !classSymbols.getAccountSymbolsWithCFAndCE().contains(getSymbol(nextCell)))
                             .collect(Collectors.toList());
                     return cellsWithCFAndCE.size() != 0;
                 }
 
                 if (!symbol.endsWith("00")) {
-                    return classSymbols.getAccountSymbols()
-                            .contains(symbol);
+                    return classSymbols.getAccountSymbols().contains(symbol);
                 }
 
-                if (classSymbols.getAccountSymbolsEndInTwoZeros()
-                        .contains(symbol)) {
+                if (classSymbols.getAccountSymbolsEndInTwoZeros().contains(symbol)) {
                     cellsWithCF = symbolColumns.stream()
                             .filter(nextCell -> nextCell.getStringCellValue()
                                     .startsWith(cell.getStringCellValue()) && nextCell.getStringCellValue()
@@ -199,21 +187,23 @@ public class ConversionServiceImpl implements ConversionService {
                 }
             }
 
-            if (cell.getStringCellValue()
-                    .length() >= 14 && cell.getStringCellValue()
-                    .length() < 20) {
+            if (cell.getStringCellValue().length() >= 14 && cell.getStringCellValue().length() < 20) {
                 String symbol = getSymbol(cell);
-                if (classSymbols.getAccountSymbolsWithCF()
-                        .contains(symbol)) {
+                if (classSymbols.getAccountSymbolsWithCF().contains(symbol)) {
+                    cell.setCellValue(getCellContent(cell));
                     return true;
                 } else {
                     if (cellsWithCF.size() >= 2) {
+                        if(classSymbols.getAccountSymbols().contains(symbol) ||
+                                classSymbols.getAccountSymbolsEndInTwoZeros().contains(symbol) ||
+                                classSymbols.getAccountSymbolsEndInFourZeros().contains(symbol)) {
+                            cell.setCellValue(cell.getStringCellValue().substring(0, 10));
+                        }
+                        cell.setCellValue(getCellContent(cell));
                         return cellsWithCF.contains(cell);
                     } else {
-                        cell.setCellValue(cell.getStringCellValue()
-                                .substring(0, 10));
-                        return classSymbols.getAccountSymbols()
-                                .contains(symbol);
+                        cell.setCellValue(cell.getStringCellValue().substring(0, 10));
+                        return classSymbols.getAccountSymbols().contains(symbol);
                     }
                 }
             }
@@ -222,22 +212,32 @@ public class ConversionServiceImpl implements ConversionService {
                     .length() >= 20 && cell.getStringCellValue()
                     .length() <= 22) {
                 String symbol = getSymbol(cell);
-                if (classSymbols.getAccountSymbolsWithCFAndCE()
-                        .contains(symbol) && cell.getStringCellValue()
-                        .length() == 20) {
+                cell.setCellValue(getCellContent(cell));
+                if (classSymbols.getAccountSymbolsWithCFAndCE().contains(symbol) && cell.getStringCellValue().length() == 20) {
                     cellsWithCFAndCE = symbolColumns.stream()
-                            .filter(nextCell -> nextCell.getStringCellValue()
-                                    .startsWith(cell.getStringCellValue()) && nextCell.getStringCellValue()
-                                    .length() == 22)
+                            .filter(nextCell -> nextCell.getStringCellValue().startsWith(cell.getStringCellValue()) &&
+                                    nextCell.getStringCellValue().length() == 22)
                             .collect(Collectors.toList());
                     return cellsWithCFAndCE.size() == 0;
                 }
+
                 return classSymbols.getAccountSymbolsWithCFAndCE()
                         .contains(symbol);
             }
         }
 
         return false;
+    }
+
+    private String getCellContent(Cell cell) {
+        String content = cell.getStringCellValue();
+        int indexG = content.indexOf('G');
+        if(indexG != 9) {
+            String symbol = getSymbol(cell);
+            String contSufix = content.substring(indexG-2);
+            return symbol.concat(contSufix);
+        }
+        return content;
     }
 
     private boolean filterCell(Cell cell, List<Cell> cells) {
@@ -269,12 +269,9 @@ public class ConversionServiceImpl implements ConversionService {
     }
 
     private String getSymbol(Cell cell) {
-        return cell.getStringCellValue()
-                .charAt(7) == 'G' ?
-                cell.getStringCellValue()
-                        .substring(0, 5)
-                        .concat("00") : cell.getStringCellValue()
-                .substring(0, 7);
+        String content = cell.getStringCellValue();
+        String symbol = cell.getStringCellValue().substring(0, content.indexOf('G')-2);
+        return symbol.concat(ZERO.repeat(7 - symbol.length()));
     }
 
     private List<ContType> getContType(Map<String, Map<Columns, List<Cell>>> extractedColumns) {
@@ -304,7 +301,7 @@ public class ConversionServiceImpl implements ConversionService {
                                 contType.setCf(cf);
                             } else {
                                 String cf = simbol.substring(10, 16);
-                                String ce = simbol.substring(17);
+                                String ce = simbol.substring(16);
                                 while (ce.length() < 6) {
                                     ce = ce.concat("0");
                                 }

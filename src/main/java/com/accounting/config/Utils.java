@@ -24,4 +24,6 @@ public class Utils {
     public static final String CONFIRM_PASSWORD_ERROR = "Confirm password should be same as password!";
     public static final String NEW_PASSWORD_ERROR = "New password should not be empty!";
     public static final String ERROR_CODE = "error";
+    public static final String ZERO = "0";
+
 }
