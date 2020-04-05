@@ -14,6 +14,14 @@ public class F1102TypeDTO {
     private int documentCuValori;
     private long sumaControl;
 
+    public F1102TypeDTO(int an, int lunaR, String dataDocument, String numeIp, String cuiIp) {
+        this.an = an;
+        this.lunaR = lunaR;
+        this.dataDocument = dataDocument;
+        this.numeIp = numeIp;
+        this.cuiIp = cuiIp;
+    }
+
     private MultipartFile xlsFile;
 
     public int getAn() {
