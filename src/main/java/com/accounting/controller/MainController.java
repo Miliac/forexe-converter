@@ -25,6 +25,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 import static com.accounting.config.Utils.F1102_MODEL;
+import static com.accounting.config.Utils.INPUT_DATE_FORMAT;
 
 @Controller
 public class MainController {
@@ -54,7 +55,7 @@ public class MainController {
         LocalDate date = LocalDate.now();
         int currentYear = date.getYear();
         int currentMonth = date.getMonthValue();
-        String dataDocument = date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        String dataDocument = date.format(DateTimeFormatter.ofPattern(INPUT_DATE_FORMAT));
         if (Objects.isNull(model.getAttribute(F1102_MODEL))) {
             Optional<AccountDTO> account = accountService.getAccountByName(request.getRemoteUser());
             if (account.isPresent()) {
@@ -77,7 +78,7 @@ public class MainController {
                 request.getRemoteUser(), request.getRemoteAddr(), request.getMethod(), request.getRequestURI());
         response.setContentType("application/xml");
         response.setHeader("Content-Disposition", "attachment; filename=result.xml");
-        conversionService.convert(f1102TypeDTO.getXlsFile(), conversionService.getFromDTO(f1102TypeDTO), response);
+        conversionService.convert(f1102TypeDTO, response);
         try {
             response.flushBuffer();
         } catch (IOException ex) {

@@ -1,13 +1,9 @@
 package com.accounting.service;
 
-import com.accounting.model.F1102Type;
 import com.accounting.model.F1102TypeDTO;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 
 public interface ConversionService {
-    void convert(MultipartFile multipartFile, F1102Type f1102Type, HttpServletResponse response);
-
-    F1102Type getFromDTO(F1102TypeDTO f1102TypeDTO);
+    void convert(F1102TypeDTO f1102TypeDTO, HttpServletResponse response);
 }

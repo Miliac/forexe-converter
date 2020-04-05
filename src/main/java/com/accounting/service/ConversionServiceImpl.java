@@ -8,7 +8,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.poi.ss.usermodel.Cell;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.bind.JAXBContext;
@@ -19,13 +18,13 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.accounting.config.Utils.ZERO;
+import static com.accounting.config.Utils.*;
+import static org.apache.logging.log4j.util.Strings.*;
 
 @Service
 public class ConversionServiceImpl implements ConversionService {
 
     private static final Logger logger = LogManager.getLogger(ConversionServiceImpl.class);
-    private static final String RESULT_PATH = "src/main/resources/result.xml";
 
     private XLSReader xlsReader;
     private ClassSymbolsReader symbolsReader;
@@ -35,6 +34,8 @@ public class ConversionServiceImpl implements ConversionService {
     private Map<String, String> exceptions;
     private List<Cell> cellsWithCF;
     private List<Cell> cellsWithCFAndCE;
+    private String cod_sector;
+    private char cod_sursa;
 
     public ConversionServiceImpl() {
         xlsReader = new XLSReader();
@@ -51,16 +52,20 @@ public class ConversionServiceImpl implements ConversionService {
     }
 
     @Override
-    public void convert(MultipartFile multipartFile, F1102Type f1102Type, HttpServletResponse response) {
+    public void convert(F1102TypeDTO f1102TypeDTO, HttpServletResponse response) {
 
-        Map<String, Map<Columns, List<Cell>>> extractedColumns = xlsReader.read(multipartFile);
+        this.cod_sector = getCodSector(f1102TypeDTO.getSector());
+        this.cod_sursa = 'G';
+        
+        Map<String, Map<Columns, List<Cell>>> extractedColumns = xlsReader.read(f1102TypeDTO.getXlsFile());
 
         if (!extractedColumns.isEmpty()) {
             extractedColumns.forEach((className, columns) -> extractedColumns.put(className, filterClass(className, columns, symbols, exceptions)));
 
             List<ContType> contTypes = getContType(extractedColumns);
+            F1102Type f1102Type = convertFromDTO(f1102TypeDTO);
             f1102Type.setCont(contTypes.stream()
-                    .filter(contType -> filterByCont(contType, contTypes))
+                    .filter(contType -> removeDuplicatesAndSumValues(contType, contTypes))
                     .collect(Collectors.toList()));
             try {
                 ObjectFactory objectFactory = new ObjectFactory();
@@ -78,15 +83,15 @@ public class ConversionServiceImpl implements ConversionService {
         }
     }
 
-    private boolean filterByCont(ContType contType, List<ContType> contTypes) {
+    private boolean removeDuplicatesAndSumValues(ContType contType, List<ContType> contTypes) {
         int indexCont = contTypes.indexOf(contType);
         if (indexCont > 0) {
             ContType previousCont = contTypes.get(indexCont - 1);
             if (contType.getStrCont().equals(previousCont.getStrCont())) {
-                BigDecimal rulajDebPrevious = Objects.nonNull(previousCont.getRulajDeb()) ? previousCont.getRulajDeb() : BigDecimal.valueOf(0.0);
-                BigDecimal rulajCredPrevious = Objects.nonNull(previousCont.getRulajCred()) ? previousCont.getRulajCred() : BigDecimal.valueOf(0.0);
-                BigDecimal rulajDebCont = Objects.nonNull(contType.getRulajDeb()) ? contType.getRulajDeb() : BigDecimal.valueOf(0.0);
-                BigDecimal rulajCredCont = Objects.nonNull(contType.getRulajCred()) ? contType.getRulajCred() : BigDecimal.valueOf(0.0);
+                BigDecimal rulajDebPrevious = Objects.nonNull(previousCont.getRulajDeb()) ? previousCont.getRulajDeb() : ZERO_DECIMAL;
+                BigDecimal rulajCredPrevious = Objects.nonNull(previousCont.getRulajCred()) ? previousCont.getRulajCred() : ZERO_DECIMAL;
+                BigDecimal rulajDebCont = Objects.nonNull(contType.getRulajDeb()) ? contType.getRulajDeb() : ZERO_DECIMAL;
+                BigDecimal rulajCredCont = Objects.nonNull(contType.getRulajCred()) ? contType.getRulajCred() : ZERO_DECIMAL;
                 previousCont.setRulajDeb(rulajDebPrevious.add(rulajDebCont).stripTrailingZeros());
                 previousCont.setRulajCred(rulajCredPrevious.add(rulajCredCont).stripTrailingZeros());
                 return false;
@@ -140,7 +145,7 @@ public class ConversionServiceImpl implements ConversionService {
         } else {
 
             if (cell.getStringCellValue().length() == 3) {
-                String symbol = cell.getStringCellValue().concat("0000");
+                String symbol = cell.getStringCellValue().concat(ZERO.repeat(4));
                 if (classSymbols.getAccountSymbolsEndInFourZeros()
                         .contains(symbol)) {
                     cellsWithCF = symbolColumns.stream()
@@ -157,25 +162,24 @@ public class ConversionServiceImpl implements ConversionService {
             }
 
             if (cell.getStringCellValue().length() == 5 || cell.getStringCellValue().length() == 7) {
-                String symbol = cell.getStringCellValue().length() == 5 ? cell.getStringCellValue().concat("00") : cell.getStringCellValue();
+                String symbol = cell.getStringCellValue().length() == 5 ? cell.getStringCellValue().concat(ZERO.repeat(2)) : cell.getStringCellValue();
                 if (classSymbols.getAccountSymbolsWithCFAndCE().contains(symbol)) {
                     cellsWithCFAndCE = symbolColumns.stream()
                             .filter(nextCell -> nextCell.getStringCellValue().startsWith(cell.getStringCellValue()) &&
                                     (nextCell.getStringCellValue().length() == 20 || nextCell.getStringCellValue().length() == 22))
                             .filter(nextCell -> !classSymbols.getAccountSymbolsWithCFAndCE().contains(getSymbol(nextCell)))
                             .collect(Collectors.toList());
-                    return cellsWithCFAndCE.size() != 0;
+                    return !cellsWithCFAndCE.isEmpty();
                 }
 
-                if (!symbol.endsWith("00")) {
+                if (!symbol.endsWith(ZERO.repeat(2))) {
                     return classSymbols.getAccountSymbols().contains(symbol);
                 }
 
                 if (classSymbols.getAccountSymbolsEndInTwoZeros().contains(symbol)) {
                     cellsWithCF = symbolColumns.stream()
                             .filter(nextCell -> nextCell.getStringCellValue()
-                                    .startsWith(cell.getStringCellValue()) && nextCell.getStringCellValue()
-                                    .length() == 16)
+                                    .startsWith(cell.getStringCellValue()) && nextCell.getStringCellValue().length() == 16)
                             .collect(Collectors.toList());
                     cellsWithCF = cellsWithCF.stream()
                             .filter(nextCell -> filterDifferentSymbol(nextCell, cellsWithCF))
@@ -218,7 +222,7 @@ public class ConversionServiceImpl implements ConversionService {
                             .filter(nextCell -> nextCell.getStringCellValue().startsWith(cell.getStringCellValue()) &&
                                     nextCell.getStringCellValue().length() == 22)
                             .collect(Collectors.toList());
-                    return cellsWithCFAndCE.size() == 0;
+                    return cellsWithCFAndCE.isEmpty();
                 }
 
                 return classSymbols.getAccountSymbolsWithCFAndCE()
@@ -231,7 +235,7 @@ public class ConversionServiceImpl implements ConversionService {
 
     private String getCellContent(Cell cell) {
         String content = cell.getStringCellValue();
-        int indexG = content.indexOf('G');
+        int indexG = content.indexOf(cod_sursa);
         if(indexG != 9) {
             String symbol = getSymbol(cell);
             String contSufix = content.substring(indexG-2);
@@ -250,14 +254,12 @@ public class ConversionServiceImpl implements ConversionService {
     }
 
     private Cell getCellTrimValue(Cell cell) {
-        cell.setCellValue(cell.getStringCellValue()
-                .replaceAll(" ", ""));
+        cell.setCellValue(cell.getStringCellValue().replaceAll(SPACE, EMPTY));
         return cell;
     }
 
     private boolean filterDifferentSymbol(Cell cell, List<Cell> symbolColumns) {
-        String symbol = cell.getStringCellValue()
-                .substring(0, 7);
+        String symbol = cell.getStringCellValue().substring(0, SYMBOL_LENGTH);
         boolean result = true;
         for (Cell nextCell : symbolColumns) {
             if (!nextCell.equals(cell) && nextCell.getStringCellValue()
@@ -270,8 +272,8 @@ public class ConversionServiceImpl implements ConversionService {
 
     private String getSymbol(Cell cell) {
         String content = cell.getStringCellValue();
-        String symbol = cell.getStringCellValue().substring(0, content.indexOf('G')-2);
-        return symbol.concat(ZERO.repeat(7 - symbol.length()));
+        String symbol = cell.getStringCellValue().substring(0, content.indexOf(cod_sursa)-2);
+        return symbol.concat(ZERO.repeat(SYMBOL_LENGTH - symbol.length()));
     }
 
     private List<ContType> getContType(Map<String, Map<Columns, List<Cell>>> extractedColumns) {
@@ -280,43 +282,8 @@ public class ConversionServiceImpl implements ConversionService {
             switch (column) {
                 case SIMBOL:
                     cells.forEach(cell -> {
-                        String simbol = cell.getStringCellValue();
                         ContType contType = contTypes.getOrDefault(String.valueOf(cell.getRowIndex()), new ContType());
-                        contType.setCodSector("02");
-                        contType.setCodSursa("G");
-                        if (simbol.length() <= 10) {
-                            while (simbol.length() < 7) {
-                                simbol = simbol.concat("0");
-                            }
-                            contType.setSimbolPCont(simbol.substring(0, 7));
-
-
-                        } else {
-                            String simbolPCont = simbol.substring(0, 7);
-                            if (simbol.length() <= 16) {
-                                String cf = simbol.substring(10);
-                                while (cf.length() < 6) {
-                                    cf = cf.concat("0");
-                                }
-                                contType.setCf(cf);
-                            } else {
-                                String cf = simbol.substring(10, 16);
-                                String ce = simbol.substring(16);
-                                while (ce.length() < 6) {
-                                    ce = ce.concat("0");
-                                }
-                                contType.setCf(cf);
-                                contType.setCe(ce);
-                            }
-                            contType.setSimbolPCont(simbolPCont);
-                        }
-                        String strCont = contType.getSimbolPCont() + contType.getCodSector() + contType.getCodSursa() +
-                                (Objects.nonNull(contType.getCf()) ? contType.getCf() : "") +
-                                (Objects.nonNull(contType.getCe()) ? contType.getCe() : "");
-                        while (strCont.length() < 40) {
-                            strCont = strCont.concat("X");
-                        }
-                        contType.setStrCont(strCont);
+                        fillContType(contType, cell.getStringCellValue());
                         contTypes.put(String.valueOf(cell.getRowIndex()), contType);
                     });
                     break;
@@ -324,7 +291,7 @@ public class ConversionServiceImpl implements ConversionService {
                     cells.forEach(cell -> {
                         BigDecimal rulDeb = BigDecimal.valueOf(cell.getNumericCellValue());
                         ContType contType = contTypes.getOrDefault(String.valueOf(cell.getRowIndex()), new ContType());
-                        contType.setRulajDeb(rulDeb.equals(BigDecimal.valueOf(0.0)) ? null : rulDeb.stripTrailingZeros());
+                        contType.setRulajDeb(rulDeb.equals(ZERO_DECIMAL) ? null : rulDeb.stripTrailingZeros());
                         contTypes.put(String.valueOf(cell.getRowIndex()), contType);
                     });
                     break;
@@ -332,7 +299,7 @@ public class ConversionServiceImpl implements ConversionService {
                     cells.forEach(cell -> {
                         BigDecimal rulCred = BigDecimal.valueOf(cell.getNumericCellValue());
                         ContType contType = contTypes.getOrDefault(String.valueOf(cell.getRowIndex()), new ContType());
-                        contType.setRulajCred(rulCred.equals(BigDecimal.valueOf(0.0)) ? null : rulCred.stripTrailingZeros());
+                        contType.setRulajCred(rulCred.equals(ZERO_DECIMAL) ? null : rulCred.stripTrailingZeros());
                         contTypes.put(String.valueOf(cell.getRowIndex()), contType);
                     });
                     break;
@@ -342,11 +309,6 @@ public class ConversionServiceImpl implements ConversionService {
         }));
 
         return new ArrayList<>(contTypes.values());
-    }
-
-    @Override
-    public F1102Type getFromDTO(F1102TypeDTO f1102TypeDTO) {
-        return convertFromDTO(f1102TypeDTO);
     }
 
     private F1102Type convertFromDTO(F1102TypeDTO f1102TypeDTO) {
@@ -361,7 +323,39 @@ public class ConversionServiceImpl implements ConversionService {
     }
 
     private String dateFormatter(String dateString) {
-        LocalDate date = LocalDate.parse(dateString, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        return date.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+        LocalDate date = LocalDate.parse(dateString, DateTimeFormatter.ofPattern(INPUT_DATE_FORMAT));
+        return date.format(DateTimeFormatter.ofPattern(F1102_DATE_FORMAT));
+    }
+
+    private String getCodSector(String cod_sector) {
+        return cod_sector.substring(0,cod_sector.indexOf(LINE) - 1);
+    }
+
+    private void fillContType(ContType contType, String symbol) {
+        contType.setCodSector(cod_sector);
+        contType.setCodSursa(String.valueOf(cod_sursa));
+        if (symbol.length() <= 10) {
+            symbol = symbol.length() < SYMBOL_LENGTH ? symbol.concat(ZERO.repeat(SYMBOL_LENGTH - symbol.length())) : symbol;
+            contType.setSimbolPCont(symbol.substring(0, SYMBOL_LENGTH));
+        } else {
+            String symbolPCont = symbol.substring(0, SYMBOL_LENGTH);
+            if (symbol.length() <= 16) {
+                String cf = symbol.substring(10);
+                cf = cf.concat(ZERO.repeat(CF_CE_LENGTH - cf.length()));
+                contType.setCf(cf);
+            } else {
+                String cf = symbol.substring(10, 16);
+                String ce = symbol.substring(16);
+                ce = ce.concat(ZERO.repeat(CF_CE_LENGTH - ce.length()));
+                contType.setCf(cf);
+                contType.setCe(ce);
+            }
+            contType.setSimbolPCont(symbolPCont);
+        }
+        String strCont = contType.getSimbolPCont().concat(contType.getCodSector()).concat(contType.getCodSursa())
+                .concat(Objects.nonNull(contType.getCf()) ? contType.getCf() : EMPTY)
+                .concat(Objects.nonNull(contType.getCe()) ? contType.getCe() : EMPTY);
+        strCont = strCont.concat(X.repeat(STRCONT_LENGTH - strCont.length()));
+        contType.setStrCont(strCont);
     }
 }

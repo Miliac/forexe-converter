@@ -11,7 +11,7 @@ public enum Columns {
         return this.definition;
     }
 
-    private Columns(String definition)
+    Columns(String definition)
     {
         this.definition = definition;
     }

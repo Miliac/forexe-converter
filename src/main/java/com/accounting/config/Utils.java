@@ -1,7 +1,13 @@
 package com.accounting.config;
 
+import java.math.BigDecimal;
+
 public class Utils {
 
+    public static final BigDecimal ZERO_DECIMAL = BigDecimal.valueOf(0.0);
+    public static final int SYMBOL_LENGTH = 7;
+    public static final int CF_CE_LENGTH = 6;
+    public static final int STRCONT_LENGTH = 40;
     public static final String INDEX = "/";
     public static final String HOME = "/home";
     public static final String ADMIN = "/admin";
@@ -13,7 +19,6 @@ public class Utils {
     public static final String EDIT_MODAL = "modal-edit-%s";
     public static final String CHANGE_PASSWORD_MODAL = "modal-change-password";
     public static final String REDIRECT_ADMIN = "redirect:" + ADMIN;
-    public static final String REDIRECT_HOME = "redirect:" + HOME;
     public static final String HAS_ERRORS = "hasErrors";
     public static final String BINDING_RESULT = "org.springframework.validation.BindingResult.%s";
     public static final String MODAL_ID = "modalId";
@@ -25,5 +30,10 @@ public class Utils {
     public static final String NEW_PASSWORD_ERROR = "New password should not be empty!";
     public static final String ERROR_CODE = "error";
     public static final String ZERO = "0";
+    public static final String LINE = "-";
+    public static final String SPACE = " ";
+    public static final String X = "X";
+    public static final String INPUT_DATE_FORMAT = "yyyy-MM-dd";
+    public static final String F1102_DATE_FORMAT = "dd.MM.yyyy";
 
 }
