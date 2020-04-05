@@ -87,8 +87,8 @@ public class ConversionServiceImpl implements ConversionService {
                 BigDecimal rulajCredPrevious = Objects.nonNull(previousCont.getRulajCred()) ? previousCont.getRulajCred() : BigDecimal.valueOf(0.0);
                 BigDecimal rulajDebCont = Objects.nonNull(contType.getRulajDeb()) ? contType.getRulajDeb() : BigDecimal.valueOf(0.0);
                 BigDecimal rulajCredCont = Objects.nonNull(contType.getRulajCred()) ? contType.getRulajCred() : BigDecimal.valueOf(0.0);
-                previousCont.setRulajDeb(rulajDebPrevious.add(rulajDebCont));
-                previousCont.setRulajCred(rulajCredPrevious.add(rulajCredCont));
+                previousCont.setRulajDeb(rulajDebPrevious.add(rulajDebCont).stripTrailingZeros());
+                previousCont.setRulajCred(rulajCredPrevious.add(rulajCredCont).stripTrailingZeros());
                 return false;
             }
         }
@@ -324,7 +324,7 @@ public class ConversionServiceImpl implements ConversionService {
                     cells.forEach(cell -> {
                         BigDecimal rulDeb = BigDecimal.valueOf(cell.getNumericCellValue());
                         ContType contType = contTypes.getOrDefault(String.valueOf(cell.getRowIndex()), new ContType());
-                        contType.setRulajDeb(rulDeb.equals(BigDecimal.valueOf(0.0)) ? null : rulDeb);
+                        contType.setRulajDeb(rulDeb.equals(BigDecimal.valueOf(0.0)) ? null : rulDeb.stripTrailingZeros());
                         contTypes.put(String.valueOf(cell.getRowIndex()), contType);
                     });
                     break;
@@ -332,7 +332,7 @@ public class ConversionServiceImpl implements ConversionService {
                     cells.forEach(cell -> {
                         BigDecimal rulCred = BigDecimal.valueOf(cell.getNumericCellValue());
                         ContType contType = contTypes.getOrDefault(String.valueOf(cell.getRowIndex()), new ContType());
-                        contType.setRulajCred(rulCred.equals(BigDecimal.valueOf(0.0)) ? null : rulCred);
+                        contType.setRulajCred(rulCred.equals(BigDecimal.valueOf(0.0)) ? null : rulCred.stripTrailingZeros());
                         contTypes.put(String.valueOf(cell.getRowIndex()), contType);
                     });
                     break;
