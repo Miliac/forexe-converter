@@ -63,9 +63,10 @@ public class ConversionServiceImpl implements ConversionService {
             extractedColumns.forEach((className, columns) -> extractedColumns.put(className, filterClass(className, columns, symbols, exceptions)));
 
             List<ContType> contTypes = getContType(extractedColumns);
+            List<ContType> copyContTypes = new ArrayList<>(contTypes);
             F1102Type f1102Type = convertFromDTO(f1102TypeDTO);
             f1102Type.setCont(contTypes.stream()
-                    .filter(contType -> removeDuplicatesAndSumValues(contType, contTypes))
+                    .filter(contType -> removeDuplicatesAndSumValues(contType, copyContTypes))
                     .collect(Collectors.toList()));
             try {
                 ObjectFactory objectFactory = new ObjectFactory();
@@ -94,6 +95,7 @@ public class ConversionServiceImpl implements ConversionService {
                 BigDecimal rulajCredCont = Objects.nonNull(contType.getRulajCred()) ? contType.getRulajCred() : ZERO_DECIMAL;
                 previousCont.setRulajDeb(rulajDebPrevious.add(rulajDebCont).stripTrailingZeros());
                 previousCont.setRulajCred(rulajCredPrevious.add(rulajCredCont).stripTrailingZeros());
+                contTypes.remove(contType);
                 return false;
             }
         }
@@ -110,12 +112,8 @@ public class ConversionServiceImpl implements ConversionService {
         List<Cell> finalCreditorColumn = creditorColumn;
         List<Cell> finalSymbolColumn = symbolColumn.stream()
                 .filter(cell ->
-                        (finalDebitorColumn.get(symbolColumn.indexOf(cell))
-                                .getNumericCellValue() < 0 || finalDebitorColumn.get(symbolColumn.indexOf(cell))
-                                .getNumericCellValue() >= 1) ||
-                                (finalCreditorColumn.get(symbolColumn.indexOf(cell))
-                                        .getNumericCellValue() < 0 || finalCreditorColumn.get(symbolColumn.indexOf(cell))
-                                        .getNumericCellValue() >= 1))
+                        (finalDebitorColumn.get(symbolColumn.indexOf(cell)).getNumericCellValue() != 0) ||
+                                (finalCreditorColumn.get(symbolColumn.indexOf(cell)).getNumericCellValue() != 0))
                 .map(this::getCellTrimValue)
                 .collect(Collectors.toList());
 
