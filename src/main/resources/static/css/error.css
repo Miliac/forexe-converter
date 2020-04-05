@@ -52,7 +52,7 @@ body {
     margin-left: -12px;
     color: #030005;
     text-transform: uppercase;
-    text-shadow: -1px -1px 0 #8400ff, 1px 1px 0 #ff005a;
+    text-shadow: -1px -1px 0 #174680, 1px 1px 0 #8b0401;
     letter-spacing: -20px;
 }
 
@@ -67,7 +67,7 @@ body {
     font-weight: 700;
     color: #fff;
     text-transform: uppercase;
-    text-shadow: 0 2px 0 #8400ff;
+    text-shadow: 0 2px 0 #174680;
     letter-spacing: 10px;
     margin: 0;
 }
@@ -76,7 +76,7 @@ body {
     font-family: 'Montserrat', sans-serif;
     display: inline-block;
     text-transform: uppercase;
-    color: #ff005a;
+    color: #8b0401;
     text-decoration: none;
     border: 2px solid;
     background: transparent;
@@ -88,7 +88,7 @@ body {
 }
 
 .error a:hover {
-    color: #8400ff;
+    color: #174680;
 }
 
 @media only screen and (max-width: 767px) {
