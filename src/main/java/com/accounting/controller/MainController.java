@@ -8,6 +8,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -31,7 +32,7 @@ import java.util.Optional;
 import static com.accounting.config.Utils.*;
 
 @Controller
-public class MainController {
+public class MainController implements ErrorController {
 
     private static final Logger logger = LogManager.getLogger(MainController.class);
 
@@ -105,5 +106,15 @@ public class MainController {
         } catch (IOException ex) {
             logger.error("Error occurred while downloading XML file {} ", ex.getMessage());
         }
+    }
+
+    @GetMapping("/error")
+    public String handleError(){
+        return "error";
+    }
+
+    @Override
+    public String getErrorPath() {
+        return "/error";
     }
 }
