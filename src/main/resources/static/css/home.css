@@ -50,3 +50,11 @@ html,body{
     margin-right: 30px;
     margin-left: 15px;
 }
+
+.log-out-button{
+    color: #C6C6C6;
+    font-size: larger;
+    margin-top: 10px;
+    margin-right: 10px;
+    float: right;
+}

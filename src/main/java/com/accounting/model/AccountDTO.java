@@ -23,9 +23,6 @@ public class AccountDTO {
     private String newPassword;
     private String confirmPassword;
 
-    public AccountDTO() {
-    }
-
     public int getIdAccount() {
         return idAccount;
     }

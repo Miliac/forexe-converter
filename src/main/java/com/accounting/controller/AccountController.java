@@ -33,7 +33,7 @@ public class AccountController {
     @PostMapping("/create")
     public String createAccount(@Valid @ModelAttribute(CREATE_MODEL) AccountDTO account, BindingResult result,
                                 RedirectAttributes redirectAttributes, HttpServletRequest request) {
-        logger.info("User {} with IP: {} Executed {} request on endpoint: {}",
+        logger.info(USER_MESSAGE_LOG,
                 request.getRemoteUser(), request.getRemoteAddr(), request.getMethod(), request.getRequestURI());
         return getRedirect(account, result, redirectAttributes, CREATE_MODAL, CREATE_MODEL);
     }
@@ -41,14 +41,14 @@ public class AccountController {
     @PostMapping("/edit")
     public String editAccount(@Valid @ModelAttribute(EDIT_MODEL) AccountDTO account, BindingResult result,
                               RedirectAttributes redirectAttributes, HttpServletRequest request) {
-        logger.info("User {} with IP: {} Executed {} request on endpoint: {}",
+        logger.info(USER_MESSAGE_LOG,
                 request.getRemoteUser(), request.getRemoteAddr(), request.getMethod(), request.getRequestURI());
         return getRedirect(account, result, redirectAttributes, String.format(EDIT_MODAL, account.getIdAccount()), EDIT_MODEL);
     }
 
     @PostMapping("/delete/{id}")
     public String deleteAccount(@PathVariable int id, HttpServletRequest request) {
-        logger.info("User {} with IP: {} Executed {} request on endpoint: {}",
+        logger.info(USER_MESSAGE_LOG,
                 request.getRemoteUser(), request.getRemoteAddr(), request.getMethod(), request.getRequestURI());
         accountService.deleteAccount(id);
         return REDIRECT_ADMIN;
@@ -57,7 +57,7 @@ public class AccountController {
     @PostMapping("/changePassword")
     public String changePasswordAccount(@ModelAttribute(EDIT_MODEL) AccountDTO account, BindingResult result,
                                         RedirectAttributes redirectAttributes, HttpServletRequest request) {
-        logger.info("User {} with IP: {} Executed {} request on endpoint: {}",
+        logger.info(USER_MESSAGE_LOG,
                 request.getRemoteUser(), request.getRemoteAddr(), request.getMethod(), request.getRequestURI());
         if (StringUtils.isEmpty(account.getNewPassword())) {
             result.rejectValue(NEW_PASSWORD, ERROR_CODE, NEW_PASSWORD_ERROR);

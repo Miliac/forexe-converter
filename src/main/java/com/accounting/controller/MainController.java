@@ -8,6 +8,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,8 +28,7 @@ import java.util.Collections;
 import java.util.Objects;
 import java.util.Optional;
 
-import static com.accounting.config.Utils.F1102_MODEL;
-import static com.accounting.config.Utils.INPUT_DATE_FORMAT;
+import static com.accounting.config.Utils.*;
 
 @Controller
 public class MainController {
@@ -43,14 +46,30 @@ public class MainController {
 
     @GetMapping("/")
     public String getXls(HttpServletRequest request) {
-        logger.info("User {} with IP: {} Executed {} request on endpoint: {}",
+
+        logger.info(USER_MESSAGE_LOG,
                 request.getRemoteUser(), request.getRemoteAddr(), request.getMethod(), request.getRequestURI());
-        return "login";
+
+        Authentication authentication = SecurityContextHolder.getContext()
+                .getAuthentication();
+
+        if (authentication.getPrincipal()
+                .equals("anonymousUser")) {
+            return "login";
+        } else {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            if (userDetails.getAuthorities()
+                    .contains(new SimpleGrantedAuthority("USER"))) {
+                return REDIRECT_HOME;
+            } else {
+                return REDIRECT_ADMIN;
+            }
+        }
     }
 
     @GetMapping("/home")
     public String getHomeView(Model model, HttpServletRequest request) {
-        logger.info("User {} with IP: {} Executed {} request on endpoint: {}",
+        logger.info(USER_MESSAGE_LOG,
                 request.getRemoteUser(), request.getRemoteAddr(), request.getMethod(), request.getRequestURI());
         LocalDate date = LocalDate.now();
         int currentYear = date.getYear();
@@ -59,7 +78,9 @@ public class MainController {
         if (Objects.isNull(model.getAttribute(F1102_MODEL))) {
             Optional<AccountDTO> account = accountService.getAccountByName(request.getRemoteUser());
             if (account.isPresent()) {
-                model.addAttribute(F1102_MODEL, new F1102TypeDTO(currentYear, currentMonth, dataDocument, account.get().getName(), account.get().getCui()));
+                model.addAttribute(F1102_MODEL, new F1102TypeDTO(currentYear, currentMonth, dataDocument, account.get()
+                        .getName(), account.get()
+                        .getCui()));
             } else {
                 model.addAttribute(F1102_MODEL, new F1102TypeDTO(currentYear, currentMonth, dataDocument, Strings.EMPTY, Strings.EMPTY));
             }

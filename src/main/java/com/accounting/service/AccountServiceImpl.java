@@ -43,7 +43,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public void saveAccount(AccountDTO account) {
-        logger.info("Account saved in database: {} ", account.toString());
+        logger.info("Account saved in database: {} ", account);
         accountRepository.save(convertFromDTO(account));
     }
 
@@ -63,7 +63,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) {
         Account account = accountRepository.findAccountByUsername(username);
         if (account == null) {
             logger.warn("Invalid username or password");

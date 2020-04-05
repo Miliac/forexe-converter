@@ -24,14 +24,8 @@ import javax.xml.namespace.QName;
 @XmlRegistry
 public class ObjectFactory {
 
-    private final static QName _F1102_QNAME = new QName("mfp:anaf:dgti:f1102:declaratie:v1", "f1102");
+    private static final QName _F1102_QNAME = new QName("mfp:anaf:dgti:f1102:declaratie:v1", "f1102");
 
-    /**
-     * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: models
-     * 
-     */
-    public ObjectFactory() {
-    }
 
     /**
      * Create an instance of {@link F1102Type }
@@ -55,7 +49,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "mfp:anaf:dgti:f1102:declaratie:v1", name = "f1102")
     public JAXBElement<F1102Type> createF1102(F1102Type value) {
-        return new JAXBElement<F1102Type>(_F1102_QNAME, F1102Type.class, null, value);
+        return new JAXBElement<>(_F1102_QNAME, F1102Type.class, null, value);
     }
 
 }

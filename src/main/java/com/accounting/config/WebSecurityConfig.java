@@ -34,8 +34,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/static/css/**", "/static/images/**", "/css/**", "/images/**", "/webjars/**", "/account/save", "/account/delete/**")
+                .antMatchers("/css/**", "/images/**", "/webjars/**")
                 .permitAll()
+                .antMatchers("/home").hasAuthority("USER")
+                .antMatchers("/admin", "/account/**", "/resource/**").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()

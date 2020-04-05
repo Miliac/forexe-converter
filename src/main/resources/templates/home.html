@@ -11,6 +11,9 @@
     <script th:src="@{/js/home.js}"></script>
 </head>
 <body>
+<div>
+    <a class="log-out-button" th:href="@{/logout}" title="Logout"><span class="fas fa-sign-out-alt"></span>Logout</a>
+</div>
 <div class="container">
     <div class="d-flex justify-content-center h-100">
         <div class="card">
@@ -24,7 +27,7 @@
                             <div class="input-group form-group">
                                 <label class="control-label" for="year">An</label>
                                 <select class="browser-default custom-select" id="year" name="year" th:field="*{an}">
-                                    <option th:each="year : ${years}" th:value="${year}" th:text="${year}"></option>
+                                    <option th:each="year : ${years}" th:text="${year}" th:value="${year}"></option>
                                 </select>
                             </div>
                         </div>
@@ -32,7 +35,7 @@
                             <div class="input-group form-group">
                                 <label class="control-label" for="month">Luna</label>
                                 <select class="browser-default custom-select" id="month" name="month" th:field="*{lunaR}">
-                                    <option th:each="month : ${months}" th:value="${month}" th:text="${month}"></option>
+                                    <option th:each="month : ${months}" th:text="${month}" th:value="${month}"></option>
                                 </select>
                             </div>
                         </div>
@@ -40,7 +43,7 @@
                             <div class="form-group">
                                 <div class='input-group date' id='datetimepicker'>
                                     <label class="control-label" for="date">Data intocmire</label>
-                                    <input type="date" class="form-control" id="date" name="date" data-date-format="dd/MM/yyyy" th:field="*{dataDocument}"/>
+                                    <input class="form-control" data-date-format="dd/MM/yyyy" id="date" name="date" th:field="*{dataDocument}" type="date"/>
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
                                     </div>
@@ -53,15 +56,15 @@
                         <div class="col">
                             <div class="input-group form-group">
                                 <label class="control-label" for="name">Denumire entitate publica</label>
-                                <input id="name" name="name" type="text" placeholder="Denumire entitate publica" class="form-control input-md"
-                                       th:field="*{numeIp}"/>
+                                <input class="form-control input-md" id="name" name="name" placeholder="Denumire entitate publica" th:field="*{numeIp}"
+                                       type="text"/>
                             </div>
                         </div>
                         <div class="col" style="max-width: 420px">
                             <div class="input-group form-group">
                                 <label class="control-label" for="cui">CUI entitate publica</label>
-                                <input id="cui" name="cui" type="text" placeholder="CUI entitate publica" class="form-control input-md"
-                                       th:field="*{cuiIp}"/>
+                                <input class="form-control input-md" id="cui" name="cui" placeholder="CUI entitate publica" th:field="*{cuiIp}"
+                                       type="text"/>
                             </div>
                         </div>
                     </div>
@@ -70,8 +73,8 @@
                             <div class="input-group form-group">
                                 <label class="control-label" for="sector" style="margin-right: 128px">Sector buget</label>
                                 <select class="browser-default custom-select" id="sector" name="sector" th:field="*{sector}">
-                                    <option th:each="sector : ${sectors}" th:value="${sector}" th:text="${sector}"
-                                            th:selected="${sector=='02 - Buget local'}"></option>
+                                    <option th:each="sector : ${sectors}" th:selected="${sector=='02 - Buget local'}" th:text="${sector}"
+                                            th:value="${sector}"></option>
                                 </select>
                             </div>
                         </div>
@@ -79,8 +82,8 @@
                             <div class="input-group form-group">
                                 <label class="control-label">Formular fara valori</label>
                                 <div style="margin-left: 15px">
-                                    <label class="radio-inline"><input type="radio" th:field="*{documentCuValori}" th:value="1">Da</label>
-                                    <label class="radio-inline"><input type="radio" th:field="*{documentCuValori}" th:value="0" checked>Nu</label>
+                                    <label class="radio-inline"><input th:field="*{documentCuValori}" th:value="1" type="radio">Da</label>
+                                    <label class="radio-inline"><input checked th:field="*{documentCuValori}" th:value="0" type="radio">Nu</label>
                                 </div>
                             </div>
                         </div>
@@ -89,8 +92,8 @@
                         <div class="col">
                             <div class="input-group form-group">
                                 <label class="control-label" for="suma-control" style="margin-right: 124px">Suma control</label>
-                                <input id="suma-control" name="suma-control" type="text" placeholder="Suma control" class="form-control input-md"
-                                       th:field="*{sumaControl}"/>
+                                <input class="form-control input-md" id="suma-control" name="suma-control" placeholder="Suma control" th:field="*{sumaControl}"
+                                       type="text"/>
                             </div>
                         </div>
                         <div class="col" style="max-width: 420px">
@@ -99,10 +102,10 @@
                     </div>
                     <div class="row">
                         <div class="input-group">
-                            <div class="custom-file file-choose" >
-                                <input type="file" class="custom-file-input" id="inputGroupFile01"
-                                       aria-describedby="inputGroupFileAddon01" onchange="validate_fileupload(this.value)"
-                                       th:field="*{xlsFile}">
+                            <div class="custom-file file-choose">
+                                <input aria-describedby="inputGroupFileAddon01" class="custom-file-input" id="inputGroupFile01"
+                                       onchange="validate_fileupload(this.value)" th:field="*{xlsFile}"
+                                       type="file">
                                 <label class="custom-file-label" for="inputGroupFile01" id="labelForFile">Choose a XLSX
                                     file</label>
                             </div>

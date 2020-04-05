@@ -1,11 +1,11 @@
 
 package com.accounting.model;
 
-import java.util.ArrayList;
-import java.util.List;
 import javax.xml.bind.annotation.*;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -41,23 +41,23 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 public class F1102Type {
 
     @XmlElement(namespace = "mfp:anaf:dgti:f1102:declaratie:v1", required = true)
-    protected List<ContType> cont;
+    private List<ContType> cont;
     @XmlAttribute(name = "suma_control", required = true)
-    protected long sumaControl;
+    private long sumaControl;
     @XmlAttribute(name = "luna_r", required = true)
-    protected int lunaR;
+    private int lunaR;
     @XmlAttribute(name = "an", required = true)
-    protected int an;
+    private int an;
     @XmlAttribute(name = "data_document", required = true)
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
-    protected String dataDocument;
+    private String dataDocument;
     @XmlAttribute(name = "d_rec", required = true)
-    protected int dRec;
+    private int dRec;
     @XmlAttribute(name = "nume_ip", required = true)
-    protected String numeIp;
+    private String numeIp;
     @XmlAttribute(name = "cui_ip", required = true)
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
-    protected String cuiIp;
+    private String cuiIp;
 
     /**
      * Gets the value of the cont property.
@@ -83,7 +83,7 @@ public class F1102Type {
      */
     public List<ContType> getCont() {
         if (cont == null) {
-            cont = new ArrayList<ContType>();
+            cont = new ArrayList<>();
         }
         return this.cont;
     }

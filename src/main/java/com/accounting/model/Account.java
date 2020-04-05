@@ -16,17 +16,14 @@ public class Account implements Serializable {
     private String username;
     @Column(name = "password", nullable = false)
     private String password;
-    @Column(name = "name", length = 100, nullable = true)
+    @Column(name = "name", length = 100)
     private String name;
-    @Column(name = "cui", length = 10, nullable = true)
+    @Column(name = "cui", length = 10)
     private String cui;
-    @Column(name = "status", length = 10, nullable = true)
+    @Column(name = "status", length = 10)
     private String status;
     @Column(name = "role", length = 5, nullable = false)
     private String role;
-
-    public Account() {
-    }
 
     public int getIdAccount() {
         return idAccount;

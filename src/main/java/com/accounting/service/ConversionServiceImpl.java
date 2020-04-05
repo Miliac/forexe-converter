@@ -19,7 +19,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.accounting.config.Utils.*;
-import static org.apache.logging.log4j.util.Strings.*;
+import static org.apache.logging.log4j.util.Strings.EMPTY;
 
 @Service
 public class ConversionServiceImpl implements ConversionService {
@@ -34,8 +34,8 @@ public class ConversionServiceImpl implements ConversionService {
     private Map<String, String> exceptions;
     private List<Cell> cellsWithCF;
     private List<Cell> cellsWithCFAndCE;
-    private String cod_sector;
-    private char cod_sursa;
+    private String codSector;
+    private char codSursa;
 
     public ConversionServiceImpl() {
         xlsReader = new XLSReader();
@@ -54,9 +54,9 @@ public class ConversionServiceImpl implements ConversionService {
     @Override
     public void convert(F1102TypeDTO f1102TypeDTO, HttpServletResponse response) {
 
-        this.cod_sector = getCodSector(f1102TypeDTO.getSector());
-        this.cod_sursa = 'G';
-        
+        this.codSector = getCodSector(f1102TypeDTO.getSector());
+        this.codSursa = 'G';
+
         Map<String, Map<Columns, List<Cell>>> extractedColumns = xlsReader.read(f1102TypeDTO.getXlsFile());
 
         if (!extractedColumns.isEmpty()) {
@@ -143,97 +143,110 @@ public class ConversionServiceImpl implements ConversionService {
         } else {
 
             if (cell.getStringCellValue().length() == 3) {
-                String symbol = cell.getStringCellValue().concat(ZERO.repeat(4));
-                if (classSymbols.getAccountSymbolsEndInFourZeros()
-                        .contains(symbol)) {
-                    cellsWithCF = symbolColumns.stream()
-                            .filter(nextCell -> nextCell.getStringCellValue().startsWith(symbol) && nextCell.getStringCellValue().length() == 16)
-                            .collect(Collectors.toList());
-                    cellsWithCF = cellsWithCF.stream()
-                            .filter(nextCell -> filterDifferentSymbol(nextCell, cellsWithCF))
-                            .collect(Collectors.toList());
-                    return cellsWithCF.size() < 2;
-                } else {
-                    cellsWithCF.clear();
-                    return false;
-                }
+                return filterCellsWith3Length(cell, symbolColumns, classSymbols);
             }
 
             if (cell.getStringCellValue().length() == 5 || cell.getStringCellValue().length() == 7) {
-                String symbol = cell.getStringCellValue().length() == 5 ? cell.getStringCellValue().concat(ZERO.repeat(2)) : cell.getStringCellValue();
-                if (classSymbols.getAccountSymbolsWithCFAndCE().contains(symbol)) {
-                    cellsWithCFAndCE = symbolColumns.stream()
-                            .filter(nextCell -> nextCell.getStringCellValue().startsWith(cell.getStringCellValue()) &&
-                                    (nextCell.getStringCellValue().length() == 20 || nextCell.getStringCellValue().length() == 22))
-                            .filter(nextCell -> !classSymbols.getAccountSymbolsWithCFAndCE().contains(getSymbol(nextCell)))
-                            .collect(Collectors.toList());
-                    return !cellsWithCFAndCE.isEmpty();
-                }
-
-                if (!symbol.endsWith(ZERO.repeat(2))) {
-                    return classSymbols.getAccountSymbols().contains(symbol);
-                }
-
-                if (classSymbols.getAccountSymbolsEndInTwoZeros().contains(symbol)) {
-                    cellsWithCF = symbolColumns.stream()
-                            .filter(nextCell -> nextCell.getStringCellValue()
-                                    .startsWith(cell.getStringCellValue()) && nextCell.getStringCellValue().length() == 16)
-                            .collect(Collectors.toList());
-                    cellsWithCF = cellsWithCF.stream()
-                            .filter(nextCell -> filterDifferentSymbol(nextCell, cellsWithCF))
-                            .collect(Collectors.toList());
-                    return cellsWithCF.size() < 2;
-                } else {
-                    cellsWithCF.clear();
-                    return false;
-                }
+                return filterCellsWithLengthBetween5And7(cell, symbolColumns, classSymbols);
             }
 
             if (cell.getStringCellValue().length() >= 14 && cell.getStringCellValue().length() < 20) {
-                String symbol = getSymbol(cell);
-                if (classSymbols.getAccountSymbolsWithCF().contains(symbol)) {
-                    cell.setCellValue(getCellContent(cell));
-                    return true;
-                } else {
-                    if (cellsWithCF.size() >= 2) {
-                        if(classSymbols.getAccountSymbols().contains(symbol) ||
-                                classSymbols.getAccountSymbolsEndInTwoZeros().contains(symbol) ||
-                                classSymbols.getAccountSymbolsEndInFourZeros().contains(symbol)) {
-                            cell.setCellValue(cell.getStringCellValue().substring(0, 10));
-                        }
-                        cell.setCellValue(getCellContent(cell));
-                        return cellsWithCF.contains(cell);
-                    } else {
-                        cell.setCellValue(cell.getStringCellValue().substring(0, 10));
-                        return classSymbols.getAccountSymbols().contains(symbol);
-                    }
-                }
+                return filterCellsWithLengthBetween14And20(cell, classSymbols);
             }
 
-            if (cell.getStringCellValue()
-                    .length() >= 20 && cell.getStringCellValue()
-                    .length() <= 22) {
-                String symbol = getSymbol(cell);
-                cell.setCellValue(getCellContent(cell));
-                if (classSymbols.getAccountSymbolsWithCFAndCE().contains(symbol) && cell.getStringCellValue().length() == 20) {
-                    cellsWithCFAndCE = symbolColumns.stream()
-                            .filter(nextCell -> nextCell.getStringCellValue().startsWith(cell.getStringCellValue()) &&
-                                    nextCell.getStringCellValue().length() == 22)
-                            .collect(Collectors.toList());
-                    return cellsWithCFAndCE.isEmpty();
-                }
-
-                return classSymbols.getAccountSymbolsWithCFAndCE()
-                        .contains(symbol);
+            if (cell.getStringCellValue().length() >= 20 && cell.getStringCellValue().length() <= 22) {
+                return filterCellsWithLengthBetween20And22(cell, symbolColumns, classSymbols);
             }
         }
 
         return false;
     }
 
+    private boolean filterCellsWith3Length(Cell cell, List<Cell> symbolColumns, ClassSymbols classSymbols) {
+        String symbol = cell.getStringCellValue().concat(ZERO.repeat(4));
+        if (classSymbols.getAccountSymbolsEndInFourZeros()
+                .contains(symbol)) {
+            cellsWithCF = symbolColumns.stream()
+                    .filter(nextCell -> nextCell.getStringCellValue().startsWith(symbol) && nextCell.getStringCellValue().length() == 16)
+                    .collect(Collectors.toList());
+            cellsWithCF = cellsWithCF.stream()
+                    .filter(nextCell -> filterDifferentSymbol(nextCell, cellsWithCF))
+                    .collect(Collectors.toList());
+            return cellsWithCF.size() < 2;
+        } else {
+            cellsWithCF.clear();
+            return false;
+        }
+    }
+
+    private boolean filterCellsWithLengthBetween5And7(Cell cell, List<Cell> symbolColumns, ClassSymbols classSymbols) {
+        String symbol = cell.getStringCellValue().length() == 5 ? cell.getStringCellValue().concat(ZERO.repeat(2)) : cell.getStringCellValue();
+        if (classSymbols.getAccountSymbolsWithCFAndCE().contains(symbol)) {
+            cellsWithCFAndCE = symbolColumns.stream()
+                    .filter(nextCell -> nextCell.getStringCellValue().startsWith(cell.getStringCellValue()) &&
+                            (nextCell.getStringCellValue().length() == 20 || nextCell.getStringCellValue().length() == 22))
+                    .filter(nextCell -> !classSymbols.getAccountSymbolsWithCFAndCE().contains(getSymbol(nextCell)))
+                    .collect(Collectors.toList());
+            return !cellsWithCFAndCE.isEmpty();
+        }
+
+        if (!symbol.endsWith(ZERO.repeat(2))) {
+            return classSymbols.getAccountSymbols().contains(symbol);
+        }
+
+        if (classSymbols.getAccountSymbolsEndInTwoZeros().contains(symbol)) {
+            cellsWithCF = symbolColumns.stream()
+                    .filter(nextCell -> nextCell.getStringCellValue()
+                            .startsWith(cell.getStringCellValue()) && nextCell.getStringCellValue().length() == 16)
+                    .collect(Collectors.toList());
+            cellsWithCF = cellsWithCF.stream()
+                    .filter(nextCell -> filterDifferentSymbol(nextCell, cellsWithCF))
+                    .collect(Collectors.toList());
+            return cellsWithCF.size() < 2;
+        } else {
+            cellsWithCF.clear();
+            return false;
+        }
+    }
+
+    private boolean filterCellsWithLengthBetween14And20(Cell cell, ClassSymbols classSymbols) {
+        String symbol = getSymbol(cell);
+        if (classSymbols.getAccountSymbolsWithCF().contains(symbol)) {
+            cell.setCellValue(getCellContent(cell));
+            return true;
+        } else {
+            if (cellsWithCF.size() >= 2) {
+                if(classSymbols.getAccountSymbols().contains(symbol) ||
+                        classSymbols.getAccountSymbolsEndInTwoZeros().contains(symbol) ||
+                        classSymbols.getAccountSymbolsEndInFourZeros().contains(symbol)) {
+                    cell.setCellValue(cell.getStringCellValue().substring(0, 10));
+                }
+                cell.setCellValue(getCellContent(cell));
+                return cellsWithCF.contains(cell);
+            } else {
+                cell.setCellValue(cell.getStringCellValue().substring(0, 10));
+                return classSymbols.getAccountSymbols().contains(symbol);
+            }
+        }
+    }
+
+    private boolean filterCellsWithLengthBetween20And22(Cell cell, List<Cell> symbolColumns, ClassSymbols classSymbols) {
+        String symbol = getSymbol(cell);
+        cell.setCellValue(getCellContent(cell));
+        if (classSymbols.getAccountSymbolsWithCFAndCE().contains(symbol) && cell.getStringCellValue().length() == 20) {
+            cellsWithCFAndCE = symbolColumns.stream()
+                    .filter(nextCell -> nextCell.getStringCellValue().startsWith(cell.getStringCellValue()) &&
+                            nextCell.getStringCellValue().length() == 22)
+                    .collect(Collectors.toList());
+            return cellsWithCFAndCE.isEmpty();
+        }
+
+        return classSymbols.getAccountSymbolsWithCFAndCE().contains(symbol);
+    }
+
     private String getCellContent(Cell cell) {
         String content = cell.getStringCellValue();
-        int indexG = content.indexOf(cod_sursa);
+        int indexG = content.indexOf(codSursa);
         if(indexG != 9) {
             String symbol = getSymbol(cell);
             String contSufix = content.substring(indexG-2);
@@ -270,7 +283,7 @@ public class ConversionServiceImpl implements ConversionService {
 
     private String getSymbol(Cell cell) {
         String content = cell.getStringCellValue();
-        String symbol = cell.getStringCellValue().substring(0, content.indexOf(cod_sursa)-2);
+        String symbol = cell.getStringCellValue().substring(0, content.indexOf(codSursa)-2);
         return symbol.concat(ZERO.repeat(SYMBOL_LENGTH - symbol.length()));
     }
 
@@ -325,13 +338,13 @@ public class ConversionServiceImpl implements ConversionService {
         return date.format(DateTimeFormatter.ofPattern(F1102_DATE_FORMAT));
     }
 
-    private String getCodSector(String cod_sector) {
-        return cod_sector.substring(0,cod_sector.indexOf(LINE) - 1);
+    private String getCodSector(String codSector) {
+        return codSector.substring(0,codSector.indexOf(LINE) - 1);
     }
 
     private void fillContType(ContType contType, String symbol) {
-        contType.setCodSector(cod_sector);
-        contType.setCodSursa(String.valueOf(cod_sursa));
+        contType.setCodSector(codSector);
+        contType.setCodSursa(String.valueOf(codSursa));
         if (symbol.length() <= 10) {
             symbol = symbol.length() < SYMBOL_LENGTH ? symbol.concat(ZERO.repeat(SYMBOL_LENGTH - symbol.length())) : symbol;
             contType.setSimbolPCont(symbol.substring(0, SYMBOL_LENGTH));

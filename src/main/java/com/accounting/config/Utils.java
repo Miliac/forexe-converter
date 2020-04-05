@@ -8,10 +8,10 @@ public class Utils {
     public static final int SYMBOL_LENGTH = 7;
     public static final int CF_CE_LENGTH = 6;
     public static final int STRCONT_LENGTH = 40;
-    public static final String INDEX = "/";
-    public static final String HOME = "/home";
-    public static final String ADMIN = "/admin";
-    public static final String LOGOUT = "/logout";
+    static final String INDEX = "/";
+    static final String HOME = "/home";
+    static final String ADMIN = "/admin";
+    static final String LOGOUT = "/logout";
     public static final String CREATE_MODEL = "newAccount";
     public static final String EDIT_MODEL = "editAccount";
     public static final String F1102_MODEL = "f1102Type";
@@ -19,6 +19,7 @@ public class Utils {
     public static final String EDIT_MODAL = "modal-edit-%s";
     public static final String CHANGE_PASSWORD_MODAL = "modal-change-password";
     public static final String REDIRECT_ADMIN = "redirect:" + ADMIN;
+    public static final String REDIRECT_HOME = "redirect:/home";
     public static final String HAS_ERRORS = "hasErrors";
     public static final String BINDING_RESULT = "org.springframework.validation.BindingResult.%s";
     public static final String MODAL_ID = "modalId";
@@ -35,5 +36,9 @@ public class Utils {
     public static final String X = "X";
     public static final String INPUT_DATE_FORMAT = "yyyy-MM-dd";
     public static final String F1102_DATE_FORMAT = "dd.MM.yyyy";
+    public static final String USER_MESSAGE_LOG = "User {} with IP: {} Executed {} request on endpoint: {}";
+
+    private Utils() {
+    }
 
 }
