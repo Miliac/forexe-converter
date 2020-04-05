@@ -42,7 +42,7 @@
                                     <label class="control-label" for="date">Data intocmire</label>
                                     <input type="date" class="form-control" id="date" name="date" data-date-format="dd/MM/yyyy" th:field="*{dataDocument}"/>
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fas fa-calendar-alt"></i></i></span>
+                                        <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
                                     </div>
                                 </div>
                             </div>
@@ -68,8 +68,8 @@
                     <div class="row">
                         <div class="col">
                             <div class="input-group form-group">
-                                <label class="control-label" for="name" style="margin-right: 128px">Sector buget</label>
-                                <select class="browser-default custom-select" id="sector" name="month" th:field="*{sector}">
+                                <label class="control-label" for="sector" style="margin-right: 128px">Sector buget</label>
+                                <select class="browser-default custom-select" id="sector" name="sector" th:field="*{sector}">
                                     <option th:each="sector : ${sectors}" th:value="${sector}" th:text="${sector}"
                                             th:selected="${sector=='02 - Buget local'}"></option>
                                 </select>

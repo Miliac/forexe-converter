@@ -12,8 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 import java.util.Objects;
 
-import static com.accounting.config.Utils.CREATE_MODEL;
-import static com.accounting.config.Utils.EDIT_MODEL;
+import static com.accounting.config.Utils.*;
 
 @Controller
 public class AdminController {
@@ -36,6 +35,9 @@ public class AdminController {
         }
         if (Objects.isNull(model.getAttribute(EDIT_MODEL))) {
             model.addAttribute(EDIT_MODEL, new AccountDTO());
+        }
+        if (Objects.isNull(model.getAttribute(HAS_ERRORS))) {
+            model.addAttribute(HAS_ERRORS, false);
         }
         model.addAttribute("accountStatuses", Arrays.asList("active", "inactive"));
         model.addAttribute("accountRoles", Arrays.asList("USER", "ADMIN"));

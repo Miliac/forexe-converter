@@ -10,9 +10,9 @@
     <script th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
     <script th:src="@{/webjars/bootstrap/4.2.1/js/bootstrap.min.js}"></script>
 
-    <script th:if="${hasErrors != null}" th:inline="javascript">
+    <script th:if="${hasErrors == true}" th:inline="javascript">
         $(function () {
-            var modalId = /*[[${modalId}]]*/ "";
+            let modalId = /*[[${modalId}]]*/ "";
             $('#'+modalId).modal('show');
         });
     </script>
@@ -52,7 +52,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-md-4 control-label" for="name">Name</label>
+                                        <label class="col-md-4 control-label" for="newName">Name</label>
                                         <div class="col-md-10">
                                             <input id="newName" name="name" type="text" placeholder="Name" class="form-control input-md"
                                                    th:field="*{name}"/>
@@ -60,7 +60,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-md-4 control-label" for="cui">CUI</label>
+                                        <label class="col-md-4 control-label" for="newCui">CUI</label>
                                         <div class="col-md-10">
                                             <input id="newCui" name="cui" type="text" placeholder="CUI" class="form-control input-md"
                                                    th:field="*{cui}"/>
@@ -68,7 +68,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-md-4 control-label" for="status">Status</label>
+                                        <label class="col-md-4 control-label" for="newStatus">Status</label>
                                         <div class="col-md-10">
                                             <select id="newStatus" name="status" th:field="*{status}">
                                                 <option th:each="status : ${accountStatuses}" th:value="${status}" th:text="${status}"
@@ -78,7 +78,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-md-4 control-label" for="role">Role</label>
+                                        <label class="col-md-4 control-label" for="newRole">Role</label>
                                         <div class="col-md-10">
                                             <select id="newRole" name="role" th:field="*{role}">
                                                 <option th:each="role : ${accountRoles}" th:value="${role}" th:text="${role}"
@@ -224,7 +224,7 @@
                                         <form class="form-horizontal" action="#" th:object="${editAccount}" th:action="@{/account/changePassword}" method="post">
                                             <fieldset>
                                                 <div class="form-group">
-                                                    <label class="col-md-4 control-label" for="name">Name</label>
+                                                    <label class="col-md-4 control-label" for="newPassword">New password</label>
                                                     <div class="col-md-10">
                                                         <input id="newPassword" name="newPassword" type="password" placeholder="New Password" class="form-control input-md"
                                                                th:value="*{newPassword}"
@@ -233,8 +233,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label class="col-md-4 control-label" for="cui">CUI
-                                                    </label>
+                                                    <label class="col-md-6 control-label" for="confirmPassword">Confirm password</label>
                                                     <div class="col-md-10">
                                                         <input id="confirmPassword" name="confirmPassword" type="password" placeholder="Confirm Password" class="form-control input-md"
                                                                th:value="*{confirmPassword}"/>
@@ -245,9 +244,9 @@
                                                        th:value="${account.idAccount}"/>
 
                                                 <div class="form-group">
-                                                    <label class="col-md-4 control-label" for="save"></label>
+                                                    <label class="col-md-4 control-label" for="savePassword"></label>
                                                     <div class="col-md-10">
-                                                        <button id="savePssword" name="save" class="btn btn-primary">
+                                                        <button id="savePassword" name="savePassword" class="btn btn-primary">
                                                             Change
                                                         </button>
                                                         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
