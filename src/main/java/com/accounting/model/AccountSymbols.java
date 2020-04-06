@@ -3,7 +3,7 @@ package com.accounting.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClassSymbols {
+public class AccountSymbols {
 
     private List<String> accountSymbols;
     private List<String> accountSymbolsEndInFourZeros;
@@ -11,7 +11,7 @@ public class ClassSymbols {
     private List<String> accountSymbolsWithCF;
     private List<String> accountSymbolsWithCFAndCE;
 
-    public ClassSymbols() {
+    public AccountSymbols() {
         accountSymbols = new ArrayList<>();
         accountSymbolsEndInFourZeros = new ArrayList<>();
         accountSymbolsEndInTwoZeros = new ArrayList<>();

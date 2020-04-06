@@ -37,6 +37,12 @@ public class Utils {
     public static final String INPUT_DATE_FORMAT = "yyyy-MM-dd";
     public static final String F1102_DATE_FORMAT = "dd.MM.yyyy";
     public static final String USER_MESSAGE_LOG = "User {} with IP: {} Executed {} request on endpoint: {}";
+    public static final String ACCOUNT_GET_SYMBOLS_ERROR_MESSAGE = "Error occurred while getting account symbols!!!";
+    public static final String ACCOUNT_ADD_SYMBOLS_ERROR_MESSAGE = "Error occurred while adding account symbols!!!";
+    public static final String ACCOUNT_ADD_SYMBOLS_SUCCESS_MESSAGE = "Account symbols file added with success!!!";
+    public static final String EXCEPTIONS_GET_ERROR_MESSAGE = "Error occurred while getting exceptions!!!";
+    public static final String EXCEPTIONS_ADD_ERROR_MESSAGE = "Error occurred while adding exceptions!!!";
+    public static final String EXCEPTIONS_ADD_SUCCESS_MESSAGE = "Exceptions file added with success!!!";
 
     private Utils() {
     }

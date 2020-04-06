@@ -1,8 +1,6 @@
 package com.accounting.service;
 
 import com.accounting.model.*;
-import com.accounting.reader.ClassSymbolsReader;
-import com.accounting.reader.ExceptionsReader;
 import com.accounting.reader.XLSReader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -27,28 +25,38 @@ public class ConversionServiceImpl implements ConversionService {
     private static final Logger logger = LogManager.getLogger(ConversionServiceImpl.class);
 
     private XLSReader xlsReader;
-    private ClassSymbolsReader symbolsReader;
-    private ExceptionsReader exceptionsReader;
+    private AccountSymbolsService accountSymbolsService;
+    private ExceptionsService exceptionsService;
 
-    private Map<String, ClassSymbols> symbols;
+    private Map<String, AccountSymbols> symbols;
     private Map<String, String> exceptions;
     private List<Cell> cellsWithCF;
     private List<Cell> cellsWithCFAndCE;
     private String codSector;
     private char codSursa;
 
-    public ConversionServiceImpl() {
+    public ConversionServiceImpl(AccountSymbolsService accountSymbolsService, ExceptionsService exceptionsService) {
         xlsReader = new XLSReader();
-        symbolsReader = new ClassSymbolsReader();
-        exceptionsReader = new ExceptionsReader();
+        this.accountSymbolsService = accountSymbolsService;
+        this.exceptionsService = exceptionsService;
         init();
         cellsWithCF = new ArrayList<>();
         cellsWithCFAndCE = new ArrayList<>();
     }
 
     private void init() {
-        symbols = symbolsReader.read();
-        exceptions = exceptionsReader.read();
+        readSymbols();
+        readExceptions();
+    }
+
+    public void readSymbols() {
+        symbols = accountSymbolsService.read();
+        logger.info("Account symbols file loaded in memory!");
+    }
+
+    public void readExceptions() {
+        exceptions = exceptionsService.read();
+        logger.info("Exceptions file loaded in memory!");
     }
 
     @Override
@@ -102,7 +110,7 @@ public class ConversionServiceImpl implements ConversionService {
         return true;
     }
 
-    private Map<Columns, List<Cell>> filterClass(String className, Map<Columns, List<Cell>> columns, Map<String, ClassSymbols> symbols, Map<String, String> exceptions) {
+    private Map<Columns, List<Cell>> filterClass(String className, Map<Columns, List<Cell>> columns, Map<String, AccountSymbols> symbols, Map<String, String> exceptions) {
 
         List<Cell> symbolColumn = columns.get(Columns.SIMBOL);
         List<Cell> debitorColumn = columns.get(Columns.DEBITOR);
@@ -134,8 +142,8 @@ public class ConversionServiceImpl implements ConversionService {
         return columns;
     }
 
-    private boolean filterByClass(String className, Cell cell, Map<String, ClassSymbols> symbols, List<Cell> symbolColumns, Map<String, String> exceptions) {
-        ClassSymbols classSymbols = symbols.getOrDefault(className, new ClassSymbols());
+    private boolean filterByClass(String className, Cell cell, Map<String, AccountSymbols> symbols, List<Cell> symbolColumns, Map<String, String> exceptions) {
+        AccountSymbols accountSymbols = symbols.getOrDefault(className, new AccountSymbols());
 
         if (exceptions.containsKey(cell.getStringCellValue())) {
             cell.setCellValue(exceptions.get(cell.getStringCellValue()));
@@ -143,28 +151,28 @@ public class ConversionServiceImpl implements ConversionService {
         } else {
 
             if (cell.getStringCellValue().length() == 3) {
-                return filterCellsWith3Length(cell, symbolColumns, classSymbols);
+                return filterCellsWith3Length(cell, symbolColumns, accountSymbols);
             }
 
             if (cell.getStringCellValue().length() == 5 || cell.getStringCellValue().length() == 7) {
-                return filterCellsWithLengthBetween5And7(cell, symbolColumns, classSymbols);
+                return filterCellsWithLengthBetween5And7(cell, symbolColumns, accountSymbols);
             }
 
             if (cell.getStringCellValue().length() >= 14 && cell.getStringCellValue().length() < 20) {
-                return filterCellsWithLengthBetween14And20(cell, classSymbols);
+                return filterCellsWithLengthBetween14And20(cell, accountSymbols);
             }
 
             if (cell.getStringCellValue().length() >= 20 && cell.getStringCellValue().length() <= 22) {
-                return filterCellsWithLengthBetween20And22(cell, symbolColumns, classSymbols);
+                return filterCellsWithLengthBetween20And22(cell, symbolColumns, accountSymbols);
             }
         }
 
         return false;
     }
 
-    private boolean filterCellsWith3Length(Cell cell, List<Cell> symbolColumns, ClassSymbols classSymbols) {
+    private boolean filterCellsWith3Length(Cell cell, List<Cell> symbolColumns, AccountSymbols accountSymbols) {
         String symbol = cell.getStringCellValue().concat(ZERO.repeat(4));
-        if (classSymbols.getAccountSymbolsEndInFourZeros()
+        if (accountSymbols.getAccountSymbolsEndInFourZeros()
                 .contains(symbol)) {
             cellsWithCF = symbolColumns.stream()
                     .filter(nextCell -> nextCell.getStringCellValue().startsWith(symbol) && nextCell.getStringCellValue().length() == 16)
@@ -179,22 +187,22 @@ public class ConversionServiceImpl implements ConversionService {
         }
     }
 
-    private boolean filterCellsWithLengthBetween5And7(Cell cell, List<Cell> symbolColumns, ClassSymbols classSymbols) {
+    private boolean filterCellsWithLengthBetween5And7(Cell cell, List<Cell> symbolColumns, AccountSymbols accountSymbols) {
         String symbol = cell.getStringCellValue().length() == 5 ? cell.getStringCellValue().concat(ZERO.repeat(2)) : cell.getStringCellValue();
-        if (classSymbols.getAccountSymbolsWithCFAndCE().contains(symbol)) {
+        if (accountSymbols.getAccountSymbolsWithCFAndCE().contains(symbol)) {
             cellsWithCFAndCE = symbolColumns.stream()
                     .filter(nextCell -> nextCell.getStringCellValue().startsWith(cell.getStringCellValue()) &&
                             (nextCell.getStringCellValue().length() == 20 || nextCell.getStringCellValue().length() == 22))
-                    .filter(nextCell -> !classSymbols.getAccountSymbolsWithCFAndCE().contains(getSymbol(nextCell)))
+                    .filter(nextCell -> !accountSymbols.getAccountSymbolsWithCFAndCE().contains(getSymbol(nextCell)))
                     .collect(Collectors.toList());
             return !cellsWithCFAndCE.isEmpty();
         }
 
         if (!symbol.endsWith(ZERO.repeat(2))) {
-            return classSymbols.getAccountSymbols().contains(symbol);
+            return accountSymbols.getAccountSymbols().contains(symbol);
         }
 
-        if (classSymbols.getAccountSymbolsEndInTwoZeros().contains(symbol)) {
+        if (accountSymbols.getAccountSymbolsEndInTwoZeros().contains(symbol)) {
             cellsWithCF = symbolColumns.stream()
                     .filter(nextCell -> nextCell.getStringCellValue()
                             .startsWith(cell.getStringCellValue()) && nextCell.getStringCellValue().length() == 16)
@@ -209,31 +217,31 @@ public class ConversionServiceImpl implements ConversionService {
         }
     }
 
-    private boolean filterCellsWithLengthBetween14And20(Cell cell, ClassSymbols classSymbols) {
+    private boolean filterCellsWithLengthBetween14And20(Cell cell, AccountSymbols accountSymbols) {
         String symbol = getSymbol(cell);
-        if (classSymbols.getAccountSymbolsWithCF().contains(symbol)) {
+        if (accountSymbols.getAccountSymbolsWithCF().contains(symbol)) {
             cell.setCellValue(getCellContent(cell));
             return true;
         } else {
             if (cellsWithCF.size() >= 2) {
-                if(classSymbols.getAccountSymbols().contains(symbol) ||
-                        classSymbols.getAccountSymbolsEndInTwoZeros().contains(symbol) ||
-                        classSymbols.getAccountSymbolsEndInFourZeros().contains(symbol)) {
+                if(accountSymbols.getAccountSymbols().contains(symbol) ||
+                        accountSymbols.getAccountSymbolsEndInTwoZeros().contains(symbol) ||
+                        accountSymbols.getAccountSymbolsEndInFourZeros().contains(symbol)) {
                     cell.setCellValue(cell.getStringCellValue().substring(0, 10));
                 }
                 cell.setCellValue(getCellContent(cell));
                 return cellsWithCF.contains(cell);
             } else {
                 cell.setCellValue(cell.getStringCellValue().substring(0, 10));
-                return classSymbols.getAccountSymbols().contains(symbol);
+                return accountSymbols.getAccountSymbols().contains(symbol);
             }
         }
     }
 
-    private boolean filterCellsWithLengthBetween20And22(Cell cell, List<Cell> symbolColumns, ClassSymbols classSymbols) {
+    private boolean filterCellsWithLengthBetween20And22(Cell cell, List<Cell> symbolColumns, AccountSymbols accountSymbols) {
         String symbol = getSymbol(cell);
         cell.setCellValue(getCellContent(cell));
-        if (classSymbols.getAccountSymbolsWithCFAndCE().contains(symbol) && cell.getStringCellValue().length() == 20) {
+        if (accountSymbols.getAccountSymbolsWithCFAndCE().contains(symbol) && cell.getStringCellValue().length() == 20) {
             cellsWithCFAndCE = symbolColumns.stream()
                     .filter(nextCell -> nextCell.getStringCellValue().startsWith(cell.getStringCellValue()) &&
                             nextCell.getStringCellValue().length() == 22)
@@ -241,7 +249,7 @@ public class ConversionServiceImpl implements ConversionService {
             return cellsWithCFAndCE.isEmpty();
         }
 
-        return classSymbols.getAccountSymbolsWithCFAndCE().contains(symbol);
+        return accountSymbols.getAccountSymbolsWithCFAndCE().contains(symbol);
     }
 
     private String getCellContent(Cell cell) {
