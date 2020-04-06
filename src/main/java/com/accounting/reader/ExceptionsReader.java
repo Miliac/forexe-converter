@@ -8,9 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,7 +28,6 @@ public class ExceptionsReader {
         Map<String, String> result = new HashMap<>();
         try {
             result = parserService.toObject(new File(path), new TypeReference<>() {});
-            logger.info("Exceptions file loaded in memory!");
         } catch (IOException e) {
             logger.error("Could not read exceptions file {} ",e.getMessage());
         }

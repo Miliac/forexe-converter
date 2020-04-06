@@ -5,22 +5,21 @@ import com.accounting.service.ExceptionsService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.Objects;
 
-import static com.accounting.config.Utils.*;
+import static com.accounting.config.Utils.USER_MESSAGE_LOG;
 
 @Controller
 @RequestMapping("resource")
@@ -38,38 +37,43 @@ public class ResourceController {
     }
 
     @GetMapping(value = "/get/accountSymbols")
-    public ResponseEntity<InputStreamResource> getClassSymbolsRequest(HttpServletRequest request) {
+    public ResponseEntity<byte[]> getClassSymbolsRequest(HttpServletRequest request) throws IOException {
         logger.info(USER_MESSAGE_LOG,
                 request.getRemoteUser(), request.getRemoteAddr(), request.getMethod(), request.getRequestURI());
-        InputStream classSymbolsStream = accountSymbolsService.readFile();
-        ResponseEntity.BodyBuilder bodyBuilder = ResponseEntity.status(Objects.nonNull(classSymbolsStream) ? HttpStatus.OK : HttpStatus.INTERNAL_SERVER_ERROR);
-        return bodyBuilder.body(new InputStreamResource(Objects.isNull(classSymbolsStream) ? new ByteArrayInputStream(EXCEPTIONS_GET_ERROR_MESSAGE.getBytes()) : classSymbolsStream));
+        byte[] data = accountSymbolsService.readFile().readAllBytes();
+        return new ResponseEntity<>(data, prepareHeaderForDownload("account-symbols.json", data), HttpStatus.OK);
     }
 
     @PostMapping(value = "/add/accountSymbols")
-    public ResponseEntity<String> addClassSymbolsRequest(@RequestBody(required = false) InputStreamResource resource, HttpServletRequest request) throws IOException {
+    public String addClassSymbolsRequest(@RequestParam("symbolsFile") MultipartFile file, HttpServletRequest request) throws IOException {
         logger.info(USER_MESSAGE_LOG,
                 request.getRemoteUser(), request.getRemoteAddr(), request.getMethod(), request.getRequestURI());
-        boolean result = accountSymbolsService.write(resource.getInputStream());
-        ResponseEntity.BodyBuilder bodyBuilder = ResponseEntity.status(result ? HttpStatus.OK : HttpStatus.INTERNAL_SERVER_ERROR);
-        return bodyBuilder.body(result ? ACCOUNT_ADD_SYMBOLS_SUCCESS_MESSAGE : ACCOUNT_ADD_SYMBOLS_ERROR_MESSAGE);
+        accountSymbolsService.write(file.getInputStream());
+        return "redirect:/admin?symbolsUploaded";
     }
 
     @GetMapping(value = "/get/exceptions")
-    public ResponseEntity<InputStreamResource> getExceptionsRequest(HttpServletRequest request) {
+    public ResponseEntity<byte[]> getExceptionsRequest(HttpServletRequest request) throws IOException {
         logger.info(USER_MESSAGE_LOG,
                 request.getRemoteUser(), request.getRemoteAddr(), request.getMethod(), request.getRequestURI());
-        InputStream exceptionsStream = exceptionsService.readFile();
-        ResponseEntity.BodyBuilder bodyBuilder = ResponseEntity.status(Objects.nonNull(exceptionsStream) ? HttpStatus.OK : HttpStatus.INTERNAL_SERVER_ERROR);
-        return bodyBuilder.body(new InputStreamResource(Objects.isNull(exceptionsStream) ? new ByteArrayInputStream(ACCOUNT_GET_SYMBOLS_ERROR_MESSAGE.getBytes()) : exceptionsStream));
+        byte[] data = exceptionsService.readFile().readAllBytes();
+        return new ResponseEntity<>(data, prepareHeaderForDownload("exceptions.json",data), HttpStatus.OK);
     }
 
     @PostMapping(value = "/add/exceptions")
-    public ResponseEntity<String> addExceptionsRequest(@RequestBody(required = false) InputStreamResource resource, HttpServletRequest request) throws IOException {
+    public String addExceptionsRequest(@RequestParam("exceptionsFile") MultipartFile file, HttpServletRequest request) throws IOException {
         logger.info(USER_MESSAGE_LOG,
                 request.getRemoteUser(), request.getRemoteAddr(), request.getMethod(), request.getRequestURI());
-        boolean result = exceptionsService.write(resource.getInputStream());
-        ResponseEntity.BodyBuilder bodyBuilder = ResponseEntity.status(result ? HttpStatus.OK : HttpStatus.INTERNAL_SERVER_ERROR);
-        return bodyBuilder.body(result ? EXCEPTIONS_ADD_SUCCESS_MESSAGE : EXCEPTIONS_ADD_ERROR_MESSAGE);
+        exceptionsService.write(file.getInputStream());
+        return "redirect:/admin?exceptionsUploaded";
+    }
+
+    private HttpHeaders prepareHeaderForDownload(String fileName, byte[] data){
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentLength(data.length);
+        httpHeaders.setContentType(new MediaType("text", "json"));
+        httpHeaders.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+        httpHeaders.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + fileName);
+        return httpHeaders;
     }
 }

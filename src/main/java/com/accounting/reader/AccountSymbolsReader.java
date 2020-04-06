@@ -8,7 +8,8 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,7 +29,6 @@ public class AccountSymbolsReader {
         Map<String, AccountSymbols> result = new HashMap<>();
         try {
             result = parserService.toObject(new File(path), new TypeReference<>() {});
-            logger.info("Account symbols file loaded in memory!");
         } catch (IOException e) {
             logger.error("Could not read account symbols file: {} ", e.getMessage());
         }

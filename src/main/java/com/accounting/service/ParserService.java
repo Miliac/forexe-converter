@@ -1,12 +1,13 @@
 package com.accounting.service;
 
-import com.accounting.model.AccountSymbols;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 
-import java.io.*;
-import java.util.Map;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 
 @Service
 public class ParserService {
@@ -23,8 +24,8 @@ public class ParserService {
 
     public byte[] toBytes(Object object) throws IOException {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        mapper.writerWithDefaultPrettyPrinter().writeValue(bos,object);
+        mapper.writerWithDefaultPrettyPrinter()
+                .writeValue(bos, object);
         return bos.toByteArray();
     }
-
 }

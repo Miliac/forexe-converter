@@ -34,3 +34,18 @@ a {
 .delete-button {
     color: #6d0711 !important;
 }
+
+.file-choose {
+    max-width: 300px;
+    margin: 10px 30px 10px 15px;
+}
+
+.upload-file-button {
+    position: absolute;
+    margin-left: 10px;
+}
+
+.download-resource-button {
+    width: 250px;
+    margin-left: 15px;
+}

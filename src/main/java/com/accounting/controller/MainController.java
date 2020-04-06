@@ -99,7 +99,7 @@ public class MainController implements ErrorController {
         logger.info("User {} with IP: {} Executed {} request on endpoint: {}",
                 request.getRemoteUser(), request.getRemoteAddr(), request.getMethod(), request.getRequestURI());
         response.setContentType("application/xml");
-        response.setHeader("Content-Disposition", "attachment; filename=result.xml");
+        response.setHeader("Content-Disposition", "attachment; filename=f1102.xml");
         conversionService.convert(f1102TypeDTO, response);
         try {
             response.flushBuffer();
