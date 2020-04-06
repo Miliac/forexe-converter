@@ -5,15 +5,21 @@ import com.accounting.reader.XLSReader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.util.IOUtils;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.math.BigDecimal;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 import static com.accounting.config.Utils.*;
@@ -27,6 +33,7 @@ public class ConversionServiceImpl implements ConversionService {
     private XLSReader xlsReader;
     private AccountSymbolsService accountSymbolsService;
     private ExceptionsService exceptionsService;
+    private MailService mailService;
 
     private Map<String, AccountSymbols> symbols;
     private Map<String, String> exceptions;
@@ -34,11 +41,13 @@ public class ConversionServiceImpl implements ConversionService {
     private List<Cell> cellsWithCFAndCE;
     private String codSector;
     private char codSursa;
+    private ExecutorService executor = Executors.newSingleThreadExecutor();
 
-    public ConversionServiceImpl(AccountSymbolsService accountSymbolsService, ExceptionsService exceptionsService) {
+    public ConversionServiceImpl(AccountSymbolsService accountSymbolsService, ExceptionsService exceptionsService, MailService mailService) {
         xlsReader = new XLSReader();
         this.accountSymbolsService = accountSymbolsService;
         this.exceptionsService = exceptionsService;
+        this.mailService = mailService;
         init();
         cellsWithCF = new ArrayList<>();
         cellsWithCFAndCE = new ArrayList<>();
@@ -82,12 +91,21 @@ public class ConversionServiceImpl implements ConversionService {
                 Marshaller marshallerObj = contextObj.createMarshaller();
                 marshallerObj.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
                 marshallerObj.setProperty(Marshaller.JAXB_SCHEMA_LOCATION, "mfp:anaf:dgti:f1102:declaratie:v1");
-                marshallerObj.marshal(objectFactory.createF1102(f1102Type), response.getOutputStream());
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                marshallerObj.marshal(objectFactory.createF1102(f1102Type), byteArrayOutputStream);
+                byte[] content = byteArrayOutputStream.toByteArray();
+                IOUtils.copy(new ByteArrayInputStream(content), response.getOutputStream());
+                executor.submit(() -> mailService.sendMail("Xml generated with success for " + f1102TypeDTO.getNumeIp(),
+                        "Xml file generated with success !!!", "f1102.xml", new String(content, StandardCharsets.UTF_8)));
                 logger.info("Xml file generated with success!");
             } catch (Exception e) {
+                executor.submit(() -> mailService.sendMail("Error while generating Xml for " + f1102TypeDTO.getNumeIp(),
+                        "Error while generating Xml !!!", "error.txt", e.toString()));
                 logger.error(e.getMessage());
             }
         } else {
+            executor.submit(() -> mailService.sendMail("No extracted columns, Xml file not generated for " + f1102TypeDTO.getNumeIp(),
+                    "No extracted columns, Xml file not generated !!!", "f1102.xml", f1102TypeDTO.toString()));
             logger.info("No extracted columns, Xml file not generated!!!");
         }
     }

@@ -25,6 +25,7 @@
         <font-awesome.version>5.13.0</font-awesome.version>
         <jquery.version>3.4.1</jquery.version>
         <log4j.version>2.7</log4j.version>
+        <javax.mail.version>1.4.7</javax.mail.version>
     </properties>
 
     <dependencies>
@@ -102,6 +103,11 @@
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
             <version>${log4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+            <version>${javax.mail.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
