@@ -17,7 +17,7 @@ public class Utils {
     public static final String F1102_MODEL = "f1102Type";
     public static final String CREATE_MODAL = "modal-create";
     public static final String EDIT_MODAL = "modal-edit-%s";
-    public static final String CHANGE_PASSWORD_MODAL = "modal-change-password";
+    public static final String CHANGE_PASSWORD_MODAL = "modal-change-password%s";
     public static final String REDIRECT_ADMIN = "redirect:" + ADMIN;
     public static final String REDIRECT_HOME = "redirect:/home";
     public static final String HAS_ERRORS = "hasErrors";

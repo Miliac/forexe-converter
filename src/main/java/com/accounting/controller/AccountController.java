@@ -64,14 +64,14 @@ public class AccountController {
             redirectAttributes.addFlashAttribute(HAS_ERRORS, true);
             redirectAttributes.addFlashAttribute(String.format(BINDING_RESULT, EDIT_MODEL), result);
             redirectAttributes.addFlashAttribute(EDIT_MODEL, account);
-            redirectAttributes.addFlashAttribute(MODAL_ID, CHANGE_PASSWORD_MODAL);
+            redirectAttributes.addFlashAttribute(MODAL_ID, String.format(CHANGE_PASSWORD_MODAL,account.getIdAccount()));
         } else {
             if (!account.getNewPassword().equals(account.getConfirmPassword())) {
                 result.rejectValue(CONFIRM_PASSWORD, ERROR_CODE, CONFIRM_PASSWORD_ERROR);
                 redirectAttributes.addFlashAttribute(HAS_ERRORS, true);
                 redirectAttributes.addFlashAttribute(String.format(BINDING_RESULT, EDIT_MODEL), result);
                 redirectAttributes.addFlashAttribute(EDIT_MODEL, account);
-                redirectAttributes.addFlashAttribute(MODAL_ID, CHANGE_PASSWORD_MODAL);
+                redirectAttributes.addFlashAttribute(MODAL_ID, String.format(CHANGE_PASSWORD_MODAL,account.getIdAccount()));
             } else {
                 accountService.changePasswordAccount(account.getIdAccount(), account.getNewPassword());
             }

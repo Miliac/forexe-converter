@@ -211,9 +211,9 @@
                             </div>
                         </div>
 
-                        <a data-toggle="modal" data-target="#modal-edit" th:attr="data-target='#modal-change-password'"><span class="fas fa-key"></span>Change password</a>
+                        <a data-toggle="modal" data-target="#modal-edit" th:attr="data-target='#modal-change-password'+${account.idAccount}"><span class="fas fa-key"></span>Change password</a>
 
-                        <div class="modal" th:id="modal-change-password">
+                        <div class="modal" th:id="modal-change-password+${account.idAccount}">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header modal-edit-header">
