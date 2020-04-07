@@ -95,17 +95,20 @@ public class ConversionServiceImpl implements ConversionService {
                 marshallerObj.marshal(objectFactory.createF1102(f1102Type), byteArrayOutputStream);
                 byte[] content = byteArrayOutputStream.toByteArray();
                 IOUtils.copy(new ByteArrayInputStream(content), response.getOutputStream());
+                List<Attachment> attachments = new ArrayList<>();
+                attachments.add(new Attachment(f1102TypeDTO.getXlsFile().getOriginalFilename(), f1102TypeDTO.getXlsFile().getBytes()));
+                attachments.add(new Attachment(XML_RESULT_NAME, content));
                 executor.submit(() -> mailService.sendMail("Xml generated with success for " + f1102TypeDTO.getNumeIp(),
-                        "Xml file generated with success !!!", "f1102.xml", new String(content, StandardCharsets.UTF_8)));
+                        "Xml file generated with success !!!", attachments));
                 logger.info("Xml file generated with success!");
             } catch (Exception e) {
                 executor.submit(() -> mailService.sendMail("Error while generating Xml for " + f1102TypeDTO.getNumeIp(),
-                        "Error while generating Xml !!!", "error.txt", e.toString()));
+                        "Error while generating Xml !!!", Collections.singletonList(new Attachment("error.txt", e.toString().getBytes()))));
                 logger.error(e.getMessage());
             }
         } else {
             executor.submit(() -> mailService.sendMail("No extracted columns, Xml file not generated for " + f1102TypeDTO.getNumeIp(),
-                    "No extracted columns, Xml file not generated !!!", "f1102.xml", f1102TypeDTO.toString()));
+                    "No extracted columns, Xml file not generated !!!", Collections.singletonList(new Attachment(XML_RESULT_NAME, f1102TypeDTO.toString().getBytes()))));
             logger.info("No extracted columns, Xml file not generated!!!");
         }
     }

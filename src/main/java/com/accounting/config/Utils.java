@@ -40,6 +40,7 @@ public class Utils {
     public static final String USER_MESSAGE_LOG = "User {} with IP: {} Executed {} request on endpoint: {}";
     public static final String TEXT_CONTENT_TYPE = "text/html";
     public static final String XML_CONTENT_TYPE = "application/xml";
+    public static final String XML_RESULT_NAME = "f1102.xml";
 
     private Utils() {
     }
