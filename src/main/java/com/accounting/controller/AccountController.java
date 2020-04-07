@@ -87,17 +87,21 @@ public class AccountController {
             redirectAttributes.addFlashAttribute(accountModel, account);
             redirectAttributes.addFlashAttribute(MODAL_ID, modalId);
         } else {
-            if (accountService.getAccountByName(account.getUsername()).isPresent()) {
-                result.rejectValue(USERNAME, ERROR_CODE,USERNAME_ERROR);
-                redirectAttributes.addFlashAttribute(HAS_ERRORS, true);
-                redirectAttributes.addFlashAttribute(String.format(BINDING_RESULT, accountModel), result);
-                redirectAttributes.addFlashAttribute(accountModel, account);
-                redirectAttributes.addFlashAttribute(MODAL_ID, modalId);
-            } else {
-                if(modalId.equals(CREATE_MODAL)) {
-                    account.setPassword(accountService.getEncryptedPassword(account.getPassword()));
-                }
+            if(!modalId.equals(CREATE_MODAL) && !accountService.isUsernameChanged(account)) {
                 accountService.saveAccount(account);
+            } else {
+                if (accountService.getAccountByName(account.getUsername()).isPresent()) {
+                    result.rejectValue(USERNAME, ERROR_CODE, USERNAME_ERROR);
+                    redirectAttributes.addFlashAttribute(HAS_ERRORS, true);
+                    redirectAttributes.addFlashAttribute(String.format(BINDING_RESULT, accountModel), result);
+                    redirectAttributes.addFlashAttribute(accountModel, account);
+                    redirectAttributes.addFlashAttribute(MODAL_ID, modalId);
+                } else {
+                    if (modalId.equals(CREATE_MODAL)) {
+                        account.setPassword(accountService.getEncryptedPassword(account.getPassword()));
+                    }
+                    accountService.saveAccount(account);
+                }
             }
         }
         return REDIRECT_ADMIN;

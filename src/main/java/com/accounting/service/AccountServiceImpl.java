@@ -90,6 +90,12 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    public boolean isUsernameChanged(AccountDTO accountDTO) {
+        Optional<Account> account = accountRepository.findById(accountDTO.getIdAccount());
+        return account.filter(value -> !value.getUsername().equals(accountDTO.getUsername())).isPresent();
+    }
+
+    @Override
     public String getEncryptedPassword(String password) {
         return passwordEncoder.encode(password);
     }

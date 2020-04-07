@@ -32,7 +32,7 @@ a {
 }
 
 .delete-button {
-    color: #6d0711 !important;
+    color: red !important;
 }
 
 .file-choose {

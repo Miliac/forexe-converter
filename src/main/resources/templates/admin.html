@@ -126,9 +126,9 @@
                     <td data-th-text="${account.status}">Status</td>
                     <td data-th-text="${account.role}">Role</td>
                     <td>
-                        <a data-toggle="modal" data-target="#modal-edit" th:attr="data-target='#modal-edit'+${account.idAccount}"><span class="fas fa-pen"></span>Edit</a>
+                        <a data-toggle="modal" data-target="#modal-edit" th:attr="data-target='#modal-edit-'+${account.idAccount}"><span class="fas fa-pen"></span>Edit</a>
 
-                        <div class="modal" th:id="modal-edit+${account.idAccount}">
+                        <div class="modal" th:id="modal-edit-+${account.idAccount}">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header modal-edit-header">

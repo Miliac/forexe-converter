@@ -20,5 +20,8 @@ public interface AccountService extends UserDetailsService {
 
     void changePasswordAccount(int idAccount, String newPassword);
 
+    boolean isUsernameChanged(AccountDTO accountDTO);
+
     String getEncryptedPassword(String password);
+
 }
