@@ -13,6 +13,7 @@
         <div class="card">
             <div class="card-header">
                 <h3>Bun venit</h3>
+                <h5 style="color: red;" th:if="${param.error}">Username or password are incorrect!</h5>
             </div>
             <div class="card-body">
                 <form method="post" th:action="@{/}">
