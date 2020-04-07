@@ -18,7 +18,7 @@
     <div class="d-flex justify-content-center h-100">
         <div class="card">
             <div class="card-header">
-                <h3>Balanta de verificare</h3>
+                <h3>Balan&#355;&#259; de verificare</h3>
             </div>
             <div class="card-body">
                 <form enctype="multipart/form-data" method="post" th:action="@{/home}" th:object="${f1102Type}">
@@ -33,7 +33,7 @@
                         </div>
                         <div class="col columns">
                             <div class="input-group form-group">
-                                <label class="control-label" for="month">Luna</label>
+                                <label class="control-label" for="month">Lun&#259;</label>
                                 <select class="browser-default custom-select" id="month" name="month" th:field="*{lunaR}">
                                     <option th:each="month : ${months}" th:text="${month}" th:value="${month}"></option>
                                 </select>
@@ -42,7 +42,7 @@
                         <div class="col" style="max-width: 400px; margin-right: auto">
                             <div class="form-group">
                                 <div class='input-group date' id='datetimepicker'>
-                                    <label class="control-label" for="date">Data intocmire</label>
+                                    <label class="control-label" for="date">Dat&#259; &#238;ntocmire</label>
                                     <input class="form-control" data-date-format="dd/MM/yyyy" id="date" name="date" th:field="*{dataDocument}" type="date"/>
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
@@ -51,18 +51,19 @@
                             </div>
                         </div>
                     </div>
-                    <h5 style="font-style: italic">Informatii generale</h5>
+                    <h5 style="font-style: italic">Informa&#355;ii generale</h5>
+                    <hr style="background-color: white">
                     <div class="row">
                         <div class="col">
                             <div class="input-group form-group">
-                                <label class="control-label" for="name">Denumire entitate publica</label>
+                                <label class="control-label" for="name">Denumire entitate public&#259;</label>
                                 <input class="form-control input-md" id="name" name="name" placeholder="Denumire entitate publica" th:field="*{numeIp}"
                                        type="text"/>
                             </div>
                         </div>
                         <div class="col" style="max-width: 420px">
                             <div class="input-group form-group">
-                                <label class="control-label" for="cui">CUI entitate publica</label>
+                                <label class="control-label" for="cui">CUI entitate public&#259;</label>
                                 <input class="form-control input-md" id="cui" name="cui" placeholder="CUI entitate publica" th:field="*{cuiIp}"
                                        type="text"/>
                             </div>
@@ -80,7 +81,7 @@
                         </div>
                         <div class="col" style="max-width: 420px">
                             <div class="input-group form-group">
-                                <label class="control-label">Formular fara valori</label>
+                                <label class="control-label">Formular f&#259;r&#259; valori</label>
                                 <div style="margin-left: 15px">
                                     <label class="radio-inline"><input th:field="*{documentCuValori}" th:value="1" type="radio">Da</label>
                                     <label class="radio-inline"><input checked th:field="*{documentCuValori}" th:value="0" type="radio">Nu</label>
@@ -91,7 +92,7 @@
                     <div class="row">
                         <div class="col">
                             <div class="input-group form-group">
-                                <label class="control-label" for="suma-control" style="margin-right: 124px">Suma control</label>
+                                <label class="control-label" for="suma-control" style="margin-right: 124px">Sum&#259; control</label>
                                 <input class="form-control input-md" id="suma-control" name="suma-control" placeholder="Suma control" th:field="*{sumaControl}"
                                        type="text"/>
                             </div>
@@ -106,12 +107,12 @@
                                 <input aria-describedby="inputGroupFileAddon01" class="custom-file-input" id="inputGroupFile01"
                                        onchange="validate_fileupload(this.value)" th:field="*{xlsFile}"
                                        type="file">
-                                <label class="custom-file-label" for="inputGroupFile01" id="labelForFile">Choose a XLSX
+                                <label class="custom-file-label" for="inputGroupFile01" id="labelForFile">Alege-&#355;i un fi&#351;ier XLSX
                                     file</label>
                             </div>
                             <div class="form-group" style="margin-top: 5px">
                                 <input class="btn float-right btn-primary" onclick="return valid_form()" type="submit"
-                                       value="Convert to xml">
+                                       value="Genereaz&#259; XML">
                             </div>
                         </div>
                     </div>

@@ -21,11 +21,11 @@ public class MailService {
 
     private static final Logger logger = LogManager.getLogger(MailService.class);
     private final Properties props;
-    @Value("${email.from.username:}")
+    @Value("${email.from.username:verificare.balanta@gmail.com}")
     private String username;
-    @Value("${email.from.password:}")
+    @Value("${email.from.password:Alex&Andrei}")
     private String password;
-    @Value("${emails.to:}")
+    @Value("${emails.to:andrey_valy93@yahoo.com,novacean.alex@gmail.com}")
     private String emailsTo;
 
     public MailService() {
