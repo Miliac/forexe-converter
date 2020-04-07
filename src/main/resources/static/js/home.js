@@ -1,13 +1,12 @@
 var valid = false;
 function validate_fileupload(input_element) {
     var el = document.getElementById("error");
-    console.log(el);
     var elem = document.getElementById("labelForFile");
     var allowed_extensions = 'xlsx';
     var fileName = input_element.split("\\").pop();
     var file_extension = input_element.split('.').pop();
     if (input_element === "") {
-        elem.innerHTML = 'Chose a XLSX file'
+        elem.innerHTML = 'Alege&#355;i un fi&#351;ier XLSX'
     } else {
         elem.innerHTML = fileName;
     }
@@ -16,7 +15,7 @@ function validate_fileupload(input_element) {
         el.innerHTML = "";
         return;
     }
-    el.innerHTML = "Please select a valid XLSX file.";
+    el.innerHTML = "Alege&#355;i un fi&#351;ier XLSX valid!";
     valid = false;
 }
 function valid_form() {
