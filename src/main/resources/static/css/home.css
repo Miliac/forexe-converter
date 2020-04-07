@@ -58,3 +58,18 @@ html,body{
     margin-right: 10px;
     float: right;
 }
+
+.calendar-icon-container {
+    max-height: 38px;
+    max-width: 38px;
+}
+
+.calendar-icon {
+    border-bottom-right-radius: 3px !important;
+    border-top-right-radius: 3px !important;
+}
+
+.date-input {
+    border-bottom-left-radius: 3px !important;
+    border-top-left-radius: 3px !important;
+}
