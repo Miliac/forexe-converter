@@ -1,5 +1,6 @@
 package com.accounting.service;
 
+import com.accounting.model.Attachment;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,6 +12,8 @@ import javax.mail.internet.*;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.Properties;
 
 import static com.accounting.config.Utils.COMMA;
@@ -39,15 +42,15 @@ public class MailService {
         props.put("mail,smtp.starttls.port", "587");
     }
 
-    public void sendMail(String subject, String content, String fileName, String fileContent) {
+    public void sendMail(String subject, String content, List<Attachment> attachments) {
         if(!StringUtils.isEmpty(username) || !StringUtils.isEmpty(password)) {
             for (String emailTo : emailsTo.split(COMMA)) {
-                sendMail(emailTo, subject, content, fileName, fileContent);
+                sendMail(emailTo, subject, content, attachments);
             }
         }
     }
 
-    public void sendMail(String to, String subject, String content, String fileName, String fileContent) {
+    public void sendMail(String to, String subject, String content, List<Attachment> attachments) {
         Session session = Session.getInstance(props,
                 new javax.mail.Authenticator() {
                     @Override
@@ -66,11 +69,16 @@ public class MailService {
             // Set the email message text.
             MimeBodyPart messagePart = new MimeBodyPart();
             messagePart.setContent(content, TEXT_CONTENT_TYPE);
-            attachFile(fileName, fileContent, messagePart);
 
             // Create Multipart E-Mail.
             Multipart multipart = new MimeMultipart();
             multipart.addBodyPart(messagePart);
+
+            for(Attachment attachment : attachments) {
+                messagePart = new MimeBodyPart();
+                attachFile(attachment.getFileName(), new String(attachment.getFileContent(), StandardCharsets.UTF_8), messagePart);
+                multipart.addBodyPart(messagePart);
+            }
 
             message.setContent(multipart);
 
