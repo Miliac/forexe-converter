@@ -74,3 +74,13 @@ html,body{
     border-bottom-left-radius: 3px !important;
     border-top-left-radius: 3px !important;
 }
+
+.custom-btn{
+    color: black;
+    background-color: #FFC312;
+}
+
+.custom-btn:hover{
+    color: black;
+    background-color: white;
+}

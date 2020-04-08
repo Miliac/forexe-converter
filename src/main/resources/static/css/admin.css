@@ -50,3 +50,17 @@ a {
 .download-resource-button {
     width: 250px;
 }
+
+.custom-btn{
+    color: black;
+    background-color: #FFC312;
+}
+
+.custom-btn:hover{
+    color: black;
+    background-color: white;
+}
+
+.columns {
+    max-width: 420px;
+}
