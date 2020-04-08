@@ -2,10 +2,15 @@ version: '3'
 services:
   postgres:
     container_name: postgres_db_accounting
-    image: novacean/postgres:latest
+    image: postgres:latest
+    restart: always
     environment:
       - POSTGRES_DB=accounting
       - POSTGRES_USER=test
       - POSTGRES_PASSWORD=test
     ports:
-    - "5432:5432" 
+    - "5432:5432"
+    volumes:
+    - db-data:/var/lib/postgresql/data
+volumes:
+  db-data:
