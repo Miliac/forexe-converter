@@ -1,7 +1,8 @@
 @import url('https://fonts.googleapis.com/css?family=Numans');
 
 html,body{
-    background-image: url("../images/home-background.png");
+    background-image: linear-gradient(#010101, #3076c4);
+    /*background-image: url("../images/home-background.png");*/
     background-size: cover;
     background-repeat: no-repeat;
     height: 100%;

@@ -1,5 +1,6 @@
 html,body{
-    background-image: url("../images/login-background.jpg");
+    background-image: linear-gradient(#010101, #3076c4);
+    /*background-image: url("../images/login-background.jpg");*/
     background-size: cover;
     background-repeat: no-repeat;
     height: 100%;
