@@ -4,8 +4,8 @@ services:
     container_name: postgres_db_accounting
     image: novacean/postgres:latest
     environment:
-      - POSTGRES_DB=bookcommunity
-      - POSTGRES_USER=admin
-      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=accounting
+      - POSTGRES_USER=test
+      - POSTGRES_PASSWORD=test
     ports:
     - "5432:5432" 
