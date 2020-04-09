@@ -11,10 +11,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class XLSReader {
 
@@ -27,7 +24,9 @@ public class XLSReader {
             XSSFWorkbook wb = new XSSFWorkbook(multipartFile.getInputStream());
             XSSFSheet sheet = wb.getSheet("Pagina 1");
 
-            Row firstRow = sheet.getRow(0);
+            int firstRowNum = removeHeaderAndFooter(sheet);
+            Row firstRow = sheet.getRow(firstRowNum);
+
             Integer[] columnNumbers = new Integer[Columns.values().length];
 
             for(Cell cell:firstRow) {
@@ -40,7 +39,7 @@ public class XLSReader {
 
             String currentClass = "";
 
-            extractColumns(multipartFile, extractedColumns, sheet, columnNumbers, currentClass);
+            extractColumns(multipartFile, extractedColumns, sheet, columnNumbers, currentClass, firstRowNum);
         } catch (IOException e) {
             logger.error("Could not read xls file content {} ", e.getMessage());
         }
@@ -48,9 +47,37 @@ public class XLSReader {
         return extractedColumns;
     }
 
-    private void extractColumns(MultipartFile multipartFile, Map<String, Map<Columns, List<Cell>>> extractedColumns, XSSFSheet sheet, Integer[] columnNumbers, String currentClass) {
+    private int removeHeaderAndFooter(XSSFSheet sheet) {
+        Row row;
+        int firstRowNum = 0;
+        int lastRowNum = sheet.getLastRowNum();
+
+        for (int i = 0; i <= lastRowNum; i++) {
+            row = sheet.getRow(i);
+            if (!row.getCell(0).getStringCellValue().equals(Columns.SIMBOL.getDefinition())) {
+                sheet.removeRow(row);
+                firstRowNum = firstRowNum + 1;
+            } else {
+                break;
+            }
+        }
+
+        for (int i = lastRowNum; i >= 0; i--) {
+            row = sheet.getRow(i);
+            if (Objects.nonNull(row)) {
+                if (!row.getCell(0).getStringCellValue().equals("TOTAL GENERAL:")) {
+                    sheet.removeRow(row);
+                } else {
+                    break;
+                }
+            }
+        }
+        return firstRowNum;
+    }
+
+    private void extractColumns(MultipartFile multipartFile, Map<String, Map<Columns, List<Cell>>> extractedColumns, XSSFSheet sheet, Integer[] columnNumbers, String currentClass, int firstRowNum) {
         for(Row row : sheet) {
-            if(row.getRowNum() >= 2) {
+            if (row.getRowNum() >= firstRowNum + 2) {
                 for(int i=0; i < Columns.values().length;i++) {
                     if (columnNumbers[i] != null) {
                         Cell cell = row.getCell(columnNumbers[i]);
