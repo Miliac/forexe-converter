@@ -14,7 +14,6 @@ import javax.xml.bind.Marshaller;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.math.BigDecimal;
-import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -43,6 +42,8 @@ public class ConversionServiceImpl implements ConversionService {
     private char codSursa;
     private ExecutorService executor = Executors.newSingleThreadExecutor();
 
+    private BigDecimal sumaControl;
+
     public ConversionServiceImpl(AccountSymbolsService accountSymbolsService, ExceptionsService exceptionsService, MailService mailService) {
         xlsReader = new XLSReader();
         this.accountSymbolsService = accountSymbolsService;
@@ -51,6 +52,7 @@ public class ConversionServiceImpl implements ConversionService {
         init();
         cellsWithCF = new ArrayList<>();
         cellsWithCFAndCE = new ArrayList<>();
+        sumaControl = BigDecimal.ZERO;
     }
 
     private void init() {
@@ -74,42 +76,64 @@ public class ConversionServiceImpl implements ConversionService {
         this.codSector = getCodSector(f1102TypeDTO.getSector());
         this.codSursa = 'G';
 
-        Map<String, Map<Columns, List<Cell>>> extractedColumns = xlsReader.read(f1102TypeDTO.getXlsFile());
+        if(f1102TypeDTO.getDocumentFaraValori()==0) {
 
-        if (!extractedColumns.isEmpty()) {
-            extractedColumns.forEach((className, columns) -> extractedColumns.put(className, filterClass(className, columns, symbols, exceptions)));
+            Map<String, Map<Columns, List<Cell>>> extractedColumns = xlsReader.read(f1102TypeDTO.getXlsFile());
 
-            List<ContType> contTypes = getContType(extractedColumns);
-            List<ContType> copyContTypes = new ArrayList<>(contTypes);
-            F1102Type f1102Type = convertFromDTO(f1102TypeDTO);
-            f1102Type.setCont(contTypes.stream()
-                    .filter(contType -> removeDuplicatesAndSumValues(contType, copyContTypes))
-                    .collect(Collectors.toList()));
-            try {
-                ObjectFactory objectFactory = new ObjectFactory();
-                JAXBContext contextObj = JAXBContext.newInstance(F1102Type.class);
-                Marshaller marshallerObj = contextObj.createMarshaller();
-                marshallerObj.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-                marshallerObj.setProperty(Marshaller.JAXB_SCHEMA_LOCATION, "mfp:anaf:dgti:f1102:declaratie:v1");
-                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                marshallerObj.marshal(objectFactory.createF1102(f1102Type), byteArrayOutputStream);
-                byte[] content = byteArrayOutputStream.toByteArray();
-                IOUtils.copy(new ByteArrayInputStream(content), response.getOutputStream());
-                List<Attachment> attachments = new ArrayList<>();
-                attachments.add(new Attachment(f1102TypeDTO.getXlsFile().getOriginalFilename(), f1102TypeDTO.getXlsFile().getBytes()));
-                attachments.add(new Attachment(XML_RESULT_NAME, content));
-                executor.submit(() -> mailService.sendMail("Xml generated with success for " + f1102TypeDTO.getNumeIp(),
-                        "Xml file generated with success !!!", attachments));
-                logger.info("Xml file generated with success!");
-            } catch (Exception e) {
-                executor.submit(() -> mailService.sendMail("Error while generating Xml for " + f1102TypeDTO.getNumeIp(),
-                        "Error while generating Xml !!!", Collections.singletonList(new Attachment("error.txt", e.toString().getBytes()))));
-                logger.error(e.getMessage());
+            if (!extractedColumns.isEmpty()) {
+                extractedColumns.forEach((className, columns) -> extractedColumns.put(className, filterClass(className, columns, symbols, exceptions)));
+
+                List<ContType> contTypes = getContType(extractedColumns);
+
+                generateXml(f1102TypeDTO, response, contTypes);
+            } else {
+                executor.submit(() -> mailService.sendMail("No extracted columns, Xml file not generated for " + f1102TypeDTO.getNumeIp(),
+                        "No extracted columns, Xml file not generated !!!", Collections.singletonList(new Attachment(XML_RESULT_NAME, f1102TypeDTO.toString()
+                                .getBytes()))));
+                logger.info("No extracted columns, Xml file not generated!!!");
             }
         } else {
-            executor.submit(() -> mailService.sendMail("No extracted columns, Xml file not generated for " + f1102TypeDTO.getNumeIp(),
-                    "No extracted columns, Xml file not generated !!!", Collections.singletonList(new Attachment(XML_RESULT_NAME, f1102TypeDTO.toString().getBytes()))));
-            logger.info("No extracted columns, Xml file not generated!!!");
+            ContType contType = new ContType();
+            contType.setRulajCred(BigDecimal.ZERO);
+            contType.setRulajDeb(BigDecimal.ZERO);
+            contType.setSimbolPCont("1000000");
+            contType.setCodSector(codSector);
+            contType.setCodSursa(String.valueOf(codSursa));
+            contType.setStrCont(contType.getSimbolPCont() + codSector + contType.getCodSursa() + X.repeat(30));
+            generateXml(f1102TypeDTO, response, List.of(contType));
+        }
+
+
+    }
+
+    private void generateXml(F1102TypeDTO f1102TypeDTO, HttpServletResponse response, List<ContType> contTypes) {
+        F1102Type f1102Type = convertFromDTO(f1102TypeDTO);
+        f1102Type.setCont(contTypes.stream()
+                .filter(contType -> removeDuplicatesAndSumValues(contType, contTypes))
+                .collect(Collectors.toList()));
+        try {
+            ObjectFactory objectFactory = new ObjectFactory();
+            JAXBContext contextObj = JAXBContext.newInstance(F1102Type.class);
+            Marshaller marshallerObj = contextObj.createMarshaller();
+            marshallerObj.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+            marshallerObj.setProperty(Marshaller.JAXB_SCHEMA_LOCATION, "mfp:anaf:dgti:f1102:declaratie:v1");
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            marshallerObj.marshal(objectFactory.createF1102(f1102Type), byteArrayOutputStream);
+            byte[] content = byteArrayOutputStream.toByteArray();
+            IOUtils.copy(new ByteArrayInputStream(content), response.getOutputStream());
+            List<Attachment> attachments = new ArrayList<>();
+            attachments.add(new Attachment(f1102TypeDTO.getXlsFile()
+                    .getOriginalFilename(), f1102TypeDTO.getXlsFile()
+                    .getBytes()));
+            attachments.add(new Attachment(XML_RESULT_NAME, content));
+            executor.submit(() -> mailService.sendMail("Xml generated with success for " + f1102TypeDTO.getNumeIp(),
+                    "Xml file generated with success !!!", attachments));
+            logger.info("Xml file generated with success!");
+        } catch (Exception e) {
+            executor.submit(() -> mailService.sendMail("Error while generating Xml for " + f1102TypeDTO.getNumeIp(),
+                    "Error while generating Xml !!!", Collections.singletonList(new Attachment("error.txt", e.toString()
+                            .getBytes()))));
+            logger.error(e.getMessage());
         }
     }
 
@@ -330,6 +354,7 @@ public class ConversionServiceImpl implements ConversionService {
                 case DEBITOR:
                     cells.forEach(cell -> {
                         BigDecimal rulDeb = BigDecimal.valueOf(cell.getNumericCellValue());
+                        sumaControl = sumaControl.add(rulDeb);
                         ContType contType = contTypes.getOrDefault(String.valueOf(cell.getRowIndex()), new ContType());
                         contType.setRulajDeb(rulDeb.equals(ZERO_DECIMAL) ? null : rulDeb.stripTrailingZeros());
                         contTypes.put(String.valueOf(cell.getRowIndex()), contType);
@@ -338,6 +363,7 @@ public class ConversionServiceImpl implements ConversionService {
                 case CREDITOR:
                     cells.forEach(cell -> {
                         BigDecimal rulCred = BigDecimal.valueOf(cell.getNumericCellValue());
+                        sumaControl = sumaControl.add(rulCred);
                         ContType contType = contTypes.getOrDefault(String.valueOf(cell.getRowIndex()), new ContType());
                         contType.setRulajCred(rulCred.equals(ZERO_DECIMAL) ? null : rulCred.stripTrailingZeros());
                         contTypes.put(String.valueOf(cell.getRowIndex()), contType);
@@ -358,9 +384,13 @@ public class ConversionServiceImpl implements ConversionService {
         f1102Type.setDataDocument(dateFormatter(f1102TypeDTO.getDataDocument()));
         f1102Type.setLunaR(f1102TypeDTO.getLunaR());
         f1102Type.setNumeIp(f1102TypeDTO.getNumeIp());
-        f1102Type.setSumaControl(f1102TypeDTO.getSumaControl());
+        f1102Type.setDRec(f1102TypeDTO.getdRec() ? 1 : 0);
+        f1102Type.setSumaControl(sumaControl.add(BigDecimal.valueOf(Long.parseLong(f1102TypeDTO.getCuiIp()))).toBigInteger());
+        f1102Type.setFormularFaraValori(f1102TypeDTO.getDocumentFaraValori());
+
         return f1102Type;
     }
+
 
     private String dateFormatter(String dateString) {
         LocalDate date = LocalDate.parse(dateString, DateTimeFormatter.ofPattern(INPUT_DATE_FORMAT));

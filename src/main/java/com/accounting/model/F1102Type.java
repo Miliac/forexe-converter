@@ -4,15 +4,16 @@ package com.accounting.model;
 import javax.xml.bind.annotation.*;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
 
 /**
  * <p>Java class for F1102Type complex type.
- * 
+ *
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ *
  * <pre>
  * &lt;complexType name="F1102Type">
  *   &lt;complexContent>
@@ -31,19 +32,17 @@ import java.util.List;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "F1102Type", namespace = "mfp:anaf:dgti:f1102:declaratie:v1", propOrder = {
-    "cont"
+        "cont"
 })
 public class F1102Type {
 
     @XmlElement(namespace = "mfp:anaf:dgti:f1102:declaratie:v1", required = true)
     private List<ContType> cont;
     @XmlAttribute(name = "suma_control", required = true)
-    private long sumaControl;
+    private BigInteger sumaControl;
     @XmlAttribute(name = "luna_r", required = true)
     private int lunaR;
     @XmlAttribute(name = "an", required = true)
@@ -58,28 +57,28 @@ public class F1102Type {
     @XmlAttribute(name = "cui_ip", required = true)
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     private String cuiIp;
+    @XmlAttribute(name = "formular_fara_valori", required = true)
+    private int formularFaraValori;
 
     /**
      * Gets the value of the cont property.
-     * 
+     *
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
      * This is why there is not a <CODE>set</CODE> method for the cont property.
-     * 
+     *
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
      *    getCont().add(newItem);
      * </pre>
-     * 
-     * 
+     *
+     *
      * <p>
      * Objects of the following type(s) are allowed in the list
      * {@link ContType }
-     * 
-     * 
      */
     public List<ContType> getCont() {
         if (cont == null) {
@@ -92,25 +91,30 @@ public class F1102Type {
         this.cont = contTypes;
     }
 
+    public int getFormularFaraValori() {
+        return formularFaraValori;
+    }
+
+    public void setFormularFaraValori(int formularFaraValori) {
+        this.formularFaraValori = formularFaraValori;
+    }
+
     /**
      * Gets the value of the sumaControl property.
-     * 
      */
-    public long getSumaControl() {
+    public BigInteger getSumaControl() {
         return sumaControl;
     }
 
     /**
      * Sets the value of the sumaControl property.
-     * 
      */
-    public void setSumaControl(long value) {
+    public void setSumaControl(BigInteger value) {
         this.sumaControl = value;
     }
 
     /**
      * Gets the value of the dRec property.
-     * 
      */
     public int getDRec() {
         return dRec;
@@ -118,7 +122,6 @@ public class F1102Type {
 
     /**
      * Sets the value of the dRec property.
-     * 
      */
     public void setDRec(int value) {
         this.dRec = value;
@@ -126,11 +129,9 @@ public class F1102Type {
 
     /**
      * Gets the value of the numeIp property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is
+     * {@link String }
      */
     public String getNumeIp() {
         return numeIp;
@@ -138,11 +139,9 @@ public class F1102Type {
 
     /**
      * Sets the value of the numeIp property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setNumeIp(String value) {
         this.numeIp = value;
@@ -150,11 +149,9 @@ public class F1102Type {
 
     /**
      * Gets the value of the cuiIp property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is
+     * {@link String }
      */
     public String getCuiIp() {
         return cuiIp;
@@ -162,11 +159,9 @@ public class F1102Type {
 
     /**
      * Sets the value of the cuiIp property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setCuiIp(String value) {
         this.cuiIp = value;
@@ -174,7 +169,6 @@ public class F1102Type {
 
     /**
      * Gets the value of the an property.
-     * 
      */
     public int getAn() {
         return an;
@@ -182,7 +176,6 @@ public class F1102Type {
 
     /**
      * Sets the value of the an property.
-     * 
      */
     public void setAn(int value) {
         this.an = value;
@@ -190,7 +183,6 @@ public class F1102Type {
 
     /**
      * Gets the value of the lunaR property.
-     * 
      */
     public int getLunaR() {
         return lunaR;
@@ -198,7 +190,6 @@ public class F1102Type {
 
     /**
      * Sets the value of the lunaR property.
-     * 
      */
     public void setLunaR(int value) {
         this.lunaR = value;
@@ -206,11 +197,9 @@ public class F1102Type {
 
     /**
      * Gets the value of the dataDocument property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is
+     * {@link String }
      */
     public String getDataDocument() {
         return dataDocument;
@@ -218,11 +207,9 @@ public class F1102Type {
 
     /**
      * Sets the value of the dataDocument property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setDataDocument(String value) {
         this.dataDocument = value;

@@ -83,8 +83,8 @@
                             <div class="input-group form-group">
                                 <label class="control-label">Formular f&#259;r&#259; valori</label>
                                 <div style="margin-left: 15px">
-                                    <label class="radio-inline"><input th:field="*{documentCuValori}" th:value="1" type="radio">Da</label>
-                                    <label class="radio-inline"><input checked th:field="*{documentCuValori}" th:value="0" type="radio">Nu</label>
+                                    <label class="radio-inline"><input th:field="*{documentFaraValori}" th:value="1" type="radio">Da</label>
+                                    <label class="radio-inline"><input checked th:field="*{documentFaraValori}" th:value="0" type="radio">Nu</label>
                                 </div>
                             </div>
                         </div>
@@ -92,9 +92,9 @@
                     <div class="row">
                         <div class="col">
                             <div class="input-group form-group">
-                                <label class="control-label" for="suma-control" style="margin-right: 124px">Sum&#259; control</label>
-                                <input class="form-control input-md" id="suma-control" name="suma-control" placeholder="Suma control" th:field="*{sumaControl}"
-                                       type="text"/>
+                                <label class="control-label" for="rectificare" style="margin-right: 124px">Situa&#355;ie Financiar&#259; Rectificativ&#259;</label>
+                                <input class="form-control input-md rectificare" id="rectificare" name="rectificare"  th:field="*{dRec}"
+                                       type="checkbox"/>
                             </div>
                         </div>
                         <div class="col" style="max-width: 420px">

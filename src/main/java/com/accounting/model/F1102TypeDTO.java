@@ -11,8 +11,8 @@ public class F1102TypeDTO {
     private String numeIp;
     private String cuiIp;
     private String sector;
-    private int documentCuValori;
-    private long sumaControl;
+    private int documentFaraValori;
+    private boolean dRec;
 
     public F1102TypeDTO(int an, int lunaR, String dataDocument, String numeIp, String cuiIp) {
         this.an = an;
@@ -72,20 +72,20 @@ public class F1102TypeDTO {
         this.sector = sector;
     }
 
-    public int getDocumentCuValori() {
-        return documentCuValori;
+    public int getDocumentFaraValori() {
+        return documentFaraValori;
     }
 
-    public void setDocumentCuValori(int documentCuValori) {
-        this.documentCuValori = documentCuValori;
+    public void setDocumentFaraValori(int documentCuValori) {
+        this.documentFaraValori = documentCuValori;
     }
 
-    public long getSumaControl() {
-        return sumaControl;
+    public boolean getdRec() {
+        return dRec;
     }
 
-    public void setSumaControl(long sumaControl) {
-        this.sumaControl = sumaControl;
+    public void setdRec(boolean dRec) {
+        this.dRec = dRec;
     }
 
     public MultipartFile getXlsFile() {
