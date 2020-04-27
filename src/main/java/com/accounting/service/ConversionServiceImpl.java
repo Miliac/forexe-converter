@@ -108,8 +108,9 @@ public class ConversionServiceImpl implements ConversionService {
 
     private void generateXml(F1102TypeDTO f1102TypeDTO, HttpServletResponse response, List<ContType> contTypes) {
         F1102Type f1102Type = convertFromDTO(f1102TypeDTO);
+        List<ContType> copyContTypes = new ArrayList<>(contTypes);
         f1102Type.setCont(contTypes.stream()
-                .filter(contType -> removeDuplicatesAndSumValues(contType, contTypes))
+                .filter(contType -> removeDuplicatesAndSumValues(contType, copyContTypes))
                 .collect(Collectors.toList()));
         try {
             ObjectFactory objectFactory = new ObjectFactory();
