@@ -4,12 +4,14 @@ html,body{
     background-size: cover;
     background-repeat: no-repeat;
     height: 100%;
+    color: white;
     font-family: 'Numans', sans-serif;
 }
 
 .bg-light {
     flex-direction: row;
     width: 100%;
+    background-color: rgba(0,0,0,0.5) !important;
 }
 
 .container{
@@ -33,6 +35,8 @@ html,body{
     font-size: 12px;
     position: relative;
     z-index: 2;
+    color: black;
+    background-color: white !important;
 }
 .divider-text:after {
     content: "";
