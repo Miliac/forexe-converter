@@ -1,6 +1,7 @@
 package com.accounting.controller;
 
 import com.accounting.model.AccountDTO;
+import com.accounting.model.AccountRegistrationDTO;
 import com.accounting.model.F1102TypeDTO;
 import com.accounting.service.AccountService;
 import com.accounting.service.ConversionService;
@@ -111,6 +112,11 @@ public class MainController implements ErrorController {
     @GetMapping("/error")
     public String handleError(){
         return "error";
+    }
+
+    @GetMapping("/register")
+    public String register(@ModelAttribute("accountDTO") AccountRegistrationDTO accountRegistrationDTO){
+        return "register";
     }
 
     @Override
