@@ -48,13 +48,155 @@ html,body{
     z-index: 1;
 }
 
+.subscriptions-container {
+    margin-right: auto;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.payment-types {
+    display: flex;
+    margin-bottom: 15px;
+    justify-content: center!important;
+}
+
+.payment-type-container {
+    width: 60px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.payment-type-container .selected,
+.payment-type-container > div:hover {
+    border-color: rgb(255, 255, 255);
+    color: white;
+    background-color: #0069d9;
+}
+
 .payment-type {
     display: inline-block;
     padding: 5px;
     border-width: 2px;
     border-style: solid;
-    border-color: rgb(255, 255, 255);
+    border-color: rgb(153, 153, 153);
     border-image: initial;
     border-radius: 50%;
-    background-color: #007bff;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    color: rgb(153, 153, 153);
+}
+
+.payment-type-container > span {
+    font-size: 12px;
+}
+
+.payment-type-container .payment-type-credit {
+    margin-left: -5px;
+}
+
+.payment-type-container .payment-type-pay {
+    margin-left: 6px;
+}
+
+.payment-type-container .payment-type-bitcoin {
+    margin-left: 6px;
+}
+
+.subscription {
+    display: flex;
+    cursor: pointer;
+    overflow: hidden;
+    border-width: 2px;
+    border-style: solid;
+    border-color: rgb(153, 153, 153);
+    border-image: initial;
+    border-radius: 5px;
+    min-width: 380px;
+    position: inherit;
+    margin-bottom: 10px;
+    color: rgb(153, 153, 153);
+}
+
+.subscriptions .selected,
+.subscriptions > div:hover{
+    background: #0069d9;
+    border-color: rgb(255, 255, 255);
+    color: rgb(255, 255, 255);
+}
+
+.subscription > div {
+    margin: 5px 0;
+}
+
+.subscription-period-label {
+    font-size: 1.05em;
+    font-weight: bold;
+    text-transform: capitalize;
+}
+
+.subscription-info {
+    font-size: 0.6em;
+}
+
+.subscription-first {
+    display: table-cell;
+    vertical-align: middle;
+    font-size: 2em;
+    font-weight: 700;
+    width: 100%;
+    text-align: right;
+    padding-right: 0px;
+}
+
+.subscription-sign {
+    font-size: 0.6em;
+    vertical-align: top;
+    line-height: 19px;
+    margin-right: -8px;
+}
+
+.subscription-value {
+    display: inline-block;
+    vertical-align: top;
+    margin-top: -5px;
+}
+
+
+.subscription-second {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: left;
+    font-size: 2em;
+    font-weight: 700;
+    width: 100%;
+    padding-right: 10px;
+}
+
+.subscription-value-container {
+    font-size: 1em;
+    margin-top: 5px;
+}
+
+.subscription-decimal-container {
+    line-height: 1;
+    text-align: left;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.subscription-decimal-container > span {
+    display: block;
+}
+
+.subscription-decimal-value {
+    line-height: 21px;
+    font-size: 0.6em;
+}
+
+.subscription-period {
+    font-weight: 400;
+    line-height: 6px;
+    text-align: left;
+    font-size: 0.3em;
 }
