@@ -22,6 +22,8 @@ public class AccountRegistrationDTO {
     @Size(min=8, max=70, message = "Password size is not between 8 and 20 characters!")
     private String password;
 
+    @NotNull(message = "Password is empty!")
+    @Size(min=8, max=70, message = "Password size is not between 8 and 20 characters!")
     private String confirmPassword;
 
     public String getEmail() {
@@ -62,5 +64,15 @@ public class AccountRegistrationDTO {
 
     public void setConfirmPassword(String confirmPassword) {
         this.confirmPassword = confirmPassword;
+    }
+
+    @Override
+    public String toString() {
+        return "AccountRegistrationDTO{" +
+                "email='" + email + '\'' +
+                ", numeEntitatePublica='" + numeEntitatePublica + '\'' +
+                ", cui='" + cui + '\'' +
+                ", password='" + password + '\'' +
+                '}';
     }
 }

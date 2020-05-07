@@ -2,6 +2,7 @@ package com.accounting.service;
 
 import com.accounting.model.Account;
 import com.accounting.model.AccountDTO;
+import com.accounting.model.AccountRegistrationDTO;
 import com.accounting.persistence.AccountRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -43,8 +44,14 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public void saveAccount(AccountDTO account) {
-        logger.info("Account saved in database: {} ", account);
         accountRepository.save(convertFromDTO(account));
+        logger.info("Account saved in database: {} ", account);
+    }
+
+    @Override
+    public void registerAccount(AccountRegistrationDTO accountRegistrationDTO){
+        accountRepository.save(convertFromRegistrationDTO(accountRegistrationDTO));
+        logger.info("Account saved in database: {} ", accountRegistrationDTO);
     }
 
     @Override
@@ -109,6 +116,17 @@ public class AccountServiceImpl implements AccountService {
         account.setCui(accountDTO.getCui());
         account.setStatus(accountDTO.getStatus());
         account.setRole(accountDTO.getRole());
+        return account;
+    }
+
+    private Account convertFromRegistrationDTO(AccountRegistrationDTO accountRegistrationDTO){
+        Account account = new Account();
+        account.setUsername(accountRegistrationDTO.getEmail());
+        account.setName(accountRegistrationDTO.getNumeEntitatePublica());
+        account.setCui(accountRegistrationDTO.getCui());
+        account.setPassword(getEncryptedPassword(accountRegistrationDTO.getPassword()));
+        account.setStatus("active");
+        account.setRole("USER");
         return account;
     }
 

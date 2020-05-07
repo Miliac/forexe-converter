@@ -8,7 +8,7 @@
     <link rel="stylesheet" th:href="@{/css/registration.css}"/>
 </head>
 <body>
-<div class="container">
+<div class="container card-container">
     <div class="card bg-light">
         <article class="card-body mx-auto" style="max-width: 400px;">
             <h4 class="card-title mt-3 text-center">Create Account</h4>
@@ -16,36 +16,36 @@
             <p class="divider-text">
                 <span class="bg-light">ENTER DETAILS</span>
             </p>
-            <form method="post" th:action="@{/register}" th:object="${accountDTO}">
+            <form autocomplete="off" method="post" th:action="@{/register}" th:object="${accountDTO}">
                 <div class="form-group input-group">
                     <div class="input-group-prepend">
                         <span class="input-group-text"> <i class="fa fa-building"></i> </span>
                     </div>
-                    <input name="" class="form-control" placeholder="Denumire Entitate Publica" type="text">
+                    <input autocomplete="off" name="" class="form-control" placeholder="Denumire Entitate Publica" th:field="*{numeEntitatePublica}" type="text">
                 </div> <!-- form-group// -->
                 <div class="form-group input-group">
                     <div class="input-group-prepend">
                         <span class="input-group-text"> <i class="fa fa-user"></i> </span>
                     </div>
-                    <input name="" class="form-control" placeholder="Email address" type="email">
+                    <input autocomplete="off" name="" class="form-control" placeholder="Email address" th:field="*{email}" type="email">
                 </div>
                 <div class="form-group input-group">
                     <div class="input-group-prepend">
                         <span class="input-group-text"> <i class="fa fa-user"></i> </span>
                     </div>
-                    <input name="" class="form-control" placeholder="CUI" type="text">
+                    <input autocomplete="off" name="" class="form-control" placeholder="CUI" th:field="*{cui}" type="text">
                 </div>
                 <div class="form-group input-group">
                     <div class="input-group-prepend">
                         <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
                     </div>
-                    <input class="form-control" placeholder="Create password" type="password">
+                    <input autocomplete="new-password" class="form-control" placeholder="Create password" th:field="*{password}" type="password">
                 </div> <!-- form-group// -->
                 <div class="form-group input-group">
                     <div class="input-group-prepend">
                         <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
                     </div>
-                    <input class="form-control" placeholder="Repeat password" type="password">
+                    <input autocomplete="new-password" class="form-control" placeholder="Repeat password" th:field="*{confirmPassword}" type="password">
                 </div> <!-- form-group// -->
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary btn-block"> Create Account  </button>

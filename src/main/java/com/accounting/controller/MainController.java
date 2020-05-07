@@ -16,12 +16,14 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -117,6 +119,18 @@ public class MainController implements ErrorController {
     @GetMapping("/register")
     public String register(@ModelAttribute("accountDTO") AccountRegistrationDTO accountRegistrationDTO){
         return "register";
+    }
+
+    @PostMapping("/register")
+    public String register(@ModelAttribute("accountDTO") @Valid AccountRegistrationDTO accountRegistrationDTO, BindingResult result){
+
+        if(result.hasErrors()){
+            return "register";
+        }
+
+        accountService.registerAccount(accountRegistrationDTO);
+
+        return "redirect:/?success";
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.accounting.service;
 
 import com.accounting.model.AccountDTO;
+import com.accounting.model.AccountRegistrationDTO;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -11,6 +12,8 @@ public interface AccountService extends UserDetailsService {
     List<AccountDTO> getAccounts();
 
     void saveAccount(AccountDTO account);
+
+    void registerAccount(AccountRegistrationDTO accountRegistrationDTO);
 
     Optional<AccountDTO> getAccountByName(String username);
 
