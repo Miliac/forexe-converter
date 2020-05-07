@@ -134,7 +134,6 @@ html,body{
 .subscription-period-label {
     font-size: 1.05em;
     font-weight: bold;
-    text-transform: capitalize;
 }
 
 .subscription-info {
