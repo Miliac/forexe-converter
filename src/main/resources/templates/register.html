@@ -11,47 +11,55 @@
 <div class="container card-container">
     <div class="d-flex justify-content-center h-100">
         <div class="card bg-light">
-            <article class="card-body mx-auto" style="max-width: 400px;">
-                <h4 class="card-title mt-3 text-center">Create Account</h4>
-                <p class="text-center">Get started with your trial account</p>
+            <article class="card-body mx-auto" style="max-width: 500px;">
+                <h4 class="card-title mt-3 text-center">Creare Cont</h4>
+                <p class="text-center">Începeți cu contul dvs. de probă</p>
                 <p class="divider-text">
-                    <span class="bg-light">ENTER DETAILS</span>
+                    <span class="bg-light">INTRODUCEȚI DETALIILE</span>
                 </p>
                 <form autocomplete="off" method="post" th:action="@{/register}" th:object="${accountDTO}">
+                    <p class="error-text" th:errors="*{numeEntitatePublica}" th:if="${#fields.hasErrors('numeEntitatePublica')}">Nume Entitate Publica Eronat!</p>
                     <div class="form-group input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text"> <i class="fa fa-building"></i> </span>
                         </div>
-                        <input autocomplete="off" name="" class="form-control" placeholder="Denumire Entitate Publica" th:field="*{numeEntitatePublica}" type="text">
-                    </div> <!-- form-group// -->
+                        <input autocomplete="off" name="" class="form-control" placeholder="Denumire Entitate Publică" th:field="*{numeEntitatePublica}" type="text">
+                    </div>
+                    <p class="error-text" th:errors="*{email}" th:if="${#fields.hasErrors('email')}">E-mail Eronat!</p>
                     <div class="form-group input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text"> <i class="fa fa-user"></i> </span>
                         </div>
-                        <input autocomplete="off" name="" class="form-control" placeholder="Email address" th:field="*{email}" type="email">
+                        <input autocomplete="off" name="" class="form-control" placeholder="Adresă de email" th:field="*{email}" type="email">
                     </div>
+                    <p class="error-text" th:errors="*{cui}" th:if="${#fields.hasErrors('cui')}">CUI Eronat!</p>
                     <div class="form-group input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text"> <i class="fa fa-user"></i> </span>
                         </div>
                         <input autocomplete="off" name="" class="form-control" placeholder="CUI" th:field="*{cui}" type="text">
                     </div>
+                    <p class="error-text" th:errors="*{password}" th:if="${#fields.hasErrors('password')}">Parola Eronata!</p>
                     <div class="form-group input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
                         </div>
-                        <input autocomplete="new-password" class="form-control" placeholder="Create password" th:field="*{password}" type="password">
-                    </div> <!-- form-group// -->
+                        <input autocomplete="new-password" class="form-control" placeholder="Introduceți Parola" th:field="*{password}" type="password">
+                    </div>
+                    <div th:each="error : ${#fields.errors('global')}" th:if="${#fields.hasGlobalErrors()}">
+                        <p class="error-text" th:text="${error}">Validation Error!</p>
+                    </div>
+                    <p class="error-text" th:errors="*{confirmPassword}" th:if="${#fields.hasErrors('confirmPassword')}">Parola Eronata!</p>
                     <div class="form-group input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
                         </div>
-                        <input autocomplete="new-password" class="form-control" placeholder="Repeat password" th:field="*{confirmPassword}" type="password">
-                    </div> <!-- form-group// -->
+                        <input autocomplete="new-password" class="form-control" placeholder="Confirmați parola" th:field="*{confirmPassword}" type="password">
+                    </div>
                     <div class="form-group">
-                        <button type="submit" class="btn btn-primary btn-block"> Create Account  </button>
-                    </div> <!-- form-group// -->
-                    <p class="text-center">Have an account? <a href="/">Log In</a> </p>
+                        <button type="submit" class="btn btn-primary btn-block">Creează Cont</button>
+                    </div>
+                    <p class="text-center">Aveți deja un cont? <a href="/">Autentificare</a> </p>
                 </form>
             </article>
             <div class="subscriptions-container">
