@@ -1,3 +1,27 @@
+html,body{
+    background-image: linear-gradient(#010101, #3076c4);
+    /*background-image: url("../images/login-background.jpg");*/
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 100%;
+    font-family: 'Numans', sans-serif;
+}
+
+.bg-light {
+    flex-direction: row;
+    width: 100%;
+}
+
+.container{
+    height: 100%;
+    align-content: center;
+}
+
+.card{
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
 .divider-text {
     position: relative;
     text-align: center;
@@ -18,4 +42,15 @@
     top: 55%;
     left: 0;
     z-index: 1;
+}
+
+.payment-type {
+    display: inline-block;
+    padding: 5px;
+    border-width: 2px;
+    border-style: solid;
+    border-color: rgb(255, 255, 255);
+    border-image: initial;
+    border-radius: 50%;
+    background-color: #007bff;
 }
