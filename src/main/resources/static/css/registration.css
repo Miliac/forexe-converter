@@ -30,14 +30,16 @@ html,body{
     margin-top: 15px;
     margin-bottom: 15px;
 }
+
 .divider-text span {
     padding: 7px;
     font-size: 12px;
     position: relative;
     z-index: 2;
-    color: black;
-    background-color: white !important;
+    color: white;
+    background-color: #071522 !important;
 }
+
 .divider-text:after {
     content: "";
     position: absolute;
@@ -57,4 +59,9 @@ html,body{
     border-image: initial;
     border-radius: 50%;
     background-color: #007bff;
+}
+
+.error-text {
+    color: red;
+    text-align: center;
 }

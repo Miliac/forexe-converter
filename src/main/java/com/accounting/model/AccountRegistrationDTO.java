@@ -2,28 +2,29 @@ package com.accounting.model;
 
 import com.accounting.validators.FieldMatch;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-@FieldMatch(first = "password", second = "confirmPassword", message = "The password fields must match!")
+@FieldMatch(first = "password", second = "confirmPassword", message = "Parolele nu se potrivesc!")
 public class AccountRegistrationDTO {
 
-    @NotNull(message = "Username is empty!")
-    @Size(min=6, max=30, message = "Username size is not between 6 and 30 characters!")
+    @Email(message = "Adresă de email invalidă")
+    @Size(min=6, max=100, message = "Introduceți o adresă de email!")
     private String email;
 
-    @Size(min=3, max=100, message = "Name size is not between 3 and 100 characters!")
+    @Size(min=3, max=50, message = "Numele entității publice trebuie să fie între 3 si 50 de caractere!")
     private String numeEntitatePublica;
 
-    @Size(min=7, max=7, message = "CUI should have exactly 7 characters!")
+    @Size(min=7, max=7, message = "Codul Unic de Identificare trebuie să fie de exact 7 caractere!")
     private String cui;
 
-    @NotNull(message = "Password is empty!")
-    @Size(min=8, max=70, message = "Password size is not between 8 and 20 characters!")
+    @NotNull(message = "Introduceți o parolă!")
+    @Size(min=8, max=24, message = "Parola trebuie să fie între 8 si 24 de caractere!")
     private String password;
 
-    @NotNull(message = "Password is empty!")
-    @Size(min=8, max=70, message = "Password size is not between 8 and 20 characters!")
+    @NotNull(message = "Confirmați parola!")
+    @Size(min=8, max=24, message = "Parola trebuie să fie între 8 si 24 de caractere!")
     private String confirmPassword;
 
     public String getEmail() {
