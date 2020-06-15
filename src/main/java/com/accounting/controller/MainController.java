@@ -1,7 +1,8 @@
 package com.accounting.controller;
 
 import com.accounting.model.AccountDTO;
-import com.accounting.model.F1102TypeDTO;
+import com.accounting.model.ConversionType;
+import com.accounting.model.FormData;
 import com.accounting.service.AccountService;
 import com.accounting.service.ConversionService;
 import org.apache.logging.log4j.LogManager;
@@ -79,22 +80,23 @@ public class MainController implements ErrorController {
         if (Objects.isNull(model.getAttribute(F1102_MODEL))) {
             Optional<AccountDTO> account = accountService.getAccountByName(request.getRemoteUser());
             if (account.isPresent()) {
-                model.addAttribute(F1102_MODEL, new F1102TypeDTO(currentYear, currentMonth, dataDocument, account.get()
+                model.addAttribute(F1102_MODEL, new FormData(currentYear, currentMonth, dataDocument, account.get()
                         .getName(), account.get()
                         .getCui()));
             } else {
-                model.addAttribute(F1102_MODEL, new F1102TypeDTO(currentYear, currentMonth, dataDocument, Strings.EMPTY, Strings.EMPTY));
+                model.addAttribute(F1102_MODEL, new FormData(currentYear, currentMonth, dataDocument, Strings.EMPTY, Strings.EMPTY));
             }
         }
         model.addAttribute("years", Arrays.asList(String.valueOf(currentYear - 1), String.valueOf(currentYear)));
         model.addAttribute("currentMonth", currentMonth);
         model.addAttribute("months", Arrays.asList("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"));
         model.addAttribute("sectors", Collections.singletonList("02 - Buget local"));
+        model.addAttribute("conversionTypes", ConversionType.values());
         return "home";
     }
 
     @PostMapping("/home")
-    public void convertXLSFile(@ModelAttribute F1102TypeDTO f1102TypeDTO, HttpServletResponse response, HttpServletRequest request) {
+    public void convertXLSFile(@ModelAttribute FormData f1102TypeDTO, HttpServletResponse response, HttpServletRequest request) {
 
         logger.info("User {} with IP: {} Executed {} request on endpoint: {}",
                 request.getRemoteUser(), request.getRemoteAddr(), request.getMethod(), request.getRequestURI());

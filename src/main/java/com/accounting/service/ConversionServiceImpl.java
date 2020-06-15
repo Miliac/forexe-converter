@@ -71,7 +71,7 @@ public class ConversionServiceImpl implements ConversionService {
     }
 
     @Override
-    public void convert(F1102TypeDTO f1102TypeDTO, HttpServletResponse response) {
+    public void convert(FormData f1102TypeDTO, HttpServletResponse response) {
 
         this.codSector = getCodSector(f1102TypeDTO.getSector());
         this.codSursa = 'G';
@@ -106,7 +106,7 @@ public class ConversionServiceImpl implements ConversionService {
 
     }
 
-    private void generateXml(F1102TypeDTO f1102TypeDTO, HttpServletResponse response, List<ContType> contTypes) {
+    private void generateXml(FormData f1102TypeDTO, HttpServletResponse response, List<ContType> contTypes) {
         F1102Type f1102Type = convertFromDTO(f1102TypeDTO);
         List<ContType> copyContTypes = new ArrayList<>(contTypes);
         f1102Type.setCont(contTypes.stream()
@@ -378,7 +378,7 @@ public class ConversionServiceImpl implements ConversionService {
         return new ArrayList<>(contTypes.values());
     }
 
-    private F1102Type convertFromDTO(F1102TypeDTO f1102TypeDTO) {
+    private F1102Type convertFromDTO(FormData f1102TypeDTO) {
         F1102Type f1102Type = new F1102Type();
         f1102Type.setAn(f1102TypeDTO.getAn());
         f1102Type.setCuiIp(f1102TypeDTO.getCuiIp());

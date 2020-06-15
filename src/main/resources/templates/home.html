@@ -22,6 +22,18 @@
             </div>
             <div class="card-body">
                 <form enctype="multipart/form-data" method="post" th:action="@{/home}" th:object="${f1102Type}">
+                    <h5 style="font-style: italic">Tipul Conversiei</h5>
+                    <hr style="background-color: white">
+                    <div id="conversionType">
+                        <label class="control-label" for="conversionTypes" style="margin-right: 128px">Alegeti tipul de conversie</label>
+                        <select class="browser-default custom-select" id="conversionTypes" th:field="*{conversionType}">
+                            <option
+                                    th:each="conversionType: ${conversionTypes}"
+                                    th:text="${conversionType}"
+                                    th:value="${conversionType}">
+                            </option>
+                        </select>
+                    </div>
                     <div class="row">
                         <div class="col columns" style="margin-left: auto">
                             <div class="input-group form-group">

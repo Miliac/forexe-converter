@@ -3,7 +3,7 @@ package com.accounting.model;
 import org.springframework.web.multipart.MultipartFile;
 
 
-public class F1102TypeDTO {
+public class FormData {
 
     private int an;
     private int lunaR;
@@ -13,8 +13,9 @@ public class F1102TypeDTO {
     private String sector;
     private int documentFaraValori;
     private boolean dRec;
+    private ConversionType conversionType;
 
-    public F1102TypeDTO(int an, int lunaR, String dataDocument, String numeIp, String cuiIp) {
+    public FormData(int an, int lunaR, String dataDocument, String numeIp, String cuiIp) {
         this.an = an;
         this.lunaR = lunaR;
         this.dataDocument = dataDocument;
@@ -94,5 +95,13 @@ public class F1102TypeDTO {
 
     public void setXlsFile(MultipartFile xlsFile) {
         this.xlsFile = xlsFile;
+    }
+
+    public boolean isdRec() {
+        return dRec;
+    }
+
+    public ConversionType getConversionType() {
+        return conversionType;
     }
 }
