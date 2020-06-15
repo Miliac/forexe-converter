@@ -54,7 +54,7 @@
                     <h5 style="font-style: italic">Informa&#355;ii generale</h5>
                     <hr style="background-color: white">
                     <div class="row">
-                        <div class="col">
+                        <div class="col-lg-7">
                             <div class="input-group form-group">
                                 <label class="control-label" for="name">Denumire entitate public&#259;</label>
                                 <input class="form-control input-md" id="name" name="name" placeholder="Denumire entitate publica" th:field="*{numeIp}"
@@ -70,7 +70,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col">
+                        <div class="col-lg-7">
                             <div class="input-group form-group">
                                 <label class="control-label" for="sector" style="margin-right: 128px">Sector buget</label>
                                 <select class="browser-default custom-select" id="sector" name="sector" th:field="*{sector}">
@@ -103,24 +103,32 @@
                     </div>
                     <h5 style="font-style: italic">Tipul Conversiei</h5>
                     <hr style="background-color: white">
-                    <div>
-                        <label class="control-label" for="conversionType" style="margin-right: 128px">Alegeti tipul de conversie</label>
-                        <select class="browser-default custom-select" id="conversionType" th:field="*{conversionType}">
-                            <option
-                                    th:each="conversionType: ${conversionTypes}"
-                                    th:text="${conversionType}"
-                                    th:value="${conversionType}">
-                            </option>
-                        </select>
+                    <div class="row">
+                        <div class="col-lg-7">
+                            <div class="input-group form-group">
+                                <label class="control-label" for="conversionType">Alegeti tipul de conversie</label>
+                                <select class="browser-default custom-select" id="conversionType" th:field="*{conversionType}">
+                                    <option
+                                            th:each="conversionType: ${conversionTypes}"
+                                            th:text="${conversionType}"
+                                            th:value="${conversionType}">
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
                     <div class="row">
-                        <div class="input-group">
-                            <div class="custom-file file-choose">
-                                <input aria-describedby="inputGroupFileAddon01" class="custom-file-input" id="inputGroupFile01"
-                                       onchange="validate_fileupload(this.value)" th:field="*{xlsFile}"
-                                       type="file">
-                                <label class="custom-file-label" for="inputGroupFile01" id="labelForFile">Alege&#355;i un fi&#351;ier XLSX</label>
+                        <div class="col-lg-7">
+                            <div class="input-group">
+                                <div class="custom-file">
+                                    <input aria-describedby="inputGroupFileAddon01" class="custom-file-input" id="inputGroupFile01"
+                                           onchange="validate_fileupload(this.value)" th:field="*{xlsFile}"
+                                           type="file">
+                                    <label class="custom-file-label" for="inputGroupFile01" id="labelForFile">Alege&#355;i un fi&#351;ier XLSX</label>
+                                </div>
                             </div>
+                        </div>
+                        <div class="col">
                             <div class="form-group" style="margin-top: 5px">
                                 <input class="btn float-right custom-btn" onclick="return valid_form()" type="submit"
                                        value="Genereaz&#259; XML">

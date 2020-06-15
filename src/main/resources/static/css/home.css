@@ -16,7 +16,7 @@ html,body{
 }
 
 .card{
-    height: 500px;
+    height: 550px;
     margin-top: auto;
     margin-bottom: auto;
     width: 1000px;
@@ -47,7 +47,7 @@ html,body{
 }
 
 .file-choose {
-    max-width: 542px;
+    /*max-width: 542px;*/
     margin-right: 30px;
     margin-left: 15px;
 }
@@ -87,4 +87,8 @@ html,body{
 
 .rectificare {
     height: 30px;
+}
+
+.custom-file label {
+    margin-right: 0;
 }
