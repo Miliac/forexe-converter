@@ -96,13 +96,13 @@ public class MainController implements ErrorController {
     }
 
     @PostMapping("/home")
-    public void convertXLSFile(@ModelAttribute FormData f1102TypeDTO, HttpServletResponse response, HttpServletRequest request) {
+    public void convertXLSFile(@ModelAttribute FormData formData, HttpServletResponse response, HttpServletRequest request) {
 
         logger.info("User {} with IP: {} Executed {} request on endpoint: {}",
                 request.getRemoteUser(), request.getRemoteAddr(), request.getMethod(), request.getRequestURI());
         response.setContentType(XML_CONTENT_TYPE);
         response.setHeader("Content-Disposition", "attachment; filename=f1102.xml");
-        conversionService.convert(f1102TypeDTO, response);
+        conversionService.convert(formData, response);
         try {
             response.flushBuffer();
         } catch (IOException ex) {

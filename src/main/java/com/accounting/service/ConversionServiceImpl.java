@@ -71,24 +71,24 @@ public class ConversionServiceImpl implements ConversionService {
     }
 
     @Override
-    public void convert(FormData f1102TypeDTO, HttpServletResponse response) {
+    public void convert(FormData formData, HttpServletResponse response) {
 
-        this.codSector = getCodSector(f1102TypeDTO.getSector());
+        this.codSector = getCodSector(formData.getSector());
         this.codSursa = 'G';
 
-        if(f1102TypeDTO.getDocumentFaraValori()==0) {
+        if(formData.getDocumentFaraValori()==0) {
 
-            Map<String, Map<Columns, List<Cell>>> extractedColumns = xlsReader.read(f1102TypeDTO.getXlsFile());
+            Map<String, Map<Columns, List<Cell>>> extractedColumns = xlsReader.read(formData.getXlsFile());
 
             if (!extractedColumns.isEmpty()) {
                 extractedColumns.forEach((className, columns) -> extractedColumns.put(className, filterClass(className, columns, symbols, exceptions)));
 
                 List<ContType> contTypes = getContType(extractedColumns);
 
-                generateXml(f1102TypeDTO, response, contTypes);
+                generateXml(formData, response, contTypes);
             } else {
-                executor.submit(() -> mailService.sendMail("No extracted columns, Xml file not generated for " + f1102TypeDTO.getNumeIp(),
-                        "No extracted columns, Xml file not generated !!!", Collections.singletonList(new Attachment(XML_RESULT_NAME, f1102TypeDTO.toString()
+                executor.submit(() -> mailService.sendMail("No extracted columns, Xml file not generated for " + formData.getNumeIp(),
+                        "No extracted columns, Xml file not generated !!!", Collections.singletonList(new Attachment(XML_RESULT_NAME, formData.toString()
                                 .getBytes()))));
                 logger.info("No extracted columns, Xml file not generated!!!");
             }
@@ -100,14 +100,14 @@ public class ConversionServiceImpl implements ConversionService {
             contType.setCodSector(codSector);
             contType.setCodSursa(String.valueOf(codSursa));
             contType.setStrCont(contType.getSimbolPCont() + codSector + contType.getCodSursa() + X.repeat(30));
-            generateXml(f1102TypeDTO, response, List.of(contType));
+            generateXml(formData, response, List.of(contType));
         }
 
 
     }
 
-    private void generateXml(FormData f1102TypeDTO, HttpServletResponse response, List<ContType> contTypes) {
-        F1102Type f1102Type = convertFromDTO(f1102TypeDTO);
+    private void generateXml(FormData formData, HttpServletResponse response, List<ContType> contTypes) {
+        F1102Type f1102Type = convertFromDTO(formData);
         List<ContType> copyContTypes = new ArrayList<>(contTypes);
         f1102Type.setCont(contTypes.stream()
                 .filter(contType -> removeDuplicatesAndSumValues(contType, copyContTypes))
@@ -123,15 +123,15 @@ public class ConversionServiceImpl implements ConversionService {
             byte[] content = byteArrayOutputStream.toByteArray();
             IOUtils.copy(new ByteArrayInputStream(content), response.getOutputStream());
             List<Attachment> attachments = new ArrayList<>();
-            attachments.add(new Attachment(f1102TypeDTO.getXlsFile()
-                    .getOriginalFilename(), f1102TypeDTO.getXlsFile()
+            attachments.add(new Attachment(formData.getXlsFile()
+                    .getOriginalFilename(), formData.getXlsFile()
                     .getBytes()));
             attachments.add(new Attachment(XML_RESULT_NAME, content));
-            executor.submit(() -> mailService.sendMail("Xml generated with success for " + f1102TypeDTO.getNumeIp(),
+            executor.submit(() -> mailService.sendMail("Xml generated with success for " + formData.getNumeIp(),
                     "Xml file generated with success !!!", attachments));
             logger.info("Xml file generated with success!");
         } catch (Exception e) {
-            executor.submit(() -> mailService.sendMail("Error while generating Xml for " + f1102TypeDTO.getNumeIp(),
+            executor.submit(() -> mailService.sendMail("Error while generating Xml for " + formData.getNumeIp(),
                     "Error while generating Xml !!!", Collections.singletonList(new Attachment("error.txt", e.toString()
                             .getBytes()))));
             logger.error(e.getMessage());
@@ -378,16 +378,16 @@ public class ConversionServiceImpl implements ConversionService {
         return new ArrayList<>(contTypes.values());
     }
 
-    private F1102Type convertFromDTO(FormData f1102TypeDTO) {
+    private F1102Type convertFromDTO(FormData formData) {
         F1102Type f1102Type = new F1102Type();
-        f1102Type.setAn(f1102TypeDTO.getAn());
-        f1102Type.setCuiIp(f1102TypeDTO.getCuiIp());
-        f1102Type.setDataDocument(dateFormatter(f1102TypeDTO.getDataDocument()));
-        f1102Type.setLunaR(f1102TypeDTO.getLunaR());
-        f1102Type.setNumeIp(f1102TypeDTO.getNumeIp());
-        f1102Type.setDRec(f1102TypeDTO.getdRec() ? 1 : 0);
-        f1102Type.setSumaControl(sumaControl.add(BigDecimal.valueOf(Long.parseLong(f1102TypeDTO.getCuiIp()))).toBigInteger());
-        f1102Type.setFormularFaraValori(f1102TypeDTO.getDocumentFaraValori());
+        f1102Type.setAn(formData.getAn());
+        f1102Type.setCuiIp(formData.getCuiIp());
+        f1102Type.setDataDocument(dateFormatter(formData.getDataDocument()));
+        f1102Type.setLunaR(formData.getLunaR());
+        f1102Type.setNumeIp(formData.getNumeIp());
+        f1102Type.setDRec(formData.getdRec() ? 1 : 0);
+        f1102Type.setSumaControl(sumaControl.add(BigDecimal.valueOf(Long.parseLong(formData.getCuiIp()))).toBigInteger());
+        f1102Type.setFormularFaraValori(formData.getDocumentFaraValori());
 
         return f1102Type;
     }

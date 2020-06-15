@@ -101,6 +101,10 @@ public class FormData {
         return dRec;
     }
 
+    public void setConversionType(ConversionType conversionType) {
+        this.conversionType = conversionType;
+    }
+
     public ConversionType getConversionType() {
         return conversionType;
     }
