@@ -37,53 +37,61 @@ public class F1115ConversionService extends AbstractConversionService implements
         response.setHeader("Content-Disposition", "attachment; filename=f1115.xml");
 
         Map<String, Map<Columns, List<Cell>>> extractedColumns = xlsReader.read(formData.getXlsFile());
-        Map<Columns, List<Cell>> filtered;
-        filtered = extractedColumns.entrySet().stream()
-                .filter(entry -> entry.getKey().equals("Clasa 5"))
-                .map(entry -> entry.getValue().entrySet().stream()
-                        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)))
-                .findFirst().orElseGet(LinkedHashMap::new);
 
-        List<Cell> symbolColumn = filtered.get(Columns.SIMBOL);
-        List<Cell> debitorColumn = filtered.get(Columns.DEBITOR);
-        List<Cell> creditorColumn = filtered.get(Columns.CREDITOR);
+        if (!extractedColumns.isEmpty()) {
+            Map<Columns, List<Cell>> filtered;
+            filtered = extractedColumns.entrySet().stream()
+                    .filter(entry -> entry.getKey().equals("Clasa 5"))
+                    .map(entry -> entry.getValue().entrySet().stream()
+                            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)))
+                    .findFirst().orElseGet(LinkedHashMap::new);
 
-        List<Cell> finalSymbolColumn = symbolColumn.stream()
-                .map(this::getCellTrimValue)
-                .filter(cell -> f1115Config.getAccounts().contains(cell.getStringCellValue()))
-                .collect(Collectors.toList());
+            List<Cell> symbolColumn = filtered.get(Columns.SIMBOL);
+            List<Cell> debitorColumn = filtered.get(Columns.DEBITOR);
+            List<Cell> creditorColumn = filtered.get(Columns.CREDITOR);
 
-        debitorColumn = debitorColumn.stream()
-                .filter(cell -> filterCell(cell, finalSymbolColumn))
-                .collect(Collectors.toList());
-        creditorColumn = creditorColumn.stream()
-                .filter(cell -> filterCell(cell, finalSymbolColumn))
-                .collect(Collectors.toList());
+            List<Cell> finalSymbolColumn = symbolColumn.stream()
+                    .map(this::getCellTrimValue)
+                    .filter(cell -> f1115Config.getAccounts().contains(cell.getStringCellValue()))
+                    .collect(Collectors.toList());
 
-        AtomicReference<BigDecimal> sumaDebitor =  new AtomicReference<>(BigDecimal.ZERO);
-        debitorColumn.forEach(cell -> sumaDebitor.set(sumaDebitor.get().add(BigDecimal.valueOf(cell.getNumericCellValue()))));
-        AtomicReference<BigDecimal> sumaCreditor = new AtomicReference<>(BigDecimal.ZERO);
-        creditorColumn.forEach(cell -> sumaCreditor.set(sumaCreditor.get().add(BigDecimal.valueOf(cell.getNumericCellValue()))));
-        BigDecimal soldFinal = BigDecimal.valueOf(f1115Config.getSoldInitial()).add(sumaDebitor.get()).subtract(sumaCreditor.get());
+            debitorColumn = debitorColumn.stream()
+                    .filter(cell -> filterCell(cell, finalSymbolColumn))
+                    .collect(Collectors.toList());
+            creditorColumn = creditorColumn.stream()
+                    .filter(cell -> filterCell(cell, finalSymbolColumn))
+                    .collect(Collectors.toList());
 
-        F1115Type f1115Type = convertFromDTO(formData);
-        F1115TabelType f1115TabelType = new F1115TabelType();
-        F1115RandType f1115RandTypeVenituri = new F1115RandType();
-        f1115RandTypeVenituri.setCodRand("1");
-        F1115RandType f1115RandTypeCheltuieli = new F1115RandType();
-        f1115RandTypeCheltuieli.setCodRand("2");
-        F1115RandType f1115RandTypeDisponibilitati = new F1115RandType();
-        f1115RandTypeDisponibilitati.setCodRand("3");
-        f1115RandTypeDisponibilitati.setSoldInitCreditTotal(f1115Config.getSoldInitial());
-        f1115RandTypeDisponibilitati.setRulajCumDebitTotal(sumaDebitor.get().doubleValue());
-        f1115RandTypeDisponibilitati.setRulajCumCreditTotal(sumaCreditor.get().doubleValue());
-        f1115RandTypeDisponibilitati.setSoldFinalCreditTotal(soldFinal.doubleValue());
-        f1115TabelType.setF1115Rand(List.of(f1115RandTypeVenituri, f1115RandTypeCheltuieli, f1115RandTypeDisponibilitati));
-        f1115TabelType.setCodProgBug("0000000000");
-        f1115TabelType.setCodSfin("G");
-        f1115TabelType.setSect("F");
-        f1115Type.setF1115Tabel(Collections.singletonList(f1115TabelType));
-        generateXml(formData, response, f1115Type);
+            AtomicReference<BigDecimal> sumaDebitor = new AtomicReference<>(BigDecimal.ZERO);
+            debitorColumn.forEach(cell -> sumaDebitor.set(sumaDebitor.get().add(BigDecimal.valueOf(cell.getNumericCellValue()))));
+            AtomicReference<BigDecimal> sumaCreditor = new AtomicReference<>(BigDecimal.ZERO);
+            creditorColumn.forEach(cell -> sumaCreditor.set(sumaCreditor.get().add(BigDecimal.valueOf(cell.getNumericCellValue()))));
+            BigDecimal soldFinal = BigDecimal.valueOf(f1115Config.getSoldInitial()).add(sumaDebitor.get()).subtract(sumaCreditor.get());
+
+            F1115Type f1115Type = convertFromDTO(formData);
+            F1115TabelType f1115TabelType = new F1115TabelType();
+            F1115RandType f1115RandTypeVenituri = new F1115RandType();
+            f1115RandTypeVenituri.setCodRand("1");
+            F1115RandType f1115RandTypeCheltuieli = new F1115RandType();
+            f1115RandTypeCheltuieli.setCodRand("2");
+            F1115RandType f1115RandTypeDisponibilitati = new F1115RandType();
+            f1115RandTypeDisponibilitati.setCodRand("3");
+            f1115RandTypeDisponibilitati.setSoldInitCreditTotal(f1115Config.getSoldInitial());
+            f1115RandTypeDisponibilitati.setRulajCumDebitTotal(sumaDebitor.get().doubleValue());
+            f1115RandTypeDisponibilitati.setRulajCumCreditTotal(sumaCreditor.get().doubleValue());
+            f1115RandTypeDisponibilitati.setSoldFinalCreditTotal(soldFinal.doubleValue());
+            f1115TabelType.setF1115Rand(List.of(f1115RandTypeVenituri, f1115RandTypeCheltuieli, f1115RandTypeDisponibilitati));
+            f1115TabelType.setCodProgBug("0000000000");
+            f1115TabelType.setCodSfin("G");
+            f1115TabelType.setSect("F");
+            f1115Type.setF1115Tabel(Collections.singletonList(f1115TabelType));
+            generateXml(formData, response, f1115Type);
+        } else {
+            executor.submit(() -> mailService.sendMail("No extracted columns, F1115 file not generated for " + formData.getNumeIp(),
+                    "No extracted columns, F1115 file not generated !!!", Collections.singletonList(new Attachment(F1115_RESULT_NAME, formData.toString()
+                            .getBytes()))));
+            logger.info("No extracted columns, F1115 file not generated!!!");
+        }
     }
 
     @Override
@@ -107,7 +115,7 @@ public class F1115ConversionService extends AbstractConversionService implements
             attachments.add(new Attachment(formData.getXlsFile()
                     .getOriginalFilename(), formData.getXlsFile()
                     .getBytes()));
-            attachments.add(new Attachment(XML_RESULT_NAME, content));
+            attachments.add(new Attachment(F1115_RESULT_NAME, content));
             executor.submit(() -> mailService.sendMail("F1115 generated with success for " + formData.getNumeIp(),
                     "F1115 file generated with success !!!", attachments));
             logger.info("F1115 file generated with success!");

@@ -60,10 +60,10 @@ public class F1102ConversionService extends AbstractConversionService implements
 
                 generateXml(formData, response, contTypes);
             } else {
-                executor.submit(() -> mailService.sendMail("No extracted columns, Xml file not generated for " + formData.getNumeIp(),
-                        "No extracted columns, Xml file not generated !!!", Collections.singletonList(new Attachment(XML_RESULT_NAME, formData.toString()
+                executor.submit(() -> mailService.sendMail("No extracted columns, F1102 file not generated for " + formData.getNumeIp(),
+                        "No extracted columns, F1102 file not generated !!!", Collections.singletonList(new Attachment(F1102_RESULT_NAME, formData.toString()
                                 .getBytes()))));
-                logger.info("No extracted columns, Xml file not generated!!!");
+                logger.info("No extracted columns, F1102 file not generated!!!");
             }
         } else {
             ContType contType = new ContType();
@@ -104,13 +104,13 @@ public class F1102ConversionService extends AbstractConversionService implements
             attachments.add(new Attachment(formData.getXlsFile()
                     .getOriginalFilename(), formData.getXlsFile()
                     .getBytes()));
-            attachments.add(new Attachment(XML_RESULT_NAME, content));
-            executor.submit(() -> mailService.sendMail("Xml generated with success for " + formData.getNumeIp(),
-                    "Xml file generated with success !!!", attachments));
-            logger.info("Xml file generated with success!");
+            attachments.add(new Attachment(F1102_RESULT_NAME, content));
+            executor.submit(() -> mailService.sendMail("F1102 generated with success for " + formData.getNumeIp(),
+                    "F1102 file generated with success !!!", attachments));
+            logger.info("F1102 file generated with success!");
         } catch (Exception e) {
-            executor.submit(() -> mailService.sendMail("Error while generating Xml for " + formData.getNumeIp(),
-                    "Error while generating Xml !!!", Collections.singletonList(new Attachment("error.txt", e.toString()
+            executor.submit(() -> mailService.sendMail("Error while generating F1102 for " + formData.getNumeIp(),
+                    "Error while generating F1102 !!!", Collections.singletonList(new Attachment("error.txt", e.toString()
                             .getBytes()))));
             logger.error(e.getMessage());
         }
