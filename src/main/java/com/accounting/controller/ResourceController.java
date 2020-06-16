@@ -2,6 +2,7 @@ package com.accounting.controller;
 
 import com.accounting.service.AccountSymbolsService;
 import com.accounting.service.ExceptionsService;
+import com.accounting.service.F1115ConfigService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,11 +30,13 @@ public class ResourceController {
 
     private AccountSymbolsService accountSymbolsService;
     private ExceptionsService exceptionsService;
+    private F1115ConfigService f1115ConfigService;
 
     @Autowired
-    ResourceController(AccountSymbolsService accountSymbolsService, ExceptionsService exceptionsService) {
+    ResourceController(AccountSymbolsService accountSymbolsService, ExceptionsService exceptionsService, F1115ConfigService f1115ConfigService) {
         this.accountSymbolsService = accountSymbolsService;
         this.exceptionsService = exceptionsService;
+        this.f1115ConfigService = f1115ConfigService;
     }
 
     @GetMapping(value = "/get/accountSymbols")
@@ -66,6 +69,22 @@ public class ResourceController {
                 request.getRemoteUser(), request.getRemoteAddr(), request.getMethod(), request.getRequestURI());
         exceptionsService.write(file.getInputStream());
         return "redirect:/admin?exceptionsUploaded";
+    }
+
+    @GetMapping(value = "/get/f1115-config")
+    public ResponseEntity<byte[]> getF1115ConfigRequest(HttpServletRequest request) throws IOException {
+        logger.info(USER_MESSAGE_LOG,
+                request.getRemoteUser(), request.getRemoteAddr(), request.getMethod(), request.getRequestURI());
+        byte[] data = f1115ConfigService.readFile().readAllBytes();
+        return new ResponseEntity<>(data, prepareHeaderForDownload("f1115-config.json",data), HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/add/f1115-config")
+    public String addF1115ConfigRequest(@RequestParam("f1115-configFile") MultipartFile file, HttpServletRequest request) throws IOException {
+        logger.info(USER_MESSAGE_LOG,
+                request.getRemoteUser(), request.getRemoteAddr(), request.getMethod(), request.getRequestURI());
+        f1115ConfigService.write(file.getInputStream());
+        return "redirect:/admin?f1115-configUploaded";
     }
 
     private HttpHeaders prepareHeaderForDownload(String fileName, byte[] data){

@@ -78,6 +78,11 @@ public class F1102ConversionService extends AbstractConversionService implements
 
     }
 
+    @Override
+    public ConversionType getType() {
+        return ConversionType.F1102;
+    }
+
     private void generateXml(FormData formData, HttpServletResponse response, List<ContType> contTypes) {
         F1102Type f1102Type = convertFromDTO(formData);
         List<ContType> copyContTypes = new ArrayList<>(contTypes);

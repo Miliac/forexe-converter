@@ -9,6 +9,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -41,7 +42,7 @@ public class MainController implements ErrorController {
     private AccountService accountService;
 
     @Autowired
-    public MainController(ConversionService conversionService, AccountService accountService) {
+    public MainController(@Qualifier("conversion")ConversionService conversionService, AccountService accountService) {
         this.conversionService = conversionService;
         this.accountService = accountService;
     }
