@@ -33,8 +33,11 @@ public class F1102ConversionService extends AbstractConversionService implements
 
     private BigDecimal sumaControl;
 
-    public F1102ConversionService(AccountSymbolsService accountSymbolsService, ExceptionsService exceptionsService, MailService mailService) {
-        super(accountSymbolsService, exceptionsService, mailService);
+    private final ConfigsProviderService configsProviderService;
+
+    public F1102ConversionService(MailService mailService, ConfigsProviderService configsProviderService) {
+        super(mailService);
+        this.configsProviderService = configsProviderService;
         cellsWithCF = new ArrayList<>();
         cellsWithCFAndCE = new ArrayList<>();
         sumaControl = BigDecimal.ZERO;
@@ -53,7 +56,7 @@ public class F1102ConversionService extends AbstractConversionService implements
             Map<String, Map<Columns, List<Cell>>> extractedColumns = xlsReader.read(formData.getXlsFile());
 
             if (!extractedColumns.isEmpty()) {
-                extractedColumns.forEach((className, columns) -> extractedColumns.put(className, filterClass(className, columns, symbols, exceptions)));
+                extractedColumns.forEach((className, columns) -> extractedColumns.put(className, filterClass(className, columns, configsProviderService.getSymbols(), configsProviderService.getExceptions())));
 
                 List<ContType> contTypes = getContType(extractedColumns);
 
