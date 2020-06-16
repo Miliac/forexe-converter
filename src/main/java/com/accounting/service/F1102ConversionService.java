@@ -1,7 +1,6 @@
 package com.accounting.service;
 
 import com.accounting.model.*;
-import com.accounting.reader.XLSReader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.poi.ss.usermodel.Cell;
@@ -17,61 +16,34 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 import static com.accounting.config.Utils.*;
 import static org.apache.logging.log4j.util.Strings.EMPTY;
 
 @Service
-public class ConversionServiceImpl implements ConversionService {
+public class F1102ConversionService extends AbstractConversionService implements ConversionService {
 
-    private static final Logger logger = LogManager.getLogger(ConversionServiceImpl.class);
+    private static final Logger logger = LogManager.getLogger(F1102ConversionService.class);
 
-    private XLSReader xlsReader;
-    private AccountSymbolsService accountSymbolsService;
-    private ExceptionsService exceptionsService;
-    private MailService mailService;
-
-    private Map<String, AccountSymbols> symbols;
-    private Map<String, String> exceptions;
     private List<Cell> cellsWithCF;
     private List<Cell> cellsWithCFAndCE;
     private String codSector;
     private char codSursa;
-    private ExecutorService executor = Executors.newSingleThreadExecutor();
 
     private BigDecimal sumaControl;
 
-    public ConversionServiceImpl(AccountSymbolsService accountSymbolsService, ExceptionsService exceptionsService, MailService mailService) {
-        xlsReader = new XLSReader();
-        this.accountSymbolsService = accountSymbolsService;
-        this.exceptionsService = exceptionsService;
-        this.mailService = mailService;
-        init();
+    public F1102ConversionService(AccountSymbolsService accountSymbolsService, ExceptionsService exceptionsService, MailService mailService) {
+        super(accountSymbolsService, exceptionsService, mailService);
         cellsWithCF = new ArrayList<>();
         cellsWithCFAndCE = new ArrayList<>();
         sumaControl = BigDecimal.ZERO;
     }
 
-    private void init() {
-        readSymbols();
-        readExceptions();
-    }
-
-    public void readSymbols() {
-        symbols = accountSymbolsService.read();
-        logger.info("Account symbols file loaded in memory!");
-    }
-
-    public void readExceptions() {
-        exceptions = exceptionsService.read();
-        logger.info("Exceptions file loaded in memory!");
-    }
-
     @Override
     public void convert(FormData formData, HttpServletResponse response) {
+        response.setContentType(XML_CONTENT_TYPE);
+        response.setHeader("Content-Disposition", "attachment; filename=f1102.xml");
 
         this.codSector = getCodSector(formData.getSector());
         this.codSursa = 'G';
@@ -319,7 +291,7 @@ public class ConversionServiceImpl implements ConversionService {
     }
 
     private Cell getCellTrimValue(Cell cell) {
-        cell.setCellValue(cell.getStringCellValue().replaceAll(SPACE, EMPTY));
+        cell.setCellValue(cell.getStringCellValue().replace(SPACE, EMPTY));
         return cell;
     }
 
