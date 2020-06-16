@@ -98,6 +98,10 @@ public class F1115Type {
         return this.f1115Tabel;
     }
 
+    public void setF1115Tabel(List<F1115TabelType> f1115Tabel) {
+        this.f1115Tabel = f1115Tabel;
+    }
+
     /**
      * Gets the value of the sumaControl property.
      * 

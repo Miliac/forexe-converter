@@ -13,8 +13,6 @@ import javax.xml.bind.Marshaller;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -289,20 +287,6 @@ public class F1102ConversionService extends AbstractConversionService implements
         return content;
     }
 
-    private boolean filterCell(Cell cell, List<Cell> cells) {
-        for (Cell c : cells) {
-            if (c.getRowIndex() == cell.getRowIndex()) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private Cell getCellTrimValue(Cell cell) {
-        cell.setCellValue(cell.getStringCellValue().replace(SPACE, EMPTY));
-        return cell;
-    }
-
     private boolean filterDifferentSymbol(Cell cell, List<Cell> symbolColumns) {
         String symbol = cell.getStringCellValue().substring(0, SYMBOL_LENGTH);
         boolean result = true;
@@ -370,12 +354,6 @@ public class F1102ConversionService extends AbstractConversionService implements
         f1102Type.setFormularFaraValori(formData.getDocumentFaraValori());
 
         return f1102Type;
-    }
-
-
-    private String dateFormatter(String dateString) {
-        LocalDate date = LocalDate.parse(dateString, DateTimeFormatter.ofPattern(INPUT_DATE_FORMAT));
-        return date.format(DateTimeFormatter.ofPattern(F1102_DATE_FORMAT));
     }
 
     private String getCodSector(String codSector) {

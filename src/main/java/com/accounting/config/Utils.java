@@ -36,7 +36,7 @@ public class Utils {
     public static final String COMMA = ",";
     public static final String X = "X";
     public static final String INPUT_DATE_FORMAT = "yyyy-MM-dd";
-    public static final String F1102_DATE_FORMAT = "dd.MM.yyyy";
+    public static final String DATE_FORMAT = "dd.MM.yyyy";
     public static final String USER_MESSAGE_LOG = "User {} with IP: {} Executed {} request on endpoint: {}";
     public static final String TEXT_CONTENT_TYPE = "text/html";
     public static final String XML_CONTENT_TYPE = "application/xml";

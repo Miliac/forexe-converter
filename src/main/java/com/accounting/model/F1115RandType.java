@@ -49,21 +49,21 @@ public class F1115RandType {
     @XmlAttribute(name = "cod_rand", required = true)
     protected String codRand;
     @XmlAttribute(name = "sold_init_debit_total")
-    protected Double soldInitDebitTotal;
+    protected double soldInitDebitTotal;
     @XmlAttribute(name = "sold_init_credit_total")
-    protected Double soldInitCreditTotal;
+    protected double soldInitCreditTotal;
     @XmlAttribute(name = "rulaj_cum_debit_total")
-    protected Double rulajCumDebitTotal;
+    protected double rulajCumDebitTotal;
     @XmlAttribute(name = "rulaj_cum_credit_total")
-    protected Double rulajCumCreditTotal;
+    protected double rulajCumCreditTotal;
     @XmlAttribute(name = "rulaj_cum_debit_trez_total")
-    protected Double rulajCumDebitTrezTotal;
+    protected double rulajCumDebitTrezTotal;
     @XmlAttribute(name = "rulaj_cum_credit_trez_total")
-    protected Double rulajCumCreditTrezTotal;
+    protected double rulajCumCreditTrezTotal;
     @XmlAttribute(name = "sold_final_debit_total")
-    protected Double soldFinalDebitTotal;
+    protected double soldFinalDebitTotal;
     @XmlAttribute(name = "sold_final_credit_total")
-    protected Double soldFinalCreditTotal;
+    protected double soldFinalCreditTotal;
 
     /**
      * Gets the value of the f1115Indicator property.
@@ -123,10 +123,10 @@ public class F1115RandType {
      * 
      * @return
      *     possible object is
-     *     {@link Double }
+     *     {@link double }
      *     
      */
-    public Double getSoldInitDebitTotal() {
+    public double getSoldInitDebitTotal() {
         return soldInitDebitTotal;
     }
 
@@ -135,10 +135,10 @@ public class F1115RandType {
      * 
      * @param value
      *     allowed object is
-     *     {@link Double }
+     *     {@link double }
      *     
      */
-    public void setSoldInitDebitTotal(Double value) {
+    public void setSoldInitDebitTotal(double value) {
         this.soldInitDebitTotal = value;
     }
 
@@ -147,10 +147,10 @@ public class F1115RandType {
      * 
      * @return
      *     possible object is
-     *     {@link Double }
+     *     {@link double }
      *     
      */
-    public Double getSoldInitCreditTotal() {
+    public double getSoldInitCreditTotal() {
         return soldInitCreditTotal;
     }
 
@@ -159,10 +159,10 @@ public class F1115RandType {
      * 
      * @param value
      *     allowed object is
-     *     {@link Double }
+     *     {@link double }
      *     
      */
-    public void setSoldInitCreditTotal(Double value) {
+    public void setSoldInitCreditTotal(double value) {
         this.soldInitCreditTotal = value;
     }
 
@@ -171,10 +171,10 @@ public class F1115RandType {
      * 
      * @return
      *     possible object is
-     *     {@link Double }
+     *     {@link double }
      *     
      */
-    public Double getRulajCumDebitTotal() {
+    public double getRulajCumDebitTotal() {
         return rulajCumDebitTotal;
     }
 
@@ -183,10 +183,10 @@ public class F1115RandType {
      * 
      * @param value
      *     allowed object is
-     *     {@link Double }
+     *     {@link double }
      *     
      */
-    public void setRulajCumDebitTotal(Double value) {
+    public void setRulajCumDebitTotal(double value) {
         this.rulajCumDebitTotal = value;
     }
 
@@ -195,10 +195,10 @@ public class F1115RandType {
      * 
      * @return
      *     possible object is
-     *     {@link Double }
+     *     {@link double }
      *     
      */
-    public Double getRulajCumCreditTotal() {
+    public double getRulajCumCreditTotal() {
         return rulajCumCreditTotal;
     }
 
@@ -207,10 +207,10 @@ public class F1115RandType {
      * 
      * @param value
      *     allowed object is
-     *     {@link Double }
+     *     {@link double }
      *     
      */
-    public void setRulajCumCreditTotal(Double value) {
+    public void setRulajCumCreditTotal(double value) {
         this.rulajCumCreditTotal = value;
     }
 
@@ -219,10 +219,10 @@ public class F1115RandType {
      * 
      * @return
      *     possible object is
-     *     {@link Double }
+     *     {@link double }
      *     
      */
-    public Double getRulajCumDebitTrezTotal() {
+    public double getRulajCumDebitTrezTotal() {
         return rulajCumDebitTrezTotal;
     }
 
@@ -231,10 +231,10 @@ public class F1115RandType {
      * 
      * @param value
      *     allowed object is
-     *     {@link Double }
+     *     {@link double }
      *     
      */
-    public void setRulajCumDebitTrezTotal(Double value) {
+    public void setRulajCumDebitTrezTotal(double value) {
         this.rulajCumDebitTrezTotal = value;
     }
 
@@ -243,10 +243,10 @@ public class F1115RandType {
      * 
      * @return
      *     possible object is
-     *     {@link Double }
+     *     {@link double }
      *     
      */
-    public Double getRulajCumCreditTrezTotal() {
+    public double getRulajCumCreditTrezTotal() {
         return rulajCumCreditTrezTotal;
     }
 
@@ -255,10 +255,10 @@ public class F1115RandType {
      * 
      * @param value
      *     allowed object is
-     *     {@link Double }
+     *     {@link double }
      *     
      */
-    public void setRulajCumCreditTrezTotal(Double value) {
+    public void setRulajCumCreditTrezTotal(double value) {
         this.rulajCumCreditTrezTotal = value;
     }
 
@@ -267,10 +267,10 @@ public class F1115RandType {
      * 
      * @return
      *     possible object is
-     *     {@link Double }
+     *     {@link double }
      *     
      */
-    public Double getSoldFinalDebitTotal() {
+    public double getSoldFinalDebitTotal() {
         return soldFinalDebitTotal;
     }
 
@@ -279,10 +279,10 @@ public class F1115RandType {
      * 
      * @param value
      *     allowed object is
-     *     {@link Double }
+     *     {@link double }
      *     
      */
-    public void setSoldFinalDebitTotal(Double value) {
+    public void setSoldFinalDebitTotal(double value) {
         this.soldFinalDebitTotal = value;
     }
 
@@ -291,10 +291,10 @@ public class F1115RandType {
      * 
      * @return
      *     possible object is
-     *     {@link Double }
+     *     {@link double }
      *     
      */
-    public Double getSoldFinalCreditTotal() {
+    public double getSoldFinalCreditTotal() {
         return soldFinalCreditTotal;
     }
 
@@ -303,10 +303,10 @@ public class F1115RandType {
      * 
      * @param value
      *     allowed object is
-     *     {@link Double }
+     *     {@link double }
      *     
      */
-    public void setSoldFinalCreditTotal(Double value) {
+    public void setSoldFinalCreditTotal(double value) {
         this.soldFinalCreditTotal = value;
     }
 

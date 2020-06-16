@@ -76,6 +76,10 @@ public class F1115TabelType {
         return this.f1115Rand;
     }
 
+    public void setF1115Rand(List<F1115RandType> f1115Rand) {
+        this.f1115Rand = f1115Rand;
+    }
+
     /**
      * Gets the value of the codProgBug property.
      * 
