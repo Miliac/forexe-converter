@@ -38,7 +38,7 @@ import java.math.BigDecimal;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ContType", namespace = "mfp:anaf:dgti:f1102:declaratie:v1")
-public class ContType {
+public class F1102ContType {
 
     @XmlAttribute(name = "str_cont", required = true)
     private String strCont;

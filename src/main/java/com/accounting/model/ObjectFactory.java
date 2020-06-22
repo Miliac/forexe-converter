@@ -19,8 +19,8 @@ public class ObjectFactory {
         return new F1102Type();
     }
 
-    public ContType createContType() {
-        return new ContType();
+    public F1102ContType createContType() {
+        return new F1102ContType();
     }
 
     public F1115Type createF1115Type() {
@@ -68,6 +68,6 @@ public class ObjectFactory {
 
     @XmlElementDecl(namespace = "mfp:anaf:dgti:f1125:declaratie:v1", name = "f1125")
     public JAXBElement<F1125Type> createF1125(F1125Type value) {
-        return new JAXBElement<F1125Type>(_F1125_QNAME, F1125Type.class, null, value);
+        return new JAXBElement<>(_F1125_QNAME, F1125Type.class, null, value);
     }
 }

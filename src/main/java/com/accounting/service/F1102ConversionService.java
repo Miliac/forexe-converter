@@ -56,7 +56,7 @@ public class F1102ConversionService extends AbstractConversionService implements
             if (!extractedColumns.isEmpty()) {
                 extractedColumns.forEach((className, columns) -> extractedColumns.put(className, filterClass(className, columns, configsProviderService.getSymbols(), configsProviderService.getExceptions())));
 
-                List<ContType> contTypes = getContType(extractedColumns);
+                List<F1102ContType> contTypes = getContType(extractedColumns);
 
                 generateXml(formData, response, contTypes);
             } else {
@@ -66,7 +66,7 @@ public class F1102ConversionService extends AbstractConversionService implements
                 logger.info("No extracted columns, F1102 file not generated!!!");
             }
         } else {
-            ContType contType = new ContType();
+            F1102ContType contType = new F1102ContType();
             contType.setRulajCred(BigDecimal.ZERO);
             contType.setRulajDeb(BigDecimal.ZERO);
             contType.setSimbolPCont("1000000");
@@ -82,9 +82,9 @@ public class F1102ConversionService extends AbstractConversionService implements
         return ConversionType.F1102;
     }
 
-    private void generateXml(FormData formData, HttpServletResponse response, List<ContType> contTypes) {
+    private void generateXml(FormData formData, HttpServletResponse response, List<F1102ContType> contTypes) {
         F1102Type f1102Type = convertFromDTO(formData);
-        List<ContType> copyContTypes = new ArrayList<>(contTypes);
+        List<F1102ContType> copyContTypes = new ArrayList<>(contTypes);
         f1102Type.setCont(contTypes.stream()
                 .filter(contType -> removeDuplicatesAndSumValues(contType, copyContTypes))
                 .collect(Collectors.toList()));
@@ -114,10 +114,10 @@ public class F1102ConversionService extends AbstractConversionService implements
         }
     }
 
-    private boolean removeDuplicatesAndSumValues(ContType contType, List<ContType> contTypes) {
+    private boolean removeDuplicatesAndSumValues(F1102ContType contType, List<F1102ContType> contTypes) {
         int indexCont = contTypes.indexOf(contType);
         if (indexCont > 0) {
-            ContType previousCont = contTypes.get(indexCont - 1);
+            F1102ContType previousCont = contTypes.get(indexCont - 1);
             if (contType.getStrCont().equals(previousCont.getStrCont())) {
                 BigDecimal rulajDebPrevious = Objects.nonNull(previousCont.getRulajDeb()) ? previousCont.getRulajDeb() : ZERO_DECIMAL;
                 BigDecimal rulajCredPrevious = Objects.nonNull(previousCont.getRulajCred()) ? previousCont.getRulajCred() : ZERO_DECIMAL;
@@ -303,13 +303,13 @@ public class F1102ConversionService extends AbstractConversionService implements
         return symbol.concat(ZERO.repeat(SYMBOL_LENGTH - symbol.length()));
     }
 
-    private List<ContType> getContType(Map<String, Map<Columns, List<Cell>>> extractedColumns) {
-        Map<String, ContType> contTypes = new LinkedHashMap<>();
+    private List<F1102ContType> getContType(Map<String, Map<Columns, List<Cell>>> extractedColumns) {
+        Map<String, F1102ContType> contTypes = new LinkedHashMap<>();
         extractedColumns.forEach((key, value) -> value.forEach((column, cells) -> {
             switch (column) {
                 case SIMBOL:
                     cells.forEach(cell -> {
-                        ContType contType = contTypes.getOrDefault(String.valueOf(cell.getRowIndex()), new ContType());
+                        F1102ContType contType = contTypes.getOrDefault(String.valueOf(cell.getRowIndex()), new F1102ContType());
                         fillContType(contType, cell.getStringCellValue());
                         contTypes.put(String.valueOf(cell.getRowIndex()), contType);
                     });
@@ -318,7 +318,7 @@ public class F1102ConversionService extends AbstractConversionService implements
                     cells.forEach(cell -> {
                         BigDecimal rulDeb = BigDecimal.valueOf(cell.getNumericCellValue());
                         sumaControl = sumaControl.add(rulDeb);
-                        ContType contType = contTypes.getOrDefault(String.valueOf(cell.getRowIndex()), new ContType());
+                        F1102ContType contType = contTypes.getOrDefault(String.valueOf(cell.getRowIndex()), new F1102ContType());
                         contType.setRulajDeb(rulDeb.equals(ZERO_DECIMAL) ? null : rulDeb.stripTrailingZeros());
                         contTypes.put(String.valueOf(cell.getRowIndex()), contType);
                     });
@@ -327,7 +327,7 @@ public class F1102ConversionService extends AbstractConversionService implements
                     cells.forEach(cell -> {
                         BigDecimal rulCred = BigDecimal.valueOf(cell.getNumericCellValue());
                         sumaControl = sumaControl.add(rulCred);
-                        ContType contType = contTypes.getOrDefault(String.valueOf(cell.getRowIndex()), new ContType());
+                        F1102ContType contType = contTypes.getOrDefault(String.valueOf(cell.getRowIndex()), new F1102ContType());
                         contType.setRulajCred(rulCred.equals(ZERO_DECIMAL) ? null : rulCred.stripTrailingZeros());
                         contTypes.put(String.valueOf(cell.getRowIndex()), contType);
                     });
@@ -358,7 +358,7 @@ public class F1102ConversionService extends AbstractConversionService implements
         return codSector.substring(0,codSector.indexOf(LINE) - 1);
     }
 
-    private void fillContType(ContType contType, String symbol) {
+    private void fillContType(F1102ContType contType, String symbol) {
         contType.setCodSector(codSector);
         contType.setCodSursa(String.valueOf(codSursa));
         if (symbol.length() <= 10) {

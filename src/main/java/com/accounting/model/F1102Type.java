@@ -40,7 +40,7 @@ import java.util.List;
 public class F1102Type {
 
     @XmlElement(namespace = "mfp:anaf:dgti:f1102:declaratie:v1", required = true)
-    private List<ContType> cont;
+    private List<F1102ContType> cont;
     @XmlAttribute(name = "suma_control", required = true)
     private BigInteger sumaControl;
     @XmlAttribute(name = "luna_r", required = true)
@@ -78,16 +78,16 @@ public class F1102Type {
      *
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link ContType }
+     * {@link F1102ContType }
      */
-    public List<ContType> getCont() {
+    public List<F1102ContType> getCont() {
         if (cont == null) {
             cont = new ArrayList<>();
         }
         return this.cont;
     }
 
-    public void setCont(List<ContType> contTypes) {
+    public void setCont(List<F1102ContType> contTypes) {
         this.cont = contTypes;
     }
 
