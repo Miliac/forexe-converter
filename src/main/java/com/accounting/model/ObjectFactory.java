@@ -13,6 +13,8 @@ public class ObjectFactory {
 
     private static final QName _F1115_QNAME = new QName("mfp:anaf:dgti:f1115:declaratie:v1", "f1115");
 
+    private static final  QName _F1125_QNAME = new QName("mfp:anaf:dgti:f1125:declaratie:v1", "f1125");
+
     public F1102Type createF1102Type() {
         return new F1102Type();
     }
@@ -38,6 +40,22 @@ public class ObjectFactory {
         return new F1115IndicatorType();
     }
 
+
+    public F1125Type createF1125Type() {
+        return new F1125Type();
+    }
+
+
+    public F1125IndicatorType createF1125IndicatorType() {
+        return new F1125IndicatorType();
+    }
+
+
+    public F1125SursaType createF1125SursaType() {
+        return new F1125SursaType();
+    }
+
+
     @XmlElementDecl(namespace = "mfp:anaf:dgti:f1102:declaratie:v1", name = "f1102")
     public JAXBElement<F1102Type> createF1102(F1102Type value) {
         return new JAXBElement<>(_F1102_QNAME, F1102Type.class, null, value);
@@ -46,5 +64,10 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "mfp:anaf:dgti:f1115:declaratie:v1", name = "f1115")
     public JAXBElement<F1115Type> createF1115(F1115Type value) {
         return new JAXBElement<>(_F1115_QNAME, F1115Type.class, null, value);
+    }
+
+    @XmlElementDecl(namespace = "mfp:anaf:dgti:f1125:declaratie:v1", name = "f1125")
+    public JAXBElement<F1125Type> createF1125(F1125Type value) {
+        return new JAXBElement<F1125Type>(_F1125_QNAME, F1125Type.class, null, value);
     }
 }

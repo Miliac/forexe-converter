@@ -75,8 +75,6 @@ public class F1102ConversionService extends AbstractConversionService implements
             contType.setStrCont(contType.getSimbolPCont() + codSector + contType.getCodSursa() + X.repeat(30));
             generateXml(formData, response, List.of(contType));
         }
-
-
     }
 
     @Override
