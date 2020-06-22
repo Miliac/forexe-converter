@@ -1,15 +1,11 @@
 
 package com.accounting.model;
 
-import java.util.ArrayList;
-import java.util.List;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.*;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -87,7 +83,7 @@ public class F1127Type {
      */
     public List<ContType> getCont() {
         if (cont == null) {
-            cont = new ArrayList<ContType>();
+            cont = new ArrayList<>();
         }
         return this.cont;
     }
@@ -228,4 +224,7 @@ public class F1127Type {
         this.dataDocument = value;
     }
 
+    public void setCont(List<ContType> cont) {
+        this.cont = cont;
+    }
 }

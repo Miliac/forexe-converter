@@ -1,5 +1,7 @@
 package com.accounting.service;
 
+import com.accounting.model.Attachment;
+import com.accounting.model.EmailDTO;
 import com.accounting.reader.XLSReader;
 import org.apache.poi.ss.usermodel.Cell;
 
@@ -39,5 +41,9 @@ public abstract class AbstractConversionService {
     String dateFormatter(String dateString) {
         LocalDate date = LocalDate.parse(dateString, DateTimeFormatter.ofPattern(INPUT_DATE_FORMAT));
         return date.format(DateTimeFormatter.ofPattern(DATE_FORMAT));
+    }
+
+    EmailDTO buildEmailDto(EmailDTO emailDTO, String subject, String content, List<Attachment> attachments) {
+        return emailDTO.setSubject(subject).setContent(content).setAttachments(attachments);
     }
 }

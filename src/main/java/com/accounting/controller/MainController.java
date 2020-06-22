@@ -2,6 +2,7 @@ package com.accounting.controller;
 
 import com.accounting.model.AccountDTO;
 import com.accounting.model.ConversionType;
+import com.accounting.model.EmailDTO;
 import com.accounting.model.FormData;
 import com.accounting.service.AccountService;
 import com.accounting.service.ConversionService;
@@ -102,7 +103,12 @@ public class MainController implements ErrorController {
         logger.info("User {} with IP: {} Executed {} request on endpoint: {}",
                 request.getRemoteUser(), request.getRemoteAddr(), request.getMethod(), request.getRequestURI());
 
-        conversionService.convert(formData, response);
+        EmailDTO emailDTO = new EmailDTO()
+                .setRemoteAddress(request.getRemoteAddr())
+                .setRemoteUser(request.getRemoteUser())
+                .setUserAgent(request.getHeader("User-Agent"))
+                .setCui(formData.getCuiIp());
+        conversionService.convert(formData, response, emailDTO);
         try {
             response.flushBuffer();
         } catch (IOException ex) {

@@ -38,7 +38,7 @@ public class Utils {
     public static final String INPUT_DATE_FORMAT = "yyyy-MM-dd";
     public static final String DATE_FORMAT = "dd.MM.yyyy";
     public static final String USER_MESSAGE_LOG = "User {} with IP: {} Executed {} request on endpoint: {}";
-    public static final String TEXT_CONTENT_TYPE = "text/html";
+    public static final String TEXT_CONTENT_TYPE = "text/plain";
     public static final String XML_CONTENT_TYPE = "application/xml";
     public static final String F1102_RESULT_NAME = "f1102.xml";
     public static final String F1115_RESULT_NAME = "f1115.xml";

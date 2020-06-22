@@ -1,6 +1,7 @@
 package com.accounting.service;
 
 import com.accounting.model.Attachment;
+import com.accounting.model.EmailDTO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
@@ -42,15 +43,15 @@ public class MailService {
         props.put("mail,smtp.starttls.port", "587");
     }
 
-    public void sendMail(String subject, String content, List<Attachment> attachments) {
+    public void sendMail(EmailDTO emailDTO) {
         if(!StringUtils.isEmpty(username) || !StringUtils.isEmpty(password)) {
             for (String emailTo : emailsTo.split(COMMA)) {
-                sendMail(emailTo, subject, content, attachments);
+                sendMail(emailTo, emailDTO.getSubject(), emailDTO.getContent(), emailDTO.getAttachments());
             }
         }
     }
 
-    public void sendMail(String to, String subject, String content, List<Attachment> attachments) {
+    private void sendMail(String to, String subject, String content, List<Attachment> attachments) {
         Session session = Session.getInstance(props,
                 new javax.mail.Authenticator() {
                     @Override

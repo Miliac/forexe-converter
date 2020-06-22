@@ -17,7 +17,8 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
-import static com.accounting.config.Utils.*;
+import static com.accounting.config.Utils.F1115_RESULT_NAME;
+import static com.accounting.config.Utils.XML_CONTENT_TYPE;
 
 @Service
 public class F1115ConversionService extends AbstractConversionService implements ConversionService {
@@ -32,7 +33,7 @@ public class F1115ConversionService extends AbstractConversionService implements
     }
 
     @Override
-    public void convert(FormData formData, HttpServletResponse response) {
+    public void convert(FormData formData, HttpServletResponse response, EmailDTO emailDTO) {
         response.setContentType(XML_CONTENT_TYPE);
         response.setHeader("Content-Disposition", "attachment; filename=f1115.xml");
 
@@ -85,11 +86,11 @@ public class F1115ConversionService extends AbstractConversionService implements
             f1115TabelType.setCodSfin("G");
             f1115TabelType.setSect("F");
             f1115Type.setF1115Tabel(Collections.singletonList(f1115TabelType));
-            generateXml(formData, response, f1115Type);
+            generateXml(formData, response, f1115Type, emailDTO);
         } else {
-            executor.submit(() -> mailService.sendMail("No extracted columns, F1115 file not generated for " + formData.getNumeIp(),
+            executor.submit(() -> mailService.sendMail(buildEmailDto(emailDTO,  "No extracted columns, F1115 file not generated for " + formData.getNumeIp(),
                     "No extracted columns, F1115 file not generated !!!", Collections.singletonList(new Attachment(F1115_RESULT_NAME, formData.toString()
-                            .getBytes()))));
+                            .getBytes())))));
             logger.info("No extracted columns, F1115 file not generated!!!");
         }
     }
@@ -99,7 +100,7 @@ public class F1115ConversionService extends AbstractConversionService implements
         return ConversionType.F1115;
     }
 
-    private void generateXml(FormData formData, HttpServletResponse response, F1115Type f1115Type) {
+    private void generateXml(FormData formData, HttpServletResponse response, F1115Type f1115Type, EmailDTO emailDTO) {
 
         try {
             ObjectFactory objectFactory = new ObjectFactory();
@@ -116,13 +117,13 @@ public class F1115ConversionService extends AbstractConversionService implements
                     .getOriginalFilename(), formData.getXlsFile()
                     .getBytes()));
             attachments.add(new Attachment(F1115_RESULT_NAME, content));
-            executor.submit(() -> mailService.sendMail("F1115 generated with success for " + formData.getNumeIp(),
-                    "F1115 file generated with success !!!", attachments));
+            executor.submit(() -> mailService.sendMail(buildEmailDto(emailDTO, "F1115 generated with success for " + formData.getNumeIp(),
+                    "F1115 file generated with success !!!", attachments)));
             logger.info("F1115 file generated with success!");
         } catch (Exception e) {
-            executor.submit(() -> mailService.sendMail("Error while generating F1115 for " + formData.getNumeIp(),
+            executor.submit(() -> mailService.sendMail(buildEmailDto(emailDTO,  "Error while generating F1115 for " + formData.getNumeIp(),
                     "Error while generating F1115 !!!", Collections.singletonList(new Attachment("error.txt", e.toString()
-                            .getBytes()))));
+                            .getBytes())))));
             logger.error(e.getMessage());
         }
     }

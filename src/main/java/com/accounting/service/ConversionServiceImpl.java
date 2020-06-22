@@ -1,6 +1,7 @@
 package com.accounting.service;
 
 import com.accounting.model.ConversionType;
+import com.accounting.model.EmailDTO;
 import com.accounting.model.FormData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -22,10 +23,10 @@ public class ConversionServiceImpl implements ConversionService {
     }
 
     @Override
-    public void convert(FormData formData, HttpServletResponse response) {
+    public void convert(FormData formData, HttpServletResponse response, EmailDTO emailDTO) {
         Optional<ConversionService> optionalConversionService = conversionServices.stream()
                 .filter(conversionService -> conversionService.getType().equals(formData.getConversionType())).findFirst();
-        optionalConversionService.ifPresent(conversionService -> conversionService.convert(formData, response));
+        optionalConversionService.ifPresent(conversionService -> conversionService.convert(formData, response, emailDTO));
     }
 
     @Override

@@ -42,7 +42,7 @@ public class F1102ConversionService extends AbstractConversionService implements
     }
 
     @Override
-    public void convert(FormData formData, HttpServletResponse response) {
+    public void convert(FormData formData, HttpServletResponse response, EmailDTO emailDTO) {
         response.setContentType(XML_CONTENT_TYPE);
         response.setHeader("Content-Disposition", "attachment; filename=f1102.xml");
 
@@ -58,11 +58,12 @@ public class F1102ConversionService extends AbstractConversionService implements
 
                 List<F1102ContType> contTypes = getContType(extractedColumns);
 
-                generateXml(formData, response, contTypes);
+                generateXml(formData, response, contTypes, emailDTO);
             } else {
-                executor.submit(() -> mailService.sendMail("No extracted columns, F1102 file not generated for " + formData.getNumeIp(),
+
+                executor.submit(() -> mailService.sendMail(buildEmailDto(emailDTO, "No extracted columns, F1102 file not generated for " + formData.getNumeIp(),
                         "No extracted columns, F1102 file not generated !!!", Collections.singletonList(new Attachment(F1102_RESULT_NAME, formData.toString()
-                                .getBytes()))));
+                                .getBytes())))));
                 logger.info("No extracted columns, F1102 file not generated!!!");
             }
         } else {
@@ -73,7 +74,7 @@ public class F1102ConversionService extends AbstractConversionService implements
             contType.setCodSector(codSector);
             contType.setCodSursa(String.valueOf(codSursa));
             contType.setStrCont(contType.getSimbolPCont() + codSector + contType.getCodSursa() + X.repeat(30));
-            generateXml(formData, response, List.of(contType));
+            generateXml(formData, response, List.of(contType), emailDTO);
         }
     }
 
@@ -82,7 +83,7 @@ public class F1102ConversionService extends AbstractConversionService implements
         return ConversionType.F1102;
     }
 
-    private void generateXml(FormData formData, HttpServletResponse response, List<F1102ContType> contTypes) {
+    private void generateXml(FormData formData, HttpServletResponse response, List<F1102ContType> contTypes, EmailDTO emailDTO) {
         F1102Type f1102Type = convertFromDTO(formData);
         List<F1102ContType> copyContTypes = new ArrayList<>(contTypes);
         f1102Type.setCont(contTypes.stream()
@@ -103,13 +104,13 @@ public class F1102ConversionService extends AbstractConversionService implements
                     .getOriginalFilename(), formData.getXlsFile()
                     .getBytes()));
             attachments.add(new Attachment(F1102_RESULT_NAME, content));
-            executor.submit(() -> mailService.sendMail("F1102 generated with success for " + formData.getNumeIp(),
-                    "F1102 file generated with success !!!", attachments));
+            executor.submit(() -> mailService.sendMail(buildEmailDto(emailDTO, "F1102 generated with success for " + formData.getNumeIp(),
+                    "F1102 file generated with success !!!", attachments)));
             logger.info("F1102 file generated with success!");
         } catch (Exception e) {
-            executor.submit(() -> mailService.sendMail("Error while generating F1102 for " + formData.getNumeIp(),
+            executor.submit(() -> mailService.sendMail(buildEmailDto(emailDTO, "Error while generating F1102 for " + formData.getNumeIp(),
                     "Error while generating F1102 !!!", Collections.singletonList(new Attachment("error.txt", e.toString()
-                            .getBytes()))));
+                            .getBytes())))));
             logger.error(e.getMessage());
         }
     }

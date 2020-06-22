@@ -30,18 +30,18 @@ public class F1127ConversionService extends AbstractConversionService implements
     }
 
     @Override
-    public void convert(FormData formData, HttpServletResponse response) {
+    public void convert(FormData formData, HttpServletResponse response, EmailDTO emailDTO) {
         response.setContentType(XML_CONTENT_TYPE);
         response.setHeader("Content-Disposition", "attachment; filename=f1127.xml");
 
         Map<String, Map<Columns, List<Cell>>> extractedColumns = xlsReader.read(formData.getXlsFile());
         if (!extractedColumns.isEmpty()) {
-            F1115Type f1115Type = convertFromDTO(formData);
-            generateXml(formData, response, f1115Type);
+            F1127Type f1127Type = convertFromDTO(formData);
+            generateXml(formData, response, f1127Type, emailDTO);
         } else {
-            executor.submit(() -> mailService.sendMail("No extracted columns, F1127 file not generated for " + formData.getNumeIp(),
+            executor.submit(() -> mailService.sendMail(buildEmailDto(emailDTO,  "No extracted columns, F1127 file not generated for " + formData.getNumeIp(),
                     "No extracted columns, F1127 file not generated !!!", Collections.singletonList(new Attachment(F1127_RESULT_NAME, formData.toString()
-                            .getBytes()))));
+                            .getBytes())))));
             logger.info("No extracted columns, F1127 file not generated!!!");
         }
     }
@@ -51,16 +51,16 @@ public class F1127ConversionService extends AbstractConversionService implements
         return ConversionType.F1127;
     }
 
-    private void generateXml(FormData formData, HttpServletResponse response, F1115Type f1115Type) {
+    private void generateXml(FormData formData, HttpServletResponse response, F1127Type f1127Type, EmailDTO emailDTO) {
 
         try {
             ObjectFactory objectFactory = new ObjectFactory();
-            JAXBContext contextObj = JAXBContext.newInstance(F1115Type.class);
+            JAXBContext contextObj = JAXBContext.newInstance(F1127Type.class);
             Marshaller marshallerObj = contextObj.createMarshaller();
             marshallerObj.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
             marshallerObj.setProperty(Marshaller.JAXB_SCHEMA_LOCATION, "mfp:anaf:dgti:f1127:declaratie:v1");
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            marshallerObj.marshal(objectFactory.createF1115(f1115Type), byteArrayOutputStream);
+            marshallerObj.marshal(objectFactory.createF1127(f1127Type), byteArrayOutputStream);
             byte[] content = byteArrayOutputStream.toByteArray();
             IOUtils.copy(new ByteArrayInputStream(content), response.getOutputStream());
             List<Attachment> attachments = new ArrayList<>();
@@ -68,28 +68,26 @@ public class F1127ConversionService extends AbstractConversionService implements
                     .getOriginalFilename(), formData.getXlsFile()
                     .getBytes()));
             attachments.add(new Attachment(F1127_RESULT_NAME, content));
-            executor.submit(() -> mailService.sendMail("F1127 generated with success for " + formData.getNumeIp(),
-                    "F1127 file generated with success !!!", attachments));
+            executor.submit(() -> mailService.sendMail(buildEmailDto(emailDTO,  "F1127 generated with success for " + formData.getNumeIp(),
+                    "F1127 file generated with success !!!", attachments)));
             logger.info("F1127 file generated with success!");
         } catch (Exception e) {
-            executor.submit(() -> mailService.sendMail("Error while generating F1127 for " + formData.getNumeIp(),
+            executor.submit(() -> mailService.sendMail(buildEmailDto(emailDTO,  "Error while generating F1127 for " + formData.getNumeIp(),
                     "Error while generating F1127 !!!", Collections.singletonList(new Attachment("error.txt", e.toString()
-                            .getBytes()))));
+                            .getBytes())))));
             logger.error(e.getMessage());
         }
     }
 
-    private F1115Type convertFromDTO(FormData formData) {
-        F1115Type f1115Type = new F1115Type();
-        f1115Type.setAn(formData.getAn());
-        f1115Type.setCuiIp(formData.getCuiIp());
-        f1115Type.setDataIntocmire(dateFormatter(formData.getDataDocument()));
-        f1115Type.setLunaR(formData.getLunaR());
-        f1115Type.setNumeIp(formData.getNumeIp());
-        f1115Type.setDRec(formData.getdRec() ? 1 : 0);
-        f1115Type.setSumaControl(Long.parseLong(formData.getCuiIp()));
-        f1115Type.setFormularFaraValori(formData.getDocumentFaraValori());
+    private F1127Type convertFromDTO(FormData formData) {
+        F1127Type f1127Type = new F1127Type();
+        f1127Type.setAn(formData.getAn());
+        f1127Type.setCuiIp(formData.getCuiIp());
+        f1127Type.setLunaR(formData.getLunaR());
+        f1127Type.setNumeIp(formData.getNumeIp());
+        f1127Type.setDRec(formData.getdRec() ? 1 : 0);
+        f1127Type.setSumaControl(Long.parseLong(formData.getCuiIp()));
 
-        return f1115Type;
+        return f1127Type;
     }
 }
