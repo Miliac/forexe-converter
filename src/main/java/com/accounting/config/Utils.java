@@ -42,6 +42,8 @@ public class Utils {
     public static final String XML_CONTENT_TYPE = "application/xml";
     public static final String F1102_RESULT_NAME = "f1102.xml";
     public static final String F1115_RESULT_NAME = "f1115.xml";
+    public static final String F1125_RESULT_NAME = "f1125.xml";
+    public static final String F1127_RESULT_NAME = "f1127.xml";
 
     private Utils() {
     }
