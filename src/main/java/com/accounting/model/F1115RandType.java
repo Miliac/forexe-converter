@@ -1,13 +1,9 @@
 
 package com.accounting.model;
 
+import javax.xml.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
 
 
 /**
@@ -64,6 +60,16 @@ public class F1115RandType {
     protected double soldFinalDebitTotal;
     @XmlAttribute(name = "sold_final_credit_total")
     protected double soldFinalCreditTotal;
+    @XmlAttribute(name = "exec_banci_comerc_total")
+    protected int execBanciComercTotal;
+
+    public int getExecBanciComercTotal() {
+        return execBanciComercTotal;
+    }
+
+    public void setExecBanciComercTotal(int execBanciComercTotal) {
+        this.execBanciComercTotal = execBanciComercTotal;
+    }
 
     /**
      * Gets the value of the f1115Indicator property.
