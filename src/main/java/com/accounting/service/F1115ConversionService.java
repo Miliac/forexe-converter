@@ -70,6 +70,7 @@ public class F1115ConversionService extends AbstractConversionService implements
             BigDecimal soldFinal = BigDecimal.valueOf(f1115Config.getSoldInitial()).add(sumaDebitor.get()).subtract(sumaCreditor.get());
 
             F1115Type f1115Type = convertFromDTO(formData);
+            f1115Type.setCodSecBug(f1115Config.getCodSecBug());
             F1115TabelType f1115TabelType = new F1115TabelType();
             F1115RandType f1115RandTypeVenituri = new F1115RandType();
             f1115RandTypeVenituri.setCodRand("1");
