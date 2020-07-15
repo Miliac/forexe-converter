@@ -65,9 +65,13 @@ public class F1125SursaType {
      */
     public List<F1125IndicatorType> getF1125Indicator() {
         if (f1125Indicator == null) {
-            f1125Indicator = new ArrayList<F1125IndicatorType>();
+            f1125Indicator = new ArrayList<>();
         }
         return this.f1125Indicator;
+    }
+
+    public void setF1125Indicator(List<F1125IndicatorType> f1125Indicator) {
+        this.f1125Indicator = f1125Indicator;
     }
 
     /**

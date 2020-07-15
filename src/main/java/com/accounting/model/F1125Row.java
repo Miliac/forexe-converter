@@ -4,15 +4,15 @@ import java.util.List;
 
 public class F1125Row {
 
-    private String number;
+    private int number;
     private List<F1125Account> accounts;
     private List<String> rows;
 
-    public String getNumber() {
+    public int getNumber() {
         return number;
     }
 
-    public void setNumber(String number) {
+    public void setNumber(int number) {
         this.number = number;
     }
 

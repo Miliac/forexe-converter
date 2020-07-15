@@ -29,8 +29,6 @@ public class F1125ConfigServiceImpl implements F1125ConfigService{
         this.reader = reader;
         this.writer = writer;
         this.parserService = parserService;
-        List<F1125Row> config = read();
-        config.isEmpty();
     }
 
     @Override

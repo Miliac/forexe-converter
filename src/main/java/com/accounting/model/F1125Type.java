@@ -98,6 +98,10 @@ public class F1125Type {
         return this.f1125Sursa;
     }
 
+    public void setF1125Sursa(List<F1125SursaType> f1125Sursa) {
+        this.f1125Sursa = f1125Sursa;
+    }
+
     /**
      * Gets the value of the lunaR property.
      * 

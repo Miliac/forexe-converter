@@ -5,6 +5,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlType;
+import java.math.BigDecimal;
 
 
 /**
@@ -33,9 +34,9 @@ public class F1125IndicatorType {
     @XmlAttribute(name = "cod_rand", required = true)
     protected String codRand;
     @XmlAttribute(name = "sold_inceput")
-    protected Double soldInceput;
+    protected BigDecimal soldInceput;
     @XmlAttribute(name = "sold_sfarsit")
-    protected Double soldSfarsit;
+    protected BigDecimal soldSfarsit;
 
     /**
      * Gets the value of the codRand property.
@@ -69,7 +70,7 @@ public class F1125IndicatorType {
      *     {@link Double }
      *     
      */
-    public Double getSoldInceput() {
+    public BigDecimal getSoldInceput() {
         return soldInceput;
     }
 
@@ -81,7 +82,7 @@ public class F1125IndicatorType {
      *     {@link Double }
      *     
      */
-    public void setSoldInceput(Double value) {
+    public void setSoldInceput(BigDecimal value) {
         this.soldInceput = value;
     }
 
@@ -93,7 +94,7 @@ public class F1125IndicatorType {
      *     {@link Double }
      *     
      */
-    public Double getSoldSfarsit() {
+    public BigDecimal getSoldSfarsit() {
         return soldSfarsit;
     }
 
@@ -105,7 +106,7 @@ public class F1125IndicatorType {
      *     {@link Double }
      *     
      */
-    public void setSoldSfarsit(Double value) {
+    public void setSoldSfarsit(BigDecimal value) {
         this.soldSfarsit = value;
     }
 
