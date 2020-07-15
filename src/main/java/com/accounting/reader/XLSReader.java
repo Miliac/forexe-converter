@@ -1,6 +1,8 @@
 package com.accounting.reader;
 
 import com.accounting.model.Columns;
+import com.accounting.model.ColumnsF1125;
+import com.accounting.model.ConversionType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.poi.ss.usermodel.Cell;
@@ -17,8 +19,8 @@ public class XLSReader {
 
     private static final Logger logger = LogManager.getLogger(XLSReader.class);
 
-    public Map<String, Map<Columns,List<Cell>>> read(MultipartFile multipartFile) {
-        Map<String, Map<Columns,List<Cell>>> extractedColumns = new LinkedHashMap<>();
+    public Map<String, Map<Object,List<Cell>>> read(MultipartFile multipartFile, ConversionType conversionType) {
+        Map<String, Map<Object,List<Cell>>> extractedColumns = new LinkedHashMap<>();
 
         try {
             XSSFWorkbook wb = new XSSFWorkbook(multipartFile.getInputStream());
@@ -27,15 +29,7 @@ public class XLSReader {
             int firstRowNum = removeHeaderAndFooter(sheet);
             Row firstRow = sheet.getRow(firstRowNum);
 
-            Integer[] columnNumbers = new Integer[Columns.values().length];
-
-            for(Cell cell:firstRow) {
-                for(int i=0; i < Columns.values().length;i++) {
-                    if (cell.getStringCellValue().equals(Columns.values()[i].getDefinition())) {
-                        columnNumbers[i] = cell.getColumnIndex();
-                    }
-                }
-            }
+            Integer[] columnNumbers = getColumnNumbers(conversionType, firstRow);
 
             String currentClass = "";
 
@@ -45,6 +39,36 @@ public class XLSReader {
         }
 
         return extractedColumns;
+    }
+
+    private Integer[] getColumnNumbers(ConversionType conversionType, Row firstRow) {
+        Integer[] columnNumbers;
+        switch (conversionType) {
+            case F1102:
+            case F1115:
+            case F1127:
+                columnNumbers = new Integer[Columns.values().length];
+
+                for(Cell cell:firstRow) {
+                    for(int i=0; i < Columns.values().length;i++) {
+                        if (cell.getStringCellValue().equals(Columns.values()[i].getDefinition())) {
+                            columnNumbers[i] = cell.getColumnIndex();
+                        }
+                    }
+                }
+                break;
+            case F1125:
+                columnNumbers = new Integer[ColumnsF1125.values().length];
+                columnNumbers[0] = 0;
+                columnNumbers[1] = 2;
+                columnNumbers[2] = 3;
+                columnNumbers[3] = 10;
+                columnNumbers[4] = 11;
+                break;
+            default:
+                columnNumbers = new Integer[0];
+        }
+        return columnNumbers;
     }
 
     private int removeHeaderAndFooter(XSSFSheet sheet) {
@@ -75,7 +99,7 @@ public class XLSReader {
         return firstRowNum;
     }
 
-    private void extractColumns(MultipartFile multipartFile, Map<String, Map<Columns, List<Cell>>> extractedColumns, XSSFSheet sheet, Integer[] columnNumbers, String currentClass, int firstRowNum) {
+    private void extractColumns(MultipartFile multipartFile, Map<String, Map<Object, List<Cell>>> extractedColumns, XSSFSheet sheet, Integer[] columnNumbers, String currentClass, int firstRowNum, ConversionType conversionType) {
         for(Row row : sheet) {
             if (row.getRowNum() >= firstRowNum + 2) {
                 for(int i=0; i < columnNumbers.length; i++) {
@@ -90,7 +114,7 @@ public class XLSReader {
         }
     }
 
-    private String extractNonEmptyColumns(Map<String, Map<Columns, List<Cell>>> extractedColumns, String currentClass, int i, Cell cell) {
+    private String extractNonEmptyColumns(Map<String, Map<Object, List<Cell>>> extractedColumns, String currentClass, int i, Cell cell, ConversionType conversionType) {
         if (cell != null && cell.getCellType() != CellType.BLANK) {
             if (conversionType.equals(ConversionType.F1102)) {
                 if (Columns.values()[i].equals(Columns.SIMBOL)) {
@@ -110,12 +134,16 @@ public class XLSReader {
         return currentClass;
     }
 
-    private String extractSymbol(Map<String, Map<Columns, List<Cell>>> extractedColumns, String currentClass, int i, Cell cell) {
+    private String extractSymbol(Map<String, Map<Object, List<Cell>>> extractedColumns, String currentClass, int i, Cell cell, ConversionType conversionType) {
         if (cell.getCellType().equals(CellType.STRING) && !cell.getStringCellValue().isBlank()) {
             if(cell.getStringCellValue().contains("Clasa")) {
                 currentClass = cell.getStringCellValue();
-                Map<Columns, List<Cell>> columns = extractedColumns.getOrDefault(currentClass, new LinkedHashMap<>());
-                columns.put(Columns.values()[i], new ArrayList<>());
+                Map<Object, List<Cell>> columns = extractedColumns.getOrDefault(currentClass, new LinkedHashMap<>());
+                if (conversionType.equals(ConversionType.F1102)) {
+                    columns.put(Columns.values()[i], new ArrayList<>());
+                } else {
+                    columns.put(ColumnsF1125.values()[i], new ArrayList<>());
+                }
                 extractedColumns.put(currentClass, columns);
             } else {
                 addCell(currentClass,i, extractedColumns, cell, conversionType);

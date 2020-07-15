@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static com.accounting.config.Utils.F1125_RESULT_NAME;
 import static com.accounting.config.Utils.XML_CONTENT_TYPE;
@@ -34,8 +35,11 @@ public class F1125ConversionService extends AbstractConversionService implements
         response.setContentType(XML_CONTENT_TYPE);
         response.setHeader("Content-Disposition", "attachment; filename=f1125.xml");
 
-        Map<String, Map<Columns, List<Cell>>> extractedColumns = xlsReader.read(formData.getXlsFile());
+        Map<String, Map<Object, List<Cell>>> extractedColumns = xlsReader.read(formData.getXlsFile(), ConversionType.F1125);
         if (!extractedColumns.isEmpty()) {
+
+            extractedColumns.forEach((className, columns) -> extractedColumns.put(className, filterClass(className, columns, configsProviderService.getSymbols(), configsProviderService.getExceptions())));
+
             F1125Type f1125Type = convertFromDTO(formData);
             generateXml(formData, response, f1125Type, emailDTO);
         } else {
@@ -49,6 +53,52 @@ public class F1125ConversionService extends AbstractConversionService implements
     @Override
     public ConversionType getType() {
         return ConversionType.F1125;
+    }
+
+    private Map<Object, List<Cell>> filterClass(String className, Map<Object, List<Cell>> columns, Map<String, AccountSymbols> symbols, Map<String, String> exceptions) {
+
+        List<Cell> symbolColumn = columns.get(ColumnsF1125.SIMBOL);
+        List<Cell> siDebitorColumn = columns.get(ColumnsF1125.SI_SOLD);
+        List<Cell> siCreditorColumn = columns.get(ColumnsF1125.SI_INITIAL);
+        List<Cell> sfDebitorColumn = columns.get(ColumnsF1125.SF_SOLD);
+        List<Cell> sfCreditorColumn = columns.get(ColumnsF1125.SF_FINAL);
+
+        List<Cell> finalSiDebitorColumn = siDebitorColumn;
+        List<Cell> finalSiCreditorColumn = siCreditorColumn;
+        List<Cell> finalSfDebitorColumn = sfDebitorColumn;
+        List<Cell> finalSfCreditorColumn = sfCreditorColumn;
+        List<Cell> finalSymbolColumn = symbolColumn.stream()
+                .filter(cell ->
+                        (finalSiDebitorColumn.get(symbolColumn.indexOf(cell)).getNumericCellValue() != 0) ||
+                                (finalSiCreditorColumn.get(symbolColumn.indexOf(cell)).getNumericCellValue() != 0) ||
+                                (finalSfDebitorColumn.get(symbolColumn.indexOf(cell)).getNumericCellValue() != 0) ||
+                                (finalSfCreditorColumn.get(symbolColumn.indexOf(cell)).getNumericCellValue() != 0))
+                .map(this::getCellTrimValue)
+                .collect(Collectors.toList());
+
+        List<Cell> filteredSymbolColumn = finalSymbolColumn.stream()
+                .filter(cell -> filterByClass(className, cell, symbols, finalSymbolColumn, exceptions))
+                .collect(Collectors.toList());
+        siDebitorColumn = siDebitorColumn.stream()
+                .filter(cell -> filterCell(cell, filteredSymbolColumn))
+                .collect(Collectors.toList());
+        siCreditorColumn = siCreditorColumn.stream()
+                .filter(cell -> filterCell(cell, filteredSymbolColumn))
+                .collect(Collectors.toList());
+        sfDebitorColumn = sfDebitorColumn.stream()
+                .filter(cell -> filterCell(cell, filteredSymbolColumn))
+                .collect(Collectors.toList());
+        sfCreditorColumn = sfCreditorColumn.stream()
+                .filter(cell -> filterCell(cell, filteredSymbolColumn))
+                .collect(Collectors.toList());
+
+        columns.put(ColumnsF1125.SIMBOL, filteredSymbolColumn);
+        columns.put(ColumnsF1125.SI_SOLD, siDebitorColumn);
+        columns.put(ColumnsF1125.SI_INITIAL, siCreditorColumn);
+        columns.put(ColumnsF1125.SF_SOLD, sfDebitorColumn);
+        columns.put(ColumnsF1125.SF_FINAL, sfCreditorColumn);
+
+        return columns;
     }
 
     private void generateXml(FormData formData, HttpServletResponse response, F1125Type f1125Type, EmailDTO emailDTO) {

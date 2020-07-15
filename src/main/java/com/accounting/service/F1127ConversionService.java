@@ -34,7 +34,7 @@ public class F1127ConversionService extends AbstractConversionService implements
         response.setContentType(XML_CONTENT_TYPE);
         response.setHeader("Content-Disposition", "attachment; filename=f1127.xml");
 
-        Map<String, Map<Columns, List<Cell>>> extractedColumns = xlsReader.read(formData.getXlsFile());
+        Map<String, Map<Object, List<Cell>>> extractedColumns = xlsReader.read(formData.getXlsFile(), ConversionType.F1127);
         if (!extractedColumns.isEmpty()) {
             F1127Type f1127Type = convertFromDTO(formData);
             generateXml(formData, response, f1127Type, emailDTO);

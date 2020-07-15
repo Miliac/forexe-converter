@@ -37,7 +37,7 @@ public class F1115ConversionService extends AbstractConversionService implements
         response.setContentType(XML_CONTENT_TYPE);
         response.setHeader("Content-Disposition", "attachment; filename=f1115.xml");
 
-        Map<String, Map<Columns, List<Cell>>> extractedColumns = xlsReader.read(formData.getXlsFile());
+        Map<String, Map<Object, List<Cell>>> extractedColumns = xlsReader.read(formData.getXlsFile(), ConversionType.F1115);
 
         if (!extractedColumns.isEmpty()) {
             Map<Object, List<Cell>> filtered;

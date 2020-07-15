@@ -43,7 +43,7 @@ public class F1102ConversionService extends AbstractConversionService implements
 
         if(formData.getDocumentFaraValori()==0) {
 
-            Map<String, Map<Columns, List<Cell>>> extractedColumns = xlsReader.read(formData.getXlsFile());
+            Map<String, Map<Object, List<Cell>>> extractedColumns = xlsReader.read(formData.getXlsFile(), ConversionType.F1102);
 
             if (!extractedColumns.isEmpty()) {
                 extractedColumns.forEach((className, columns) -> extractedColumns.put(className, filterClass(className, columns, configsProviderService.getSymbols(), configsProviderService.getExceptions())));
