@@ -1,5 +1,6 @@
 package com.accounting.reader;
 
+import com.accounting.model.F1125Row;
 import com.accounting.service.ParserService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.apache.logging.log4j.LogManager;
@@ -9,23 +10,23 @@ import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
-public class ExceptionsReader {
+public class F1125ConfigReader {
 
-    private static final Logger logger = LogManager.getLogger(ExceptionsReader.class);
+    private static final Logger logger = LogManager.getLogger(F1125ConfigReader.class);
 
     private final ParserService parserService;
 
     @Autowired
-    public ExceptionsReader(ParserService parserService) {
+    public F1125ConfigReader(ParserService parserService) {
         this.parserService = parserService;
     }
 
-    public Map<String, String> read(String path) {
-        Map<String, String> result = new HashMap<>();
+    public List<F1125Row> read(String path) {
+        List<F1125Row>  result = new ArrayList<>();
         try {
             result = parserService.toObject(new File(path), new TypeReference<>() {});
         } catch (IOException e) {

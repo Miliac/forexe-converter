@@ -18,7 +18,7 @@ public class AccountSymbolsReader {
 
     private static final Logger logger = LogManager.getLogger(AccountSymbolsReader.class);
 
-    private ParserService parserService;
+    private final ParserService parserService;
 
     @Autowired
     public AccountSymbolsReader(ParserService parserService) {

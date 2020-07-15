@@ -18,7 +18,7 @@ public class ClassSymbolsWriter {
 
     private static final Logger logger = LogManager.getLogger(ClassSymbolsWriter.class);
 
-    private ParserService parserService;
+    private final ParserService parserService;
 
     @Autowired
     public ClassSymbolsWriter(ParserService parserService) {

@@ -16,9 +16,9 @@ import java.util.Map;
 @Component
 public class F1115ConfigReader {
 
-    private static final Logger logger = LogManager.getLogger(ExceptionsReader.class);
+    private static final Logger logger = LogManager.getLogger(F1115ConfigReader.class);
 
-    private ParserService parserService;
+    private final ParserService parserService;
 
     @Autowired
     public F1115ConfigReader(ParserService parserService) {

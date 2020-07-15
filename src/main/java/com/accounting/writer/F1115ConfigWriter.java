@@ -11,14 +11,13 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Map;
 
 @Component
 public class F1115ConfigWriter {
 
-    private static final Logger logger = LogManager.getLogger(ExceptionsWriter.class);
+    private static final Logger logger = LogManager.getLogger(F1115ConfigWriter.class);
 
-    private ParserService parserService;
+    private final ParserService parserService;
 
     @Autowired
     public F1115ConfigWriter(ParserService parserService) {
