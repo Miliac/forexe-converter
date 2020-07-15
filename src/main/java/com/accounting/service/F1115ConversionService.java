@@ -25,10 +25,10 @@ public class F1115ConversionService extends AbstractConversionService implements
 
     private static final Logger logger = LogManager.getLogger(F1115ConversionService.class);
 
-    private F1115Config f1115Config;
+    private final F1115Config f1115Config;
 
     public F1115ConversionService(MailService mailService, ConfigsProviderService configsProviderService) {
-        super(mailService);
+        super(mailService, configsProviderService);
         this.f1115Config = configsProviderService.getF1115Config();
     }
 
@@ -40,7 +40,7 @@ public class F1115ConversionService extends AbstractConversionService implements
         Map<String, Map<Columns, List<Cell>>> extractedColumns = xlsReader.read(formData.getXlsFile());
 
         if (!extractedColumns.isEmpty()) {
-            Map<Columns, List<Cell>> filtered;
+            Map<Object, List<Cell>> filtered;
             filtered = extractedColumns.entrySet().stream()
                     .filter(entry -> entry.getKey().equals("Clasa 5"))
                     .map(entry -> entry.getValue().entrySet().stream()

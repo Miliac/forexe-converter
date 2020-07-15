@@ -25,8 +25,8 @@ public class F1127ConversionService extends AbstractConversionService implements
 
     private static final Logger logger = LogManager.getLogger(F1127ConversionService.class);
 
-    F1127ConversionService(MailService mailService) {
-        super(mailService);
+    F1127ConversionService(MailService mailService, ConfigsProviderService configsProviderService) {
+        super(mailService, configsProviderService);
     }
 
     @Override

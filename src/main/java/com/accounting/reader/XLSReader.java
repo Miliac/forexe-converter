@@ -39,7 +39,7 @@ public class XLSReader {
 
             String currentClass = "";
 
-            extractColumns(multipartFile, extractedColumns, sheet, columnNumbers, currentClass, firstRowNum);
+            extractColumns(multipartFile, extractedColumns, sheet, columnNumbers, currentClass, firstRowNum, conversionType);
         } catch (IOException e) {
             logger.error("Could not read xls file content {} ", e.getMessage());
         }
@@ -78,12 +78,12 @@ public class XLSReader {
     private void extractColumns(MultipartFile multipartFile, Map<String, Map<Columns, List<Cell>>> extractedColumns, XSSFSheet sheet, Integer[] columnNumbers, String currentClass, int firstRowNum) {
         for(Row row : sheet) {
             if (row.getRowNum() >= firstRowNum + 2) {
-                for(int i=0; i < Columns.values().length;i++) {
+                for(int i=0; i < columnNumbers.length; i++) {
                     if (columnNumbers[i] != null) {
                         Cell cell = row.getCell(columnNumbers[i]);
-                        currentClass = extractNonEmptyColumns(extractedColumns, currentClass, i, cell);
+                        currentClass = extractNonEmptyColumns(extractedColumns, currentClass, i, cell, conversionType);
                     } else{
-                        logger.error("Could not find column {} in first row of {} ", Columns.values()[i], multipartFile.getName());
+                        logger.error("Could not find column {} in first row of {} ", i, multipartFile.getName());
                     }
                 }
             }
@@ -92,11 +92,20 @@ public class XLSReader {
 
     private String extractNonEmptyColumns(Map<String, Map<Columns, List<Cell>>> extractedColumns, String currentClass, int i, Cell cell) {
         if (cell != null && cell.getCellType() != CellType.BLANK) {
-            if (Columns.values()[i].equals(Columns.SIMBOL )) {
-                currentClass = extractSymbol(extractedColumns, currentClass, i, cell);
+            if (conversionType.equals(ConversionType.F1102)) {
+                if (Columns.values()[i].equals(Columns.SIMBOL)) {
+                    currentClass = extractSymbol(extractedColumns, currentClass, i, cell, conversionType);
+                } else {
+                    addCell(currentClass, i, extractedColumns, cell, conversionType);
+                }
             } else {
-                addCell(currentClass,i, extractedColumns, cell);
+                if (ColumnsF1125.values()[i].equals(ColumnsF1125.SIMBOL)) {
+                    currentClass = extractSymbol(extractedColumns, currentClass, i, cell, conversionType);
+                } else {
+                    addCell(currentClass, i, extractedColumns, cell, conversionType);
+                }
             }
+
         }
         return currentClass;
     }
@@ -109,17 +118,24 @@ public class XLSReader {
                 columns.put(Columns.values()[i], new ArrayList<>());
                 extractedColumns.put(currentClass, columns);
             } else {
-                addCell(currentClass,i, extractedColumns, cell);
+                addCell(currentClass,i, extractedColumns, cell, conversionType);
             }
         }
         return currentClass;
     }
 
-    private void addCell(String currentClass, int column, Map<String, Map<Columns, List<Cell>>> extractedColumns, Cell cell) {
-        Map<Columns, List<Cell>> columns = extractedColumns.getOrDefault(currentClass, new LinkedHashMap<>());
-        List<Cell> cells = columns.getOrDefault(Columns.values()[column], new ArrayList<>());
-        cells.add(cell);
-        columns.put(Columns.values()[column], cells);
+    private void addCell(String currentClass, int column, Map<String, Map<Object, List<Cell>>> extractedColumns, Cell cell, ConversionType conversionType) {
+        Map<Object, List<Cell>> columns = extractedColumns.getOrDefault(currentClass, new LinkedHashMap<>());
+        if (conversionType.equals(ConversionType.F1102)) {
+            List<Cell> cells = columns.getOrDefault(Columns.values()[column], new ArrayList<>());
+            cells.add(cell);
+            columns.put(Columns.values()[column], cells);
+        } else {
+            List<Cell> cells = columns.getOrDefault(ColumnsF1125.values()[column], new ArrayList<>());
+            cells.add(cell);
+            columns.put(ColumnsF1125.values()[column], cells);
+
+        }
         extractedColumns.put(currentClass, columns);
     }
 }

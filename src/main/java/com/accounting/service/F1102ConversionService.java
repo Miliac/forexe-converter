@@ -17,6 +17,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.accounting.config.Utils.*;
+import static com.accounting.model.Columns.SIMBOL;
 import static org.apache.logging.log4j.util.Strings.EMPTY;
 
 @Service
@@ -24,20 +25,12 @@ public class F1102ConversionService extends AbstractConversionService implements
 
     private static final Logger logger = LogManager.getLogger(F1102ConversionService.class);
 
-    private List<Cell> cellsWithCF;
-    private List<Cell> cellsWithCFAndCE;
     private String codSector;
-    private char codSursa;
 
     private BigDecimal sumaControl;
 
-    private final ConfigsProviderService configsProviderService;
-
     public F1102ConversionService(MailService mailService, ConfigsProviderService configsProviderService) {
-        super(mailService);
-        this.configsProviderService = configsProviderService;
-        cellsWithCF = new ArrayList<>();
-        cellsWithCFAndCE = new ArrayList<>();
+        super(mailService, configsProviderService);
         sumaControl = BigDecimal.ZERO;
     }
 
@@ -47,7 +40,6 @@ public class F1102ConversionService extends AbstractConversionService implements
         response.setHeader("Content-Disposition", "attachment; filename=f1102.xml");
 
         this.codSector = getCodSector(formData.getSector());
-        this.codSursa = 'G';
 
         if(formData.getDocumentFaraValori()==0) {
 
@@ -72,7 +64,7 @@ public class F1102ConversionService extends AbstractConversionService implements
             contType.setRulajDeb(BigDecimal.ZERO);
             contType.setSimbolPCont("1000000");
             contType.setCodSector(codSector);
-            contType.setCodSursa(String.valueOf(codSursa));
+            contType.setCodSursa(String.valueOf('G'));
             contType.setStrCont(contType.getSimbolPCont() + codSector + contType.getCodSursa() + X.repeat(30));
             generateXml(formData, response, List.of(contType), emailDTO);
         }
@@ -133,9 +125,9 @@ public class F1102ConversionService extends AbstractConversionService implements
         return true;
     }
 
-    private Map<Columns, List<Cell>> filterClass(String className, Map<Columns, List<Cell>> columns, Map<String, AccountSymbols> symbols, Map<String, String> exceptions) {
+    private Map<Object, List<Cell>> filterClass(String className, Map<Object, List<Cell>> columns, Map<String, AccountSymbols> symbols, Map<String, String> exceptions) {
 
-        List<Cell> symbolColumn = columns.get(Columns.SIMBOL);
+        List<Cell> symbolColumn = columns.get(SIMBOL);
         List<Cell> debitorColumn = columns.get(Columns.DEBITOR);
         List<Cell> creditorColumn = columns.get(Columns.CREDITOR);
 
@@ -158,156 +150,17 @@ public class F1102ConversionService extends AbstractConversionService implements
                 .filter(cell -> filterCell(cell, filteredSymbolColumn))
                 .collect(Collectors.toList());
 
-        columns.put(Columns.SIMBOL, filteredSymbolColumn);
+        columns.put(SIMBOL, filteredSymbolColumn);
         columns.put(Columns.DEBITOR, debitorColumn);
         columns.put(Columns.CREDITOR, creditorColumn);
 
         return columns;
     }
 
-    private boolean filterByClass(String className, Cell cell, Map<String, AccountSymbols> symbols, List<Cell> symbolColumns, Map<String, String> exceptions) {
-        AccountSymbols accountSymbols = symbols.getOrDefault(className, new AccountSymbols());
-
-        if (exceptions.containsKey(cell.getStringCellValue())) {
-            cell.setCellValue(exceptions.get(cell.getStringCellValue()));
-            return true;
-        } else {
-
-            if (cell.getStringCellValue().length() == 3) {
-                return filterCellsWith3Length(cell, symbolColumns, accountSymbols);
-            }
-
-            if (cell.getStringCellValue().length() == 5 || cell.getStringCellValue().length() == 7) {
-                return filterCellsWithLengthBetween5And7(cell, symbolColumns, accountSymbols);
-            }
-
-            if (cell.getStringCellValue().length() >= 14 && cell.getStringCellValue().length() < 20) {
-                return filterCellsWithLengthBetween14And20(cell, accountSymbols);
-            }
-
-            if (cell.getStringCellValue().length() >= 20 && cell.getStringCellValue().length() <= 22) {
-                return filterCellsWithLengthBetween20And22(cell, symbolColumns, accountSymbols);
-            }
-        }
-
-        return false;
-    }
-
-    private boolean filterCellsWith3Length(Cell cell, List<Cell> symbolColumns, AccountSymbols accountSymbols) {
-        String symbol = cell.getStringCellValue().concat(ZERO.repeat(4));
-        if (accountSymbols.getAccountSymbolsEndInFourZeros()
-                .contains(symbol)) {
-            cellsWithCF = symbolColumns.stream()
-                    .filter(nextCell -> nextCell.getStringCellValue().startsWith(symbol) && nextCell.getStringCellValue().length() == 16)
-                    .collect(Collectors.toList());
-            cellsWithCF = cellsWithCF.stream()
-                    .filter(nextCell -> filterDifferentSymbol(nextCell, cellsWithCF))
-                    .collect(Collectors.toList());
-            return cellsWithCF.size() < 2;
-        } else {
-            cellsWithCF.clear();
-            return false;
-        }
-    }
-
-    private boolean filterCellsWithLengthBetween5And7(Cell cell, List<Cell> symbolColumns, AccountSymbols accountSymbols) {
-        String symbol = cell.getStringCellValue().length() == 5 ? cell.getStringCellValue().concat(ZERO.repeat(2)) : cell.getStringCellValue();
-        if (accountSymbols.getAccountSymbolsWithCFAndCE().contains(symbol)) {
-            cellsWithCFAndCE = symbolColumns.stream()
-                    .filter(nextCell -> nextCell.getStringCellValue().startsWith(cell.getStringCellValue()) &&
-                            (nextCell.getStringCellValue().length() == 20 || nextCell.getStringCellValue().length() == 22))
-                    .filter(nextCell -> !accountSymbols.getAccountSymbolsWithCFAndCE().contains(getSymbol(nextCell)))
-                    .collect(Collectors.toList());
-            return !cellsWithCFAndCE.isEmpty();
-        }
-
-        if (!symbol.endsWith(ZERO.repeat(2))) {
-            return accountSymbols.getAccountSymbols().contains(symbol);
-        }
-
-        if (accountSymbols.getAccountSymbolsEndInTwoZeros().contains(symbol)) {
-            cellsWithCF = symbolColumns.stream()
-                    .filter(nextCell -> nextCell.getStringCellValue()
-                            .startsWith(cell.getStringCellValue()) && nextCell.getStringCellValue().length() == 16)
-                    .collect(Collectors.toList());
-            cellsWithCF = cellsWithCF.stream()
-                    .filter(nextCell -> filterDifferentSymbol(nextCell, cellsWithCF))
-                    .collect(Collectors.toList());
-            return cellsWithCF.size() < 2;
-        } else {
-            cellsWithCF.clear();
-            return false;
-        }
-    }
-
-    private boolean filterCellsWithLengthBetween14And20(Cell cell, AccountSymbols accountSymbols) {
-        String symbol = getSymbol(cell);
-        if (accountSymbols.getAccountSymbolsWithCF().contains(symbol)) {
-            cell.setCellValue(getCellContent(cell));
-            return true;
-        } else {
-            if (cellsWithCF.size() >= 2) {
-                if(accountSymbols.getAccountSymbols().contains(symbol) ||
-                        accountSymbols.getAccountSymbolsEndInTwoZeros().contains(symbol) ||
-                        accountSymbols.getAccountSymbolsEndInFourZeros().contains(symbol)) {
-                    cell.setCellValue(cell.getStringCellValue().substring(0, 10));
-                }
-                cell.setCellValue(getCellContent(cell));
-                return cellsWithCF.contains(cell);
-            } else {
-                cell.setCellValue(cell.getStringCellValue().substring(0, 10));
-                return accountSymbols.getAccountSymbols().contains(symbol);
-            }
-        }
-    }
-
-    private boolean filterCellsWithLengthBetween20And22(Cell cell, List<Cell> symbolColumns, AccountSymbols accountSymbols) {
-        String symbol = getSymbol(cell);
-        cell.setCellValue(getCellContent(cell));
-        if (accountSymbols.getAccountSymbolsWithCFAndCE().contains(symbol) && cell.getStringCellValue().length() == 20) {
-            cellsWithCFAndCE = symbolColumns.stream()
-                    .filter(nextCell -> nextCell.getStringCellValue().startsWith(cell.getStringCellValue()) &&
-                            nextCell.getStringCellValue().length() == 22)
-                    .collect(Collectors.toList());
-            return cellsWithCFAndCE.isEmpty();
-        }
-
-        return accountSymbols.getAccountSymbolsWithCFAndCE().contains(symbol);
-    }
-
-    private String getCellContent(Cell cell) {
-        String content = cell.getStringCellValue();
-        int indexG = content.indexOf(codSursa);
-        if(indexG != 9) {
-            String symbol = getSymbol(cell);
-            String contSufix = content.substring(indexG-2);
-            return symbol.concat(contSufix);
-        }
-        return content;
-    }
-
-    private boolean filterDifferentSymbol(Cell cell, List<Cell> symbolColumns) {
-        String symbol = cell.getStringCellValue().substring(0, SYMBOL_LENGTH);
-        boolean result = true;
-        for (Cell nextCell : symbolColumns) {
-            if (!nextCell.equals(cell) && nextCell.getStringCellValue()
-                    .startsWith(symbol)) {
-                result = false;
-            }
-        }
-        return result;
-    }
-
-    private String getSymbol(Cell cell) {
-        String content = cell.getStringCellValue();
-        String symbol = cell.getStringCellValue().substring(0, content.indexOf(codSursa)-2);
-        return symbol.concat(ZERO.repeat(SYMBOL_LENGTH - symbol.length()));
-    }
-
-    private List<F1102ContType> getContType(Map<String, Map<Columns, List<Cell>>> extractedColumns) {
+    private List<F1102ContType> getContType(Map<String, Map<Object, List<Cell>>> extractedColumns) {
         Map<String, F1102ContType> contTypes = new LinkedHashMap<>();
         extractedColumns.forEach((key, value) -> value.forEach((column, cells) -> {
-            switch (column) {
+            switch ((Columns) column) {
                 case SIMBOL:
                     cells.forEach(cell -> {
                         F1102ContType contType = contTypes.getOrDefault(String.valueOf(cell.getRowIndex()), new F1102ContType());
@@ -361,7 +214,7 @@ public class F1102ConversionService extends AbstractConversionService implements
 
     private void fillContType(F1102ContType contType, String symbol) {
         contType.setCodSector(codSector);
-        contType.setCodSursa(String.valueOf(codSursa));
+        contType.setCodSursa(String.valueOf('G'));
         if (symbol.length() <= 10) {
             symbol = symbol.length() < SYMBOL_LENGTH ? symbol.concat(ZERO.repeat(SYMBOL_LENGTH - symbol.length())) : symbol;
             contType.setSimbolPCont(symbol.substring(0, SYMBOL_LENGTH));
