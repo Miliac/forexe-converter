@@ -26,6 +26,7 @@
         <jquery.version>3.4.1</jquery.version>
         <log4j.version>2.7</log4j.version>
         <javax.mail.version>1.4.7</javax.mail.version>
+        <apache.common.version>2.6</apache.common.version>
     </properties>
 
     <dependencies>
@@ -109,6 +110,11 @@
             <groupId>javax.mail</groupId>
             <artifactId>mail</artifactId>
             <version>${javax.mail.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>${apache.common.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>

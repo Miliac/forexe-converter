@@ -2,18 +2,25 @@ package com.accounting.service;
 
 import com.accounting.model.Attachment;
 import com.accounting.model.EmailDTO;
+import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import javax.mail.*;
-import javax.mail.internet.*;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Multipart;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Properties;
 
@@ -77,7 +84,7 @@ public class MailService {
 
             for(Attachment attachment : attachments) {
                 messagePart = new MimeBodyPart();
-                attachFile(attachment.getFileName(), new String(attachment.getFileContent(), StandardCharsets.UTF_8), messagePart);
+                attachFile(attachment.getFileName(), attachment.getFileContent(), messagePart);
                 multipart.addBodyPart(messagePart);
             }
 
@@ -90,10 +97,10 @@ public class MailService {
         }
     }
 
-    private void attachFile(String fileName, String fileContent, MimeBodyPart messagePart) throws MessagingException {
+    private void attachFile(String fileName, byte[] fileContent, MimeBodyPart messagePart) throws MessagingException {
         File attachFile = new File(fileName);
-        try (FileWriter writer = new FileWriter(attachFile)) {
-            writer.write(fileContent);
+        try {
+            FileUtils.writeByteArrayToFile(attachFile, fileContent);
             messagePart.attachFile(attachFile);
         } catch (IOException e) {
             logger.info("Error while attaching file to email with error: {}", e.getMessage());

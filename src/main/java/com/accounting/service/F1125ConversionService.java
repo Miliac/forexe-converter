@@ -14,11 +14,18 @@ import javax.xml.bind.Marshaller;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
-import static com.accounting.config.Utils.*;
-import static org.apache.logging.log4j.util.Strings.EMPTY;
+import static com.accounting.config.Utils.F1125_RESULT_NAME;
+import static com.accounting.config.Utils.SYMBOL_LENGTH;
+import static com.accounting.config.Utils.XML_CONTENT_TYPE;
+import static com.accounting.config.Utils.ZERO;
+import static com.accounting.config.Utils.ZERO_DECIMAL;
 
 @Service
 public class F1125ConversionService extends AbstractConversionService implements ConversionService  {
@@ -45,6 +52,7 @@ public class F1125ConversionService extends AbstractConversionService implements
             F1125SursaType sursaType = new F1125SursaType();
             List<F1125IndicatorType> f1125IndicatorTypes = getIndicatorTypes(extractedColumns);
             sursaType.setF1125Indicator(f1125IndicatorTypes);
+            sursaType.setCodSursa("G");
             List<F1125SursaType> sursaTypes = List.of(sursaType);
             f1125Type.setF1125Sursa(sursaTypes);
             generateXml(formData, response, f1125Type, emailDTO);
@@ -248,6 +256,7 @@ public class F1125ConversionService extends AbstractConversionService implements
         f1125Type.setDRec(formData.getdRec() ? 1 : 0);
         f1125Type.setSumaControl(Long.parseLong(formData.getCuiIp()));
         f1125Type.setFormularFaraValori(formData.getDocumentFaraValori());
+        f1125Type.setCodSecBug("02");
 
         return f1125Type;
     }
