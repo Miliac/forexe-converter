@@ -3,6 +3,7 @@ package com.accounting.controller;
 import com.accounting.service.AccountSymbolsService;
 import com.accounting.service.ExceptionsService;
 import com.accounting.service.F1115ConfigService;
+import com.accounting.service.F1125ConfigService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,15 +29,18 @@ public class ResourceController {
 
     private static final Logger logger = LogManager.getLogger(ResourceController.class);
 
-    private AccountSymbolsService accountSymbolsService;
-    private ExceptionsService exceptionsService;
-    private F1115ConfigService f1115ConfigService;
+    private final AccountSymbolsService accountSymbolsService;
+    private final ExceptionsService exceptionsService;
+    private final F1115ConfigService f1115ConfigService;
+    private final F1125ConfigService f1125ConfigService;
 
     @Autowired
-    ResourceController(AccountSymbolsService accountSymbolsService, ExceptionsService exceptionsService, F1115ConfigService f1115ConfigService) {
+    ResourceController(AccountSymbolsService accountSymbolsService, ExceptionsService exceptionsService, F1115ConfigService f1115ConfigService,
+                       F1125ConfigService f1125ConfigService) {
         this.accountSymbolsService = accountSymbolsService;
         this.exceptionsService = exceptionsService;
         this.f1115ConfigService = f1115ConfigService;
+        this.f1125ConfigService = f1125ConfigService;
     }
 
     @GetMapping(value = "/get/accountSymbols")
@@ -84,7 +88,23 @@ public class ResourceController {
         logger.info(USER_MESSAGE_LOG,
                 request.getRemoteUser(), request.getRemoteAddr(), request.getMethod(), request.getRequestURI());
         f1115ConfigService.write(file.getInputStream());
-        return "redirect:/admin?f1115-configUploaded";
+        return "redirect:/admin?f1115configUploaded";
+    }
+
+    @GetMapping(value = "/get/f1125-config")
+    public ResponseEntity<byte[]> getF1125ConfigRequest(HttpServletRequest request) throws IOException {
+        logger.info(USER_MESSAGE_LOG,
+                request.getRemoteUser(), request.getRemoteAddr(), request.getMethod(), request.getRequestURI());
+        byte[] data = f1125ConfigService.readFile().readAllBytes();
+        return new ResponseEntity<>(data, prepareHeaderForDownload("f1125-config.json",data), HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/add/f1125-config")
+    public String addF1125ConfigRequest(@RequestParam("f1125-configFile") MultipartFile file, HttpServletRequest request) throws IOException {
+        logger.info(USER_MESSAGE_LOG,
+                request.getRemoteUser(), request.getRemoteAddr(), request.getMethod(), request.getRequestURI());
+        f1125ConfigService.write(file.getInputStream());
+        return "redirect:/admin?f1125configUploaded";
     }
 
     private HttpHeaders prepareHeaderForDownload(String fileName, byte[] data){

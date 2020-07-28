@@ -293,6 +293,8 @@
                 <div>
                     <p style="color: green;" th:if="${param.symbolsUploaded}">Account Symbols File Uploaded!</p>
                     <p style="color: green;" th:if="${param.exceptionsUploaded}">Exceptions File Uploaded!</p>
+                    <p style="color: green;" th:if="${param.f1125configUploaded}">F1125 Config File Uploaded!</p>
+                    <p style="color: green;" th:if="${param.f1115configUploaded}">F1115 Config File Uploaded!</p>
                     <a class="btn custom-btn download-resource-button" th:href="@{/resource/get/accountSymbols}">Get Account Symbols</a>
                 </div>
                 <form method="POST" enctype="multipart/form-data" action="/resource/add/accountSymbols">
@@ -310,7 +312,33 @@
                 <form method="POST" enctype="multipart/form-data" action="/resource/add/exceptions">
                     <div class="custom-file file-choose">
                         <input aria-describedby="inputGroupFileAddon01" class="custom-file-input" id="inputGroupFile02" type="file" name="exceptionsFile">
-                        <label class="custom-file-label" for="inputGroupFile01">Upload exceptions file</label>
+                        <label class="custom-file-label" for="inputGroupFile02">Upload exceptions file</label>
+                        <input class="btn custom-btn upload-file-button" type="submit" value="Upload"/>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col columns">
+                <div>
+                    <a class="btn custom-btn download-resource-button" th:href="@{/resource/get/f1115-config}">Get F1115 Config file</a>
+                </div>
+                <form method="POST" enctype="multipart/form-data" action="/resource/add/f1115-config">
+                    <div class="custom-file file-choose">
+                        <input aria-describedby="inputGroupFileAddon01" class="custom-file-input" id="inputGroupFile03" type="file" name="f1115-configFile">
+                        <label class="custom-file-label" for="inputGroupFile03">Upload F1115 Config file</label>
+                        <input class="btn custom-btn upload-file-button" type="submit" value="Upload"/>
+                    </div>
+                </form>
+            </div>
+            <div class="col columns">
+                <div>
+                    <a class="btn custom-btn download-resource-button" th:href="@{/resource/get/f1125-config}">Get F1125 Config file</a>
+                </div>
+                <form method="POST" enctype="multipart/form-data" action="/resource/add/f1125-config">
+                    <div class="custom-file file-choose">
+                        <input aria-describedby="inputGroupFileAddon01" class="custom-file-input" id="inputGroupFile04" type="file" name="f1125-configFile">
+                        <label class="custom-file-label" for="inputGroupFile04">Upload F1125 Config file</label>
                         <input class="btn custom-btn upload-file-button" type="submit" value="Upload"/>
                     </div>
                 </form>
