@@ -4,15 +4,12 @@ import com.accounting.model.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.util.IOUtils;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -61,13 +58,7 @@ public class F1127ConversionService extends AbstractConversionService implements
             marshallerObj.setProperty(Marshaller.JAXB_SCHEMA_LOCATION, "mfp:anaf:dgti:f1127:declaratie:v1");
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
             marshallerObj.marshal(objectFactory.createF1127(f1127Type), byteArrayOutputStream);
-            byte[] content = byteArrayOutputStream.toByteArray();
-            IOUtils.copy(new ByteArrayInputStream(content), response.getOutputStream());
-            List<Attachment> attachments = new ArrayList<>();
-            attachments.add(new Attachment(formData.getXlsFile()
-                    .getOriginalFilename(), formData.getXlsFile()
-                    .getBytes()));
-            attachments.add(new Attachment(F1127_RESULT_NAME, content));
+            List<Attachment> attachments = mailService.getAttachments(formData, response, byteArrayOutputStream);
             executor.submit(() -> mailService.sendMail(buildEmailDto(emailDTO,  "F1127 generated with success for " + formData.getNumeIp(),
                     "F1127 file generated with success !!!", attachments)));
             logger.info("F1127 file generated with success!");

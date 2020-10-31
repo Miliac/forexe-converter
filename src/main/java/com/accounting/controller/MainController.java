@@ -32,15 +32,19 @@ import java.util.Collections;
 import java.util.Objects;
 import java.util.Optional;
 
-import static com.accounting.config.Utils.*;
+import static com.accounting.config.Utils.F1102_MODEL;
+import static com.accounting.config.Utils.INPUT_DATE_FORMAT;
+import static com.accounting.config.Utils.REDIRECT_ADMIN;
+import static com.accounting.config.Utils.REDIRECT_HOME;
+import static com.accounting.config.Utils.USER_MESSAGE_LOG;
 
 @Controller
 public class MainController implements ErrorController {
 
     private static final Logger logger = LogManager.getLogger(MainController.class);
 
-    private ConversionService conversionService;
-    private AccountService accountService;
+    private final ConversionService conversionService;
+    private final AccountService accountService;
 
     @Autowired
     public MainController(@Qualifier("conversion")ConversionService conversionService, AccountService accountService) {

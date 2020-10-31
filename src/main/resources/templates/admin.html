@@ -12,7 +12,7 @@
 
     <script th:if="${hasErrors == true}" th:inline="javascript">
         $(function () {
-            var modalId = /*[[${modalId}]]*/ "";
+            let modalId = /*[[${modalId}]]*/ "";
             $('#'+modalId).modal('show');
         });
     </script>

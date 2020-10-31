@@ -2,9 +2,11 @@ package com.accounting.service;
 
 import com.accounting.model.Attachment;
 import com.accounting.model.EmailDTO;
+import com.accounting.model.FormData;
 import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.poi.util.IOUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -19,13 +21,16 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
+import javax.servlet.http.HttpServletResponse;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-import static com.accounting.config.Utils.COMMA;
-import static com.accounting.config.Utils.TEXT_CONTENT_TYPE;
+import static com.accounting.config.Utils.*;
 
 @Service
 public class MailService {
@@ -56,6 +61,17 @@ public class MailService {
                 sendMail(emailTo, emailDTO.getSubject(), emailDTO.getContent(), emailDTO.getAttachments());
             }
         }
+    }
+
+    public List<Attachment> getAttachments(FormData formData, HttpServletResponse response, ByteArrayOutputStream byteArrayOutputStream) throws IOException {
+        byte[] content = byteArrayOutputStream.toByteArray();
+        IOUtils.copy(new ByteArrayInputStream(content), response.getOutputStream());
+        List<Attachment> attachments = new ArrayList<>();
+        attachments.add(new Attachment(formData.getXlsFile()
+                .getOriginalFilename(), formData.getXlsFile()
+                .getBytes()));
+        attachments.add(new Attachment(F1125_RESULT_NAME, content));
+        return attachments;
     }
 
     private void sendMail(String to, String subject, String content, List<Attachment> attachments) {

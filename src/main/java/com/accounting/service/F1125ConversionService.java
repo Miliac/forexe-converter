@@ -4,17 +4,14 @@ import com.accounting.model.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.util.IOUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -110,51 +107,50 @@ public class F1125ConversionService extends AbstractConversionService implements
                 String accountNumber = account.getNumber();
                 Map<Object, List<Cell>> columns = extractedColumns.get("Clasa " + accountNumber.charAt(0));
                 List<Cell> cells = columns.get(ColumnsF1125.SIMBOL);
-                List<Cell> siDebitorCells = columns.get(ColumnsF1125.SI_SOLD);
-                List<Cell> siCreditorCells = columns.get(ColumnsF1125.SI_INITIAL);
                 List<Cell> sfDebitorCells = columns.get(ColumnsF1125.SF_SOLD);
                 List<Cell> sfCreditorCells = columns.get(ColumnsF1125.SF_FINAL);
+                List<Cell> siDebitorCells = columns.get(ColumnsF1125.SI_SOLD);
+                List<Cell> siCreditorCells = columns.get(ColumnsF1125.SI_INITIAL);
 
                 for (Cell cell : cells) {
                     if(cell.getStringCellValue().startsWith(accountNumber)) {
                         int index = cells.indexOf(cell);
-                        Cell siDebitorCell = siDebitorCells.get(index);
-                        if(BigDecimal.valueOf(siDebitorCell.getNumericCellValue()).stripTrailingZeros().equals(BigDecimal.ZERO)) {
-                            Cell siCreditorCell = siCreditorCells.get(index);
-                            if(account.getSymbol().equals("+")) {
-                                soldInceput = soldInceput.add(BigDecimal.valueOf(siCreditorCell.getNumericCellValue()));
-                            } else {
-                                soldInceput = soldInceput.subtract(BigDecimal.valueOf(siCreditorCell.getNumericCellValue()));
-                            }
-                        } else {
-                            if(account.getSymbol().equals("+")) {
-                                soldInceput = soldInceput.add(BigDecimal.valueOf(siDebitorCell.getNumericCellValue()));
-                            } else {
-                                soldInceput = soldInceput.subtract(BigDecimal.valueOf(siDebitorCell.getNumericCellValue()));
-                            }
-                        }
+                        soldInceput = getSoldInceput(soldInceput, account, siDebitorCells, siCreditorCells, index);
 
-                        Cell sfDebitorCell = sfDebitorCells.get(index);
-                        if(BigDecimal.valueOf(sfDebitorCell.getNumericCellValue()).stripTrailingZeros().equals(BigDecimal.ZERO)) {
-                            Cell sfCreditorCell = sfCreditorCells.get(index);
-                            if(account.getSymbol().equals("+")) {
-                                soldFinal = soldFinal.add(BigDecimal.valueOf(sfCreditorCell.getNumericCellValue()));
-                            } else {
-                                soldFinal = soldFinal.subtract(BigDecimal.valueOf(sfCreditorCell.getNumericCellValue()));
-                            }
-                        } else {
-                            if(account.getSymbol().equals("+")) {
-                                soldFinal = soldFinal.add(BigDecimal.valueOf(sfDebitorCell.getNumericCellValue()));
-                            } else {
-                                soldFinal = soldFinal.subtract(BigDecimal.valueOf(sfDebitorCell.getNumericCellValue()));
-                            }
-                        }
+                        soldFinal = getSoldFinal(soldFinal, account, sfDebitorCells, sfCreditorCells, index);
                     }
                 }
             }
             f1125IndicatorType.setSoldInceput(soldInceput.equals(ZERO_DECIMAL) ? null : soldInceput.stripTrailingZeros());
             f1125IndicatorType.setSoldSfarsit(soldFinal.equals(ZERO_DECIMAL) ? null : soldFinal.stripTrailingZeros());
         }
+    }
+
+    private BigDecimal getSoldFinal(BigDecimal soldFinal, F1125Account account, List<Cell> sfDebitorCells, List<Cell> sfCreditorCells, int index) {
+        return getSold(soldFinal, account, sfDebitorCells, sfCreditorCells, index);
+    }
+
+    private BigDecimal getSoldInceput(BigDecimal soldInceput, F1125Account account, List<Cell> siDebitorCells, List<Cell> siCreditorCells, int index) {
+        return getSold(soldInceput, account, siDebitorCells, siCreditorCells, index);
+    }
+
+    private BigDecimal getSold(BigDecimal soldInceput, F1125Account account, List<Cell> siDebitorCells, List<Cell> siCreditorCells, int index) {
+        Cell siDebitorCell = siDebitorCells.get(index);
+        if (BigDecimal.valueOf(siDebitorCell.getNumericCellValue()).stripTrailingZeros().equals(BigDecimal.ZERO)) {
+            Cell siCreditorCell = siCreditorCells.get(index);
+            if (account.getSymbol().equals("+")) {
+                soldInceput = soldInceput.add(BigDecimal.valueOf(siCreditorCell.getNumericCellValue()));
+            } else {
+                soldInceput = soldInceput.subtract(BigDecimal.valueOf(siCreditorCell.getNumericCellValue()));
+            }
+        } else {
+            if (account.getSymbol().equals("+")) {
+                soldInceput = soldInceput.add(BigDecimal.valueOf(siDebitorCell.getNumericCellValue()));
+            } else {
+                soldInceput = soldInceput.subtract(BigDecimal.valueOf(siDebitorCell.getNumericCellValue()));
+            }
+        }
+        return soldInceput;
     }
 
     @Override
@@ -228,13 +224,7 @@ public class F1125ConversionService extends AbstractConversionService implements
             marshallerObj.setProperty(Marshaller.JAXB_SCHEMA_LOCATION, "mfp:anaf:dgti:f1125:declaratie:v1");
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
             marshallerObj.marshal(objectFactory.createF1125(f1125Type), byteArrayOutputStream);
-            byte[] content = byteArrayOutputStream.toByteArray();
-            IOUtils.copy(new ByteArrayInputStream(content), response.getOutputStream());
-            List<Attachment> attachments = new ArrayList<>();
-            attachments.add(new Attachment(formData.getXlsFile()
-                    .getOriginalFilename(), formData.getXlsFile()
-                    .getBytes()));
-            attachments.add(new Attachment(F1125_RESULT_NAME, content));
+            List<Attachment> attachments = mailService.getAttachments(formData, response, byteArrayOutputStream);
             executor.submit(() -> mailService.sendMail(buildEmailDto(emailDTO,  "F1125 generated with success for " + formData.getNumeIp(),
                     "F1125 file generated with success !!!", attachments)));
             logger.info("F1125 file generated with success!");
@@ -250,13 +240,13 @@ public class F1125ConversionService extends AbstractConversionService implements
         F1125Type f1125Type = new F1125Type();
         f1125Type.setAn(formData.getAn());
         f1125Type.setCuiIp(formData.getCuiIp());
-        f1125Type.setDataIntocmire(dateFormatter(formData.getDataDocument()));
-        f1125Type.setLunaR(formData.getLunaR());
-        f1125Type.setNumeIp(formData.getNumeIp());
         f1125Type.setDRec(formData.getdRec() ? 1 : 0);
         f1125Type.setSumaControl(Long.parseLong(formData.getCuiIp()));
         f1125Type.setFormularFaraValori(formData.getDocumentFaraValori());
         f1125Type.setCodSecBug("02");
+        f1125Type.setDataIntocmire(dateFormatter(formData.getDataDocument()));
+        f1125Type.setLunaR(formData.getLunaR());
+        f1125Type.setNumeIp(formData.getNumeIp());
 
         return f1125Type;
     }

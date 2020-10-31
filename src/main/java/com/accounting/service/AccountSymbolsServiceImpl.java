@@ -20,9 +20,9 @@ public class AccountSymbolsServiceImpl implements AccountSymbolsService {
     private static final Logger logger = LogManager.getLogger(AccountSymbolsServiceImpl.class);
     private static final String RESOURCE_PATH = "src/main/resources/account-symbols.json";
 
-    private AccountSymbolsReader reader;
-    private ClassSymbolsWriter writer;
-    private ParserService parserService;
+    private final AccountSymbolsReader reader;
+    private final ClassSymbolsWriter writer;
+    private final ParserService parserService;
 
     @Autowired
     public AccountSymbolsServiceImpl(AccountSymbolsReader reader, ClassSymbolsWriter writer, ParserService parserService) {

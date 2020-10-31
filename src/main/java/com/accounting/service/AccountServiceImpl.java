@@ -24,8 +24,8 @@ public class AccountServiceImpl implements AccountService {
 
     private static final Logger logger = LogManager.getLogger(AccountServiceImpl.class);
 
-    private AccountRepository accountRepository;
-    private BCryptPasswordEncoder passwordEncoder;
+    private final AccountRepository accountRepository;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
     public AccountServiceImpl(AccountRepository accountRepository) {

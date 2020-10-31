@@ -12,7 +12,7 @@ import java.io.InputStream;
 @Service
 public class ParserService {
 
-    private ObjectMapper mapper = new ObjectMapper();
+    private final ObjectMapper mapper = new ObjectMapper();
 
     <T> T toObject(InputStream input, TypeReference<T> typeReference) throws IOException {
         return mapper.readValue(input, typeReference);

@@ -19,9 +19,9 @@ public class ExceptionsServiceImpl implements ExceptionsService {
     private static final Logger logger = LogManager.getLogger(ExceptionsServiceImpl.class);
     private static final String RESOURCE_PATH = "src/main/resources/exceptions.json";
 
-    private ExceptionsReader reader;
-    private ExceptionsWriter writer;
-    private ParserService parserService;
+    private final ExceptionsReader reader;
+    private final ExceptionsWriter writer;
+    private final ParserService parserService;
 
     @Autowired
     public ExceptionsServiceImpl(ExceptionsReader reader, ExceptionsWriter writer, ParserService parserService) {

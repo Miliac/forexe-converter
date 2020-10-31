@@ -19,7 +19,7 @@ public class AdminController {
 
     private static final Logger logger = LogManager.getLogger(AdminController.class);
 
-    private AccountService accountService;
+    private final AccountService accountService;
 
     public AdminController(AccountService accountService) {
         this.accountService = accountService;
