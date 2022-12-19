@@ -17,7 +17,7 @@ import java.util.Map;
 public class ExceptionsServiceImpl implements ExceptionsService {
 
     private static final Logger logger = LogManager.getLogger(ExceptionsServiceImpl.class);
-    private static final String RESOURCE_PATH = "src/main/resources/exceptions.json";
+    private static final String RESOURCE_PATH = "exceptions.json";
 
     private ExceptionsReader reader;
     private ExceptionsWriter writer;
@@ -44,6 +44,7 @@ public class ExceptionsServiceImpl implements ExceptionsService {
         } catch (IOException e) {
             logger.error("Could not parse content into exceptions: {} ", e.getMessage());
         }
+        logger.info("Exceptions file loaded in memory!");
         return new ByteArrayInputStream(exceptionsContent);
     }
 
@@ -56,6 +57,7 @@ public class ExceptionsServiceImpl implements ExceptionsService {
         } catch (IOException e) {
             logger.error("Could not parse content into exceptions: {} ", e.getMessage());
         }
+        logger.info("Exceptions file wrote in memory!");
         return writer.write(exceptions, RESOURCE_PATH);
     }
 }

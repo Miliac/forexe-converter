@@ -7,6 +7,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayInputStream;
@@ -18,7 +20,7 @@ import java.util.List;
 public class F1125ConfigServiceImpl implements F1125ConfigService{
 
     private static final Logger logger = LogManager.getLogger(F1125ConfigServiceImpl.class);
-    private static final String RESOURCE_PATH = "src/main/resources/f1125-config.json";
+    private static final String RESOURCE_PATH = "f1125-config.json";
 
     private final F1125ConfigReader reader;
     private final F1125ConfigWriter writer;

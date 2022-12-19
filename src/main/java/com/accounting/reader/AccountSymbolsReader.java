@@ -6,6 +6,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -15,7 +17,7 @@ import java.util.Map;
 
 @Component
 public class AccountSymbolsReader {
-
+    private ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
     private static final Logger logger = LogManager.getLogger(AccountSymbolsReader.class);
 
     private final ParserService parserService;
@@ -28,7 +30,7 @@ public class AccountSymbolsReader {
     public Map<String, AccountSymbols> read(String path) {
         Map<String, AccountSymbols> result = new HashMap<>();
         try {
-            result = parserService.toObject(new File(path), new TypeReference<>() {});
+            result = parserService.toObject(resolver.getResource(path).getInputStream(), new TypeReference<>() {});
         } catch (IOException e) {
             logger.error("Could not read account symbols file: {} ", e.getMessage());
         }

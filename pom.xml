@@ -24,7 +24,7 @@
         <bootstrap.version>4.2.1</bootstrap.version>
         <font-awesome.version>5.13.0</font-awesome.version>
         <jquery.version>3.4.1</jquery.version>
-        <log4j.version>2.7</log4j.version>
+        <log4j.version>2.19.0</log4j.version>
         <javax.mail.version>1.4.7</javax.mail.version>
         <apache.common.version>2.6</apache.common.version>
     </properties>
@@ -157,5 +157,10 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
         </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+        </resources>
     </build>
 </project>

@@ -18,7 +18,7 @@ import java.util.Map;
 public class AccountSymbolsServiceImpl implements AccountSymbolsService {
 
     private static final Logger logger = LogManager.getLogger(AccountSymbolsServiceImpl.class);
-    private static final String RESOURCE_PATH = "src/main/resources/account-symbols.json";
+    private static final String RESOURCE_PATH = "account-symbols.json";
 
     private AccountSymbolsReader reader;
     private ClassSymbolsWriter writer;
@@ -45,6 +45,7 @@ public class AccountSymbolsServiceImpl implements AccountSymbolsService {
         } catch (IOException e) {
             logger.error("Could not parse content into account symbols: {} ", e.getMessage());
         }
+        logger.info("Account symbols file loaded in memory!");
         return new ByteArrayInputStream(accountSymbolsContent);
     }
 
@@ -56,6 +57,7 @@ public class AccountSymbolsServiceImpl implements AccountSymbolsService {
         } catch (IOException e) {
             logger.error("Could not parse content into account symbols: {} ", e.getMessage());
         }
+        logger.info("Account symbols file wrote in memory!");
         return writer.write(classSymbols, RESOURCE_PATH);
     }
 }

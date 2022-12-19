@@ -17,7 +17,7 @@ import java.io.InputStream;
 public class F1115ConfigServiceImpl implements F1115ConfigService {
 
     private static final Logger logger = LogManager.getLogger(F1115ConfigServiceImpl.class);
-    private static final String RESOURCE_PATH = "src/main/resources/f1115-config.json";
+    private static final String RESOURCE_PATH = "f1115-config.json";
 
     private final F1115ConfigReader reader;
     private final F1115ConfigWriter writer;
@@ -44,6 +44,7 @@ public class F1115ConfigServiceImpl implements F1115ConfigService {
         } catch (IOException e) {
             logger.error("Could not parse content into f1115 config: {} ", e.getMessage());
         }
+        logger.info("F1115 config file loaded in memory!");
         return new ByteArrayInputStream(configContent);
     }
 
@@ -56,6 +57,7 @@ public class F1115ConfigServiceImpl implements F1115ConfigService {
         } catch (IOException e) {
             logger.error("Could not parse content into f1115 config: {} ", e.getMessage());
         }
+        logger.info("F1115 config file wrote in memory!");
         return writer.write(config, RESOURCE_PATH);
     }
 }

@@ -48,17 +48,17 @@ public class ConfigsProviderServiceImpl implements ConfigsProviderService {
     }
 
     private void readSymbols() {
+        logger.info("Trying to load Account symbols file in memory!");
         symbols = accountSymbolsService.read();
-        logger.info("Account symbols file loaded in memory!");
     }
 
     private void readExceptions() {
+        logger.info("Trying to load Exceptions file in memory!");
         exceptions = exceptionsService.read();
-        logger.info("Exceptions file loaded in memory!");
     }
 
     private void readConfig() {
+        logger.info("Trying to load F1115 config file in memory!");
         f1115Config = configService.read();
-        logger.info("F1115 config file loaded in memory!");
     }
 }
