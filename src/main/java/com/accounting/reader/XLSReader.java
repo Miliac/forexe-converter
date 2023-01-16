@@ -25,6 +25,8 @@ public class XLSReader {
         try {
             XSSFWorkbook wb = new XSSFWorkbook(multipartFile.getInputStream());
             XSSFSheet sheet = wb.getSheet("Pagina 1");
+            if (sheet == null)
+                sheet = wb.getSheet("Sheet1");
 
             int firstRowNum = removeHeaderAndFooter(sheet);
             Row firstRow = sheet.getRow(firstRowNum);

@@ -51,11 +51,11 @@ public class MailService {
     }
 
     public void sendMail(EmailDTO emailDTO) {
-        if(!StringUtils.isEmpty(username) || !StringUtils.isEmpty(password)) {
-            for (String emailTo : emailsTo.split(COMMA)) {
-                sendMail(emailTo, emailDTO.getSubject(), emailDTO.getContent(), emailDTO.getAttachments());
-            }
-        }
+//        if(!StringUtils.isEmpty(username) || !StringUtils.isEmpty(password)) {
+//            for (String emailTo : emailsTo.split(COMMA)) {
+//                sendMail(emailTo, emailDTO.getSubject(), emailDTO.getContent(), emailDTO.getAttachments());
+//            }
+//        }
     }
 
     private void sendMail(String to, String subject, String content, List<Attachment> attachments) {
